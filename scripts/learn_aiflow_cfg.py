@@ -22,6 +22,7 @@ def get_group_flag(group_no):
     ip = '192.250.107.198'
     origin_db_name = 'public'
     res = query(get_mysql_conn(ip, user, pwd, origin_db_name), sql)
+
     db_ip = res[1]
     db_user = res[2]
     db_pwd = base64.b64decode(res[3]).decode('utf-8')
