@@ -3,6 +3,7 @@ import base64
 import pymysql as pm
 import psycopg2 as pg
 import cx_Oracle
+import sys
 
 
 def get_group_flag(group_no):
@@ -22,6 +23,9 @@ def get_group_flag(group_no):
     ip = '192.250.107.198'
     origin_db_name = 'public'
     res = query(get_mysql_conn(ip, user, pwd, origin_db_name), sql)
+    if res is None:
+        print('Group no %s isn\'t exist!' % group_no)
+        sys.exit(0)
 
     db_ip = res[1]
     db_user = res[2]
@@ -65,3 +69,4 @@ if __name__ == '__main__':
     print(get_group_flag("01"))
     print(get_group_flag("02"))
     print(get_group_flag("03"))
+    print(get_group_flag('04'))
