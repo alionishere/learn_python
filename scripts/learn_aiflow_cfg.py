@@ -21,7 +21,7 @@ def get_group_flag(group_no):
     pwd = base64.b64decode(pwd)
     ip = '192.250.107.198'
     origin_db_name = 'public'
-    res = query_mysql(ip, user, pwd, origin_db_name, sql)
+    res = query(get_mysql_conn(ip, user, pwd, origin_db_name), sql)
     db_ip = res[1]
     db_user = res[2]
     db_pwd = base64.b64decode(res[3]).decode('utf-8')
@@ -29,37 +29,34 @@ def get_group_flag(group_no):
     db_sql = res[5]
     flag = ''
     if res[0].lower() == 'oracle':
-        flag = query_oracle(db_ip, db_user, db_pwd, db_name, db_sql)[0]
+        flag = query(query_oracle(db_ip, db_user, db_pwd, db_name), db_sql)[0]
     elif res[0].lower() == 'mysql':
-        flag = query_mysql(db_ip, db_user, db_pwd, db_name, db_sql)[0]
+        flag = query(get_mysql_conn(db_ip, db_user, db_pwd, db_name), db_sql)[0]
     elif res[0].lower() == 'postgresql':
-        flag = query_pg(db_ip, db_user, db_pwd, db_name, db_sql)[0]
+        flag = query(get_pg_conn(db_ip, db_user, db_pwd, db_name), db_sql)[0]
     else:
         print("Database type %s dos not exist!" % res[0])
     return flag
 
 
-def query_mysql(ip, user, pwd, db_name, sql):
-    db_con = pm.connect(ip, user, pwd, db_name)
-    cur = db_con.cursor()
+def get_mysql_conn(ip, user, pwd, db_name):
+    return pm.connect(ip, user, pwd, db_name)
+
+
+def get_pg_conn(ip, user, pwd, db_name):
+    return pg.connect(database=db_name, user=user, password=pwd, host=ip, port='5432')
+
+
+def query_oracle(ip, user, pwd, db_name):
+    return cx_Oracle.connect(user, pwd, ip + ':' + '1521' + '/' + db_name)
+
+
+def query(conn, sql):
+    cur = conn.cursor()
     cur.execute(sql)
     res = cur.fetchone()
-    return res
-
-
-def query_pg(ip, user, pwd, db_name, sql):
-    db_con = pg.connect(database=db_name, user=user, password=pwd, host=ip, port='5432')
-    cur = db_con.cursor()
-    cur.execute(sql)
-    res = cur.fetchone()
-    return res
-
-
-def query_oracle(ip, user, pwd, db_name, sql):
-    db_con = cx_Oracle.connect(user, pwd, ip + ':' + '1521' + '/' + db_name)
-    cur = db_con.cursor()
-    cur.execute(sql)
-    res = cur.fetchone()
+    cur.close()
+    conn.close()
     return res
 
 
