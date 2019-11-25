@@ -30,7 +30,7 @@ def get_group_flag(group_no):
     db_sql = res[5]
     flag = ''
     if res[0].lower() == 'oracle':
-        flag = query(query_oracle(db_ip, db_user, db_pwd, db_name), db_sql)[0]
+        flag = query(get_oracle_conn(db_ip, db_user, db_pwd, db_name), db_sql)[0]
     elif res[0].lower() == 'mysql':
         flag = query(get_mysql_conn(db_ip, db_user, db_pwd, db_name), db_sql)[0]
     elif res[0].lower() == 'postgresql':
@@ -48,7 +48,7 @@ def get_pg_conn(ip, user, pwd, db_name):
     return pg.connect(database=db_name, user=user, password=pwd, host=ip, port='5432')
 
 
-def query_oracle(ip, user, pwd, db_name):
+def get_oracle_conn(ip, user, pwd, db_name):
     return cx_Oracle.connect(user, pwd, ip + ':' + '1521' + '/' + db_name)
 
 
