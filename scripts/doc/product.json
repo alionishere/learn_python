@@ -1,0 +1,12 @@
+{
+    "iphone":{
+        "color":"red",
+        "num":1,
+        "price":98.5
+    },
+    "wather":{
+        "num":100,
+        "price":1,
+        "color":"white"
+    }
+}
