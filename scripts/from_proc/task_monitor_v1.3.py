@@ -8,26 +8,29 @@ from airflow.operators.hive_operator import HiveOperator
 from datetime import datetime, date, timedelta
 import time
 import sys
+
 sys.path.append('/root/base_data')
 import check_schedule as cs
+
 sys.path.append('/root/base_data/scripts/python')
 import get_exe_info as gei
 import os
 
 os.system('echo `date` >> /root/base_data/log/time.dat')
-    
+
+
 def start2check(**kwargs):
     while True:
-        flag = gei.get_dag_state_flag() # or param1: execution_date; param2: dag_id
+        flag = gei.get_dag_state_flag()  # or param1: execution_date; param2: dag_id
         # flag = 0
         # 1: upstream dag is ready; 0: upstream dag is not ready
         pre_dag_id = 'task_base_data'
         if flag == '0':
             print('-*' * 50)
-            print('The upstream dag %s is not ready!' %pre_dag_id)
+            print('The upstream dag %s is not ready!' % pre_dag_id)
             time.sleep(120)
         elif flag == '1':
-            print('The upstream dag %s is ready. Now launch the task of monitor!' %pre_dag_id)
+            print('The upstream dag %s is ready. Now launch the task of monitor!' % pre_dag_id)
             # return (date.today() + timedelta(days=-1)).strftime('%Y%m%d')
             return date.today().strftime('%Y%m%d')
         else:
@@ -46,12 +49,10 @@ default_args = {
     'retry_delay': timedelta(minutes=3),
 }
 
-
 dag = DAG('task_monitor',
-default_args=default_args,
-schedule_interval='30 3 * * *',
-)
-
+          default_args=default_args,
+          schedule_interval='30 3 * * *',
+          )
 
 t1 = PythonOperator(
     task_id='start2check',
@@ -59,6 +60,7 @@ t1 = PythonOperator(
     # op_kwargs={'task_group_no':'01', 'tx_date':(date.today() + timedelta(days=-1)).strftime('%Y%m%d')},
     provide_context=True,
     dag=dag)
+
 
 def get_task_ids(sql):
     o_user = 'base_data'
@@ -96,12 +98,11 @@ select task_id
 '''
 
 res = get_task_ids(sql)
-res_pd = pd.DataFrame(res,columns=["task_id", "task_topic", "pre_task_id", "task_cmd"])
+res_pd = pd.DataFrame(res, columns=["task_id", "task_topic", "pre_task_id", "task_cmd"])
 
 task_id_dic = {}
 for index, row in res_pd[['task_id', 'task_cmd']].iterrows():
     task_id_dic.setdefault(row['task_id'], generate_task(row['task_id'], row['task_cmd']))
-
 
 topics = set()
 for data in res:
@@ -121,4 +122,4 @@ for topic in topics:
         if t == 0:
             t1 >> task_ids[t]
         else:
-            task_ids[t-1] >> task_ids[t]
+            task_ids[t - 1] >> task_ids[t]
