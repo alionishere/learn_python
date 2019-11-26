@@ -1,9 +1,9 @@
 #-*- coding:utf-8 -*-
-import cx_Oracle
-import os
+# import cx_Oracle
+# import os
 import datetime, time
 from pyspark.sql import SparkSession
-from pyspark.conf import SparkConf
+# from pyspark.conf import SparkConf
 import sys
 import get_task_sql as gs
 

@@ -9,11 +9,12 @@ from pyhive import hive
 from datetime import datetime, date, timedelta
 import time
 import sys
+
 sys.path.append('/root/base_data')
 import check_schedule as cs
+
 sys.path.append('/root/base_data/scripts/python')
 import get_exe_info as gei
-
 
 default_args = {
     'owner': 'root',
@@ -26,11 +27,10 @@ default_args = {
     'retry_delay': timedelta(minutes=3),
 }
 
-
 dag = DAG('task_base_data',
-default_args=default_args,
-schedule_interval='30 2 * * *',
-)
+          default_args=default_args,
+          schedule_interval='30 2 * * *',
+          )
 
 
 def start2check(**kwargs):
@@ -82,7 +82,7 @@ def generate_task(task_id, cmd):
 t1 = PythonOperator(
     task_id='start2check',
     python_callable=start2check,
-    op_kwargs={'task_group_no':'01', 'tx_date':(date.today() + timedelta(days=-1)).strftime('%Y%m%d')},
+    op_kwargs={'task_group_no': '01', 'tx_date': (date.today() + timedelta(days=-1)).strftime('%Y%m%d')},
     provide_context=True,
     dag=dag)
 
@@ -97,12 +97,11 @@ select task_id
 '''
 
 res = get_task_ids(sql)
-res_pd = pd.DataFrame(res,columns=["task_id", "task_topic", "pre_task_id", "task_cmd"])
+res_pd = pd.DataFrame(res, columns=["task_id", "task_topic", "pre_task_id", "task_cmd"])
 
 task_id_dic = {}
 for index, row in res_pd[['task_id', 'task_cmd']].iterrows():
     task_id_dic.setdefault(row['task_id'], generate_task(row['task_id'], row['task_cmd']))
-
 
 topics = set()
 for data in res:
@@ -122,4 +121,4 @@ for topic in topics:
         if t == 0:
             t1 >> task_ids[t]
         else:
-            task_ids[t-1] >> task_ids[t]
+            task_ids[t - 1] >> task_ids[t]

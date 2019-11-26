@@ -4,9 +4,13 @@ import pymysql as pm
 import psycopg2 as pg
 import cx_Oracle
 import sys
+from datetime import date, timedelta
 
 
-def get_group_flag(group_no):
+def get_group_flag(group_no, if_ck_date=True, tx_date=(date.today() + timedelta(days=-1)).strftime('%Y%m%d')):
+    if if_ck_date:
+        is_trading_date(tx_date)
+
     sql = '''
     select db_type
            ,db_ip
@@ -19,12 +23,12 @@ def get_group_flag(group_no):
     ''' % group_no
     user = 'root'
     pwd = 'QWRtaW5AMTIz'.encode(encoding='utf-8')
-    pwd = base64.b64decode(pwd)
+    pwd = base64.b64decode(pwd).decode('utf-8')
     ip = '192.250.107.198'
     origin_db_name = 'public'
     res = query(get_mysql_conn(ip, user, pwd, origin_db_name), sql)
     if res is None:
-        print('Group no %s isn\'t exist!' % group_no)
+        print('Group no %s does not exist!' % group_no)
         sys.exit(0)
 
     db_ip = res[1]
@@ -42,6 +46,11 @@ def get_group_flag(group_no):
     else:
         print("Database type %s dos not exist!" % res[0])
     return flag
+
+
+def is_trading_date(tx_date):
+    print('Check over')
+    return True
 
 
 def get_mysql_conn(ip, user, pwd, db_name):

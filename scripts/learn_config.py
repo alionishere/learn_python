@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import configparser
 
-cfg_file = 'conf/default.cfg'
+cfg_file = 'conf/task_conf.cfg'
 cfp = configparser.ConfigParser()
 cfp.read(cfg_file)
 
