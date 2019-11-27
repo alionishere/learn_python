@@ -10,6 +10,8 @@ from datetime import date, timedelta
 def get_group_flag(group_no, if_ck_date=True, tx_date=(date.today() + timedelta(days=-1)).strftime('%Y%m%d')):
     if if_ck_date:
         is_trading_date(tx_date)
+    else:
+        print('Skip trading day checking!')
 
     sql = '''
     select db_type
@@ -49,7 +51,7 @@ def get_group_flag(group_no, if_ck_date=True, tx_date=(date.today() + timedelta(
 
 
 def is_trading_date(tx_date):
-    print('Check over')
+    print('Check over! %s is a trading day!' % tx_date)
     return True
 
 

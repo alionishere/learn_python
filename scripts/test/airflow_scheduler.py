@@ -9,6 +9,7 @@ from datetime import date, timedelta
 import airflow_cfg as ac
 import time
 import configparser
+from airflow.operators.dummy_operator import DummyOperator
 
 args = {
     'owner': 'airflow',
@@ -17,13 +18,13 @@ args = {
 
 
 def gen_dag(dag_id, sh_interval):
-    dag_id = DAG(
+    dag = DAG(
         dag_id=dag_id,
         default_args=args,
         schedule_interval=sh_interval,
         dagrun_timeout=timedelta(minutes=60),
     )
-    return dag_id
+    return dag
 
 
 def gen_ck_task(fst_task, task_group_no, start_interval, if_ck_date, dag):
@@ -95,21 +96,6 @@ def get_query_res(task_group_no):
     return res
 
 
-def start(cfg_path='conf/task_conf.cfg'):
-    cfp = configparser.RawConfigParser()
-    cfp.read(cfg_path)
-    groups = cfp.sections()
-    for group in groups:
-        dag_id = cfp.get(group, 'dag_id')
-        task_group_no = cfp.get(group, 'task_group_no')
-        start_interval = int(cfp.get(group, 'start_interval'))
-        if_ck_date = cfp.get(group, 'if_ck_date')
-        sh_interval = cfp.get(group, 'sh_interval')
-        dag = gen_dag(dag_id, sh_interval)
-        fst_task = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag)
-        gen_depending(dag, fst_task, task_group_no)
-
-
 def gen_depending(dag, fst_task, task_group_no):
     res = get_query_res(task_group_no)
     res_pd = pd.DataFrame(res, columns=["task_id", "task_topic", "pre_task_id", "task_cmd"])
@@ -139,5 +125,57 @@ def gen_depending(dag, fst_task, task_group_no):
                 task_ids[t - 1] >> task_ids[t]
 
 
+
+def gen_task(task_id, dag):
+    task = DummyOperator(
+        task_id=task_id,
+        dag=dag,
+    )
+    return task
+
+
 ####################
-start()
+# def start(cfg_path='../conf/task_conf.cfg'):
+cfg_path='../conf/task_conf.cfg'
+cfp = configparser.RawConfigParser()
+cfp.read(cfg_path)
+groups = cfp.sections()
+# print(groups)
+lst = []
+for group in groups:
+    lst.append(group)
+# lst = ['01']
+# print(lst)
+
+# for group in lst:
+#     dag_id = cfp.get(group, 'dag_id')
+#     task_group_no = cfp.get(group, 'task_group_no')
+#     start_interval = int(cfp.get(group, 'start_interval'))
+#     if_ck_date = cfp.get(group, 'if_ck_date')
+#     sh_interval = cfp.get(group, 'sh_interval')
+#     print(dag_id, sh_interval)
+#     # dag = gen_dag(dag_id, sh_interval)
+###############################################
+#  dag: test_501                              #
+###############################################
+dag_id = 'test_501'
+sh_interval = '0 0 * * *'
+task_group_no = '03'
+start_interval = 0
+if_ck_date = True
+dag = gen_dag(dag_id, sh_interval)
+fst_task = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag)
+gen_depending(dag, fst_task, task_group_no)
+
+###############################################
+#  dag: test_502                              #
+###############################################
+dag_id = 'test_502'
+sh_interval = '0 0 * * *'
+task_group_no = '02'
+start_interval = -1
+if_ck_date = False
+dag1 = gen_dag(dag_id, sh_interval)
+fst_task1 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag1)
+gen_depending(dag1, fst_task1, task_group_no)
+
