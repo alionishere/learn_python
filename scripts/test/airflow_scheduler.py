@@ -87,7 +87,7 @@ def get_query_res(task_group_no):
            ,pre_task_id
            ,task_cmd
       from public.t_task_cfg
-     where task_group_no = %s and is_validity = 0
+     where task_group_no = '%s' and is_validity = 0
      order by task_oder
     ''' % task_group_no
     cur.execute(sql)
@@ -116,7 +116,7 @@ def gen_depending(dag, fst_task, task_group_no):
 
     task_id_dic = {}
     for index, row in res_pd[['task_id', 'task_cmd']].iterrows():
-        task_id_dic.setdefault(row['task_id'], generate_task(row['task_id'], row['task_cmd']), dag)
+        task_id_dic.setdefault(row['task_id'], generate_task(row['task_id'], row['task_cmd'], dag))
 
     topics = set()
     for data in res:
