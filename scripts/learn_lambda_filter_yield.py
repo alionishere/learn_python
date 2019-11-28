@@ -60,3 +60,5 @@ for n in primes():
         break
 
 print(lst)
+
+print(bin(24))
