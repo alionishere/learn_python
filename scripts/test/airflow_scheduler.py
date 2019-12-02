@@ -10,6 +10,7 @@ import airflow_cfg as ac
 import time
 import configparser
 from airflow.operators.dummy_operator import DummyOperator
+# import sys
 
 args = {
     'owner': 'airflow',
@@ -58,7 +59,8 @@ def start2check(**kwargs):
             return tx_date
         else:
             print('Get dag state error!')
-            sys.exit(0)
+            assert False
+            # sys.exit(0)
 
 
 def get_db_conn():
@@ -159,7 +161,7 @@ for group in groups:
 #  dag: test_501                              #
 ###############################################
 dag_id = 'test_501'
-sh_interval = '0 0 * * *'
+sh_interval = '0 1 * * *'
 task_group_no = '03'
 start_interval = 0
 if_ck_date = True
@@ -171,7 +173,7 @@ gen_depending(dag, fst_task, task_group_no)
 #  dag: test_502                              #
 ###############################################
 dag_id = 'test_502'
-sh_interval = '0 0 * * *'
+sh_interval = '0 1 * * *'
 task_group_no = '02'
 start_interval = -1
 if_ck_date = False
@@ -179,3 +181,15 @@ dag1 = gen_dag(dag_id, sh_interval)
 fst_task1 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag1)
 gen_depending(dag1, fst_task1, task_group_no)
 
+
+###############################################
+#  dag: test_503                              #
+###############################################
+dag_id = 'test_503'
+sh_interval = '0 1 * * *'
+task_group_no = '04'
+start_interval = 0
+if_ck_date = False
+dag_3 = gen_dag(dag_id, sh_interval)
+fst_task_3 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag_3)
+gen_depending(dag_3, fst_task_3, task_group_no)
