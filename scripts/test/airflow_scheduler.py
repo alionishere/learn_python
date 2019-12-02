@@ -28,7 +28,7 @@ def gen_dag(dag_id, sh_interval):
     return dag
 
 
-def gen_ck_task(fst_task, task_group_no, start_interval, if_ck_date, dag):
+def gen_ck_task(fst_task, task_group_no, start_interval, if_ck_date=True, dag):
     fst_task = PythonOperator(
         task_id='start2check',
         python_callable=start2check,
@@ -127,7 +127,6 @@ def gen_depending(dag, fst_task, task_group_no):
                 task_ids[t - 1] >> task_ids[t]
 
 
-
 def gen_task(task_id, dag):
     task = DummyOperator(
         task_id=task_id,
@@ -190,6 +189,7 @@ sh_interval = '0 1 * * *'
 task_group_no = '04'
 start_interval = 0
 if_ck_date = False
+if_ck_depending = False
 dag_3 = gen_dag(dag_id, sh_interval)
 fst_task_3 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag_3)
 gen_depending(dag_3, fst_task_3, task_group_no)
