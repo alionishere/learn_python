@@ -47,3 +47,12 @@ dog.run()
 
 cat = Cat()
 cat.run()
+
+
+class MyDog(object):
+    def __len__(self):
+        return 100
+
+
+dog = MyDog()
+print(len(dog))
