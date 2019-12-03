@@ -42,4 +42,49 @@ def test_02(a):
     test_01(3)
 
 
-test_02('1')
+class FooError(ValueError):
+    pass
+
+
+def foo(s):
+    n = int(s)
+    if n == 0:
+        raise FooError('invalid value: %s' % s)
+    return 10 / n
+
+
+def foo2(s):
+    n = int(s)
+    if n == 0:
+        raise ValueError('invalid value: %s' % s)
+    return 10 / n
+
+
+def bar():
+    try:
+        foo('0')
+    except ValueError as e:
+        print('ValueError!')
+        raise
+
+
+# debug
+def foo3(s):
+    n = int(s)
+    assert n != 0, 'n is zero!'
+    return 10 / n
+
+
+# logging
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+
+def foo4(s):
+    n = int(s)
+    logging.info('n = %d' % n)
+    logging.debug('this is debug')
+    print(10 / n)
+
+
+foo4('3')
