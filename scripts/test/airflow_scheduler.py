@@ -5,16 +5,23 @@ import airflow
 from airflow.models import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import airflow_cfg as ac
 import time
 import configparser
 from airflow.operators.dummy_operator import DummyOperator
 # import sys
 
+# user_date = airflow.utils.dates.days_ago(1)
+# user_date = airflow.utils.dates.hours_ago(1)
+# user_date = datetime(2019, 12, 1, 10, 10, 10)
+# with open('/opt/logs/time.dat', 'a') as f:
+#     f.write('\n' + str(user_date))
+
 args = {
     'owner': 'airflow',
     'start_date': airflow.utils.dates.days_ago(1),
+    # 'start_date': datetime(2019, 12, 5, 13, 10, 10),
 }
 
 
@@ -28,12 +35,13 @@ def gen_dag(dag_id, sh_interval):
     return dag
 
 
-def gen_ck_task(fst_task, task_group_no, start_interval, if_ck_date=True, dag):
+def gen_ck_task(fst_task, task_group_no, start_interval, if_ck_date, dag):
     fst_task = PythonOperator(
         task_id='start2check',
         python_callable=start2check,
         op_kwargs={'task_group_no': task_group_no,
                    'tx_date': (date.today() + timedelta(days=start_interval)).strftime('%Y%m%d'),
+                   'start_interval': start_interval,
                    'if_ck_date': if_ck_date},
         provide_context=True,
         dag=dag)
@@ -45,10 +53,20 @@ def start2check(**kwargs):
         task_group_no = kwargs['task_group_no']
         tx_date = kwargs['tx_date']
         if_ck_date = kwargs['if_ck_date']
+        start_interval = kwargs['start_interval']
         # or param1: execution_date; param2: dag_id
         flag = ac.get_group_flag(task_group_no, if_ck_date, tx_date)
         # flag = 0
         # 1: upstream dag is ready; 0: upstream dag is not ready
+        execution_date = (kwargs['execution_date'] + timedelta(days=start_interval)).strftime('%Y%m%d')
+        tx_date = execution_date
+        for i in range(10):
+            with open('/opt/logs/time.dat', 'a') as f:
+                f.write('\nexecution_date: ' + execution_date)
+            print('-*' * 50)
+            print('Test dag problem......!')
+            time.sleep(3)
+
         if flag == '0':
             print('-*' * 50)
             print('The upstream dag is not ready!')
@@ -127,6 +145,7 @@ def gen_depending(dag, fst_task, task_group_no):
                 task_ids[t - 1] >> task_ids[t]
 
 
+
 def gen_task(task_id, dag):
     task = DummyOperator(
         task_id=task_id,
@@ -189,7 +208,71 @@ sh_interval = '0 1 * * *'
 task_group_no = '04'
 start_interval = 0
 if_ck_date = False
-if_ck_depending = False
 dag_3 = gen_dag(dag_id, sh_interval)
 fst_task_3 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag_3)
 gen_depending(dag_3, fst_task_3, task_group_no)
+
+
+###############################################
+#  dag: test_504                              #
+###############################################
+dag_id = 'test_504'
+sh_interval = '0 1 * * *'
+task_group_no = '03'
+start_interval = 0
+if_ck_date = False
+dag_4 = gen_dag(dag_id, sh_interval)
+fst_task_4 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag_4)
+gen_depending(dag_4, fst_task_4, task_group_no)
+
+
+###############################################
+#  dag: test_505                              #
+###############################################
+dag_id = 'test_505'
+sh_interval = '0 1 * * *'
+task_group_no = '04'
+start_interval = 0
+if_ck_date = False
+dag_5 = gen_dag(dag_id, sh_interval)
+fst_task_5 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag_5)
+gen_depending(dag_5, fst_task_5, task_group_no)
+
+
+###############################################
+#  dag: test_506                              #
+###############################################
+dag_id = 'test_506'
+sh_interval = '0 * * * *'
+task_group_no = '02'
+start_interval = 0
+if_ck_date = False
+dag_6 = gen_dag(dag_id, sh_interval)
+fst_task_6 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag_6)
+gen_depending(dag_6, fst_task_6, task_group_no)
+
+
+###############################################
+#  dag: test_507                              #
+###############################################
+dag_id = 'test_507'
+sh_interval = '0 * * * *'
+task_group_no = '02'
+start_interval = 0
+if_ck_date = False
+dag_7 = gen_dag(dag_id, sh_interval)
+fst_task_7 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag_7)
+gen_depending(dag_7, fst_task_7, task_group_no)
+
+
+###############################################
+#  dag: test_508                              #
+###############################################
+dag_id = 'test_508'
+sh_interval = '0 * * * *'
+task_group_no = '02'
+start_interval = 0
+if_ck_date = False
+dag_8 = gen_dag(dag_id, sh_interval)
+fst_task_8 = gen_ck_task(dag_id, task_group_no, start_interval, if_ck_date, dag_8)
+gen_depending(dag_8, fst_task_8, task_group_no)
