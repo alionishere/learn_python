@@ -1,0 +1,5040 @@
+"TASK_GROUP_NO"!"TASK_NO"!"DEST_TABLE"!"DEST_TABLE_NO"!"FROM_TABLE"!"SQL_ORDER"!"SQL_STMT"!"REMARK"
+"01"!EV101!BASE_DATA.TEV_SETT!EV101!MDA5.DATACENTER_TSC_JGMXLS!1!"INSERT overwrite table base_data.tev_sett partition (biz_date='{$TX_DATE}')
+--(clear_date,
+--sequ_no,
+--branch_code,
+--cust_no,
+--cap_acct_no,
+--sec_acct_no,
+--cust_name,
+--cust_type_code,
+--tx_market_code,
+--sec_type_code,
+--sec_code,
+--sec_name,
+--circ_type_code,
+--share_attr_code,
+--curr_code,
+--seat_no,
+--entr_no,
+--decl_entr_no,
+--done_no,
+--tx_type_code,
+--done_num,
+--done_qtty,
+--done_price,
+--sett_price,
+--int_price,
+--exch_rate,
+--done_amt,
+--int_amt,
+--tx_date,
+--done_date,
+--done_time,
+--sett_date,
+--crit_comm_amt,
+--comm_amt,
+--stamp_tax,
+--tran_fee,
+--addi_fee,
+--sett_fee,
+--serv_fee,
+--receable_amt,
+--broker_fee_1,
+--cert_fee_1,
+--tran_fee_1,
+--sett_fee_1,
+--risk_fund_1,
+--receable_amt_1,
+--receable_share,
+--freeze_qtty,
+--this_qtty,
+--entr_type_code,
+--entr_mode_code,
+--busi_subj,
+--busi_sequ_no,
+--biz_time,
+--biz_src,
+--biz_date)
+SELECT 
+qsrq as clear_date ,
+lsh as Sequ_No ,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+yyb as SRC_Branch_Code ,
+khh as Cust_No ,
+jszh as Cap_Acct_No ,
+gdh as Sec_Acct_No ,
+khxm as Cust_Name ,
+coalesce(m_10003.dict_entry_key, concat('?', t.jgbz))  as cust_type_code ,
+coalesce(m_20007.dict_entry_key, concat('?', t.jys)) as tx_market_code ,
+t.zqlb as sec_type_code,
+zqdm as Sec_code ,
+zqmc as Sec_Name ,
+coalesce(m_40010.dict_entry_key, concat('?', t.ltlx)) as Circ_Type_Code ,
+coalesce(m_40011.dict_entry_key, concat('?', t.gfxz)) as Share_Attr_Code ,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+jydy as Seat_No ,
+wth as Entr_No ,
+sbwth as Decl_Entr_No ,
+cjbh as Done_No ,
+jylb as Tx_type_Code ,
+cjbs as Done_num ,
+cjsl as Done_Qtty ,
+cjjg as Done_Price ,
+jsj as Sett_Price ,
+lxjg as Int_price ,
+hl as exch_rate ,
+cjje as Done_Amt ,
+lxje as Int_Amt ,
+jyrq as Tx_Date ,
+cjrq as Done_date ,
+cjsj as Done_Time ,
+jsrq as Sett_Date ,
+bzs1 as Crit_Comm_Amt ,
+s1 as Comm_Amt ,
+s2 as Stamp_Tax ,
+s3 as Tran_Fee ,
+s4 as addi_Fee ,
+s5 as Sett_Fee ,
+s6 as Serv_Fee ,
+YSJE as receable_amt ,
+s11 as Broker_Fee_1 ,
+s12 as Cert_Fee_1 ,
+s13 as Tran_Fee_1 ,
+s15 as Sett_Fee_1 ,
+s16 as risk_fund_1 ,
+YSJe_yj as receable_amt_1 ,
+yssl as receable_share ,
+djsl as Freeze_Qtty ,
+bcsl as this_qtty ,
+coalesce(m_40008.dict_entry_key, concat('?', t.ddlb)) as Entr_type_Code ,
+coalesce(m_40007.dict_entry_key, concat('?', t.wtfs)) as Entr_Mode_Code ,
+jylb as Busi_Subj ,
+ywlsh as Busi_Sequ_No,
+from_unixtime(unix_timestamp()) as biz_time,
+'MDA5' as biz_src	
+from  mda5.datacenter_tsc_jgmxls t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_10003 on t.jgbz = m_10003.prev_dict_entry_key
+                                              and m_10003.dict_entry ='10003'
+                                              and m_10003.prev_sys ='MDA5' 
+left join base_data.tmg_dict_entry_map m_20007 on t.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_40010 on t.ltlx = m_40010.prev_dict_entry_key
+                                              and m_40010.dict_entry ='40010'
+                                              and m_40010.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_40011 on t.gfxz = m_40011.prev_dict_entry_key
+                                              and m_40011.dict_entry ='40011'
+                                              and m_40011.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'     
+left join base_data.tmg_dict_entry_map m_40007 on t.wtfs = m_40007.prev_dict_entry_key
+                                              and m_40007.dict_entry ='40007'
+                                              and m_40007.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_40008 on t.ddlb = m_40008.prev_dict_entry_key
+                                              and m_40008.dict_entry ='40008'
+                                              and m_40008.prev_sys='MDA5' 
+where t.tx_date ='{$TX_DATE}'   "!
+"01"!PT901!BASE_DATA.TPT_BRANCH!PT901!TRCIF.CIF_LBORGANIZATION!1!"INSERT overwrite table base_data.tpt_branch 
+--  (branch_code,
+--  src_branch_code,
+--  branch_name,
+--  branch_type_code,
+--  branch_lvl_code, 
+--  up_branch_code,
+--  prov_code,`
+--  city_code,
+--  pope_code,
+--  cont_tel,
+--  fax,
+--  link,
+--  addr,
+--  postcode,
+--  biz_time,
+--  biz_src) 
+SELECT
+    coalesce(m_10002.dict_entry_key, concat('', t.orgcode)) as branch_code,
+    t.orgcode as src_branch_code,
+    t.name as branch_name,
+    t.orgtype as branch_type_code,
+    t.grade as branch_lvl_code,
+    coalesce(m_10002_2.dict_entry_key, concat('', t2.orgcode)) as up_branch_code,
+    t.province as prov_code,
+    t.city as city,
+    t.sec as pope_code,
+    t.dh as cont_tel,
+    null as fax,
+    null as link,
+    t.dz as addr,
+    t.yzbm as postcode,
+    from_unixtime(unix_timestamp()) as biz_time,
+    'TRCIF' as biz_src	
+  from trcif.cif_lborganization t
+  left join trcif.cif_lborganization t2  on t.fid = t2.id  
+                                        and t.tx_date =  t2.tx_date
+  left join base_data.tmg_dict_entry_map m_10002 on t.orgcode = m_10002.prev_dict_entry_key
+                                                and m_10002.dict_entry ='10002'
+                                                and m_10002.prev_sys ='TRCIF'                                               
+  left join base_data.tmg_dict_entry_map m_10002_2 on t2.orgcode = m_10002_2.prev_dict_entry_key
+                                                  and m_10002_2.dict_entry ='10002'
+                                                  and m_10002_2.prev_sys ='TRCIF'
+ where t.tx_date = '{$TX_DATE}'"!
+"01"!AC001!BASE_DATA.TAC_CAP_ACCT!AC001!MDA5.DATACENTER_TFC_ZJZH;TRCIF.CIF_TKHXX;MDA5.DATACENTER_TFC_YZZZDY!1!"INSERT overwrite table base_data.tac_cap_acct 
+--(branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--cust_name,
+--cap_acct_state_code,
+--acct_attr_code,
+--depo_type_code,
+--depo_bank_code,
+--Bank_acct_no,
+--main_acct_flag,
+--curr_code,
+--open_date,
+--close_date,
+--cap_acct_prvlg_codes,
+--cap_acct_limit_codes,
+--sys_type_code,
+--biz_time,
+--biz_src)
+select 
+    coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code,
+    t.yyb as src_branch_code,
+    t.khh as cust_no,
+    t.zjzh as cap_acct_no,
+    t2.khmc as cust_name,
+    coalesce(m_20001.dict_entry_key, concat('?', t.zhzt))  as cap_acct_state_code,
+    coalesce(m_20002.dict_entry_key, concat('?', t.zhlb))  as acct_attr_code,
+    coalesce(m_20003.dict_entry_key, concat('?', t.cglb))  as depo_type_code,
+    t3.yhdm as depo_bank_code,
+    t3.yhzh as bank_acct_no,   
+    coalesce(m_20004.dict_entry_key, concat('?', t.zzhbz))  as main_acct_flag,
+    coalesce(m_20005.dict_entry_key, concat('?', t.bz))  as curr_code,
+    t.khrq as open_date,
+    t.xhrq as CLOSE_date,
+    null as cap_acct_prvlg_codes,
+    null as cap_acct_limit_codes,
+    coalesce(m_20006.dict_entry_key, concat('?', t.xtlx))  as sys_type_code,
+    from_unixtime(unix_timestamp()) as biz_time,
+    'MDA5' as biz_src	
+from mda5.datacenter_tfc_zjzh t
+left join trcif.cif_tkhxx t2 on t.khh=t2.khh
+                            and t.tx_date=t2.tx_date
+left join mda5.datacenter_tfc_yzzzdy t3
+                             on t.zjzh=t3.zjzh
+                            and t.tx_date=t3.tx_date
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_20001 on t.zhzt = m_20001.prev_dict_entry_key
+                                              and m_20001.dict_entry ='20001'
+                                              and m_20001.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20002 on t.zhlb = m_20002.prev_dict_entry_key
+                                              and m_20002.dict_entry = '20002'
+                                              and m_20002.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20003 on t.cglb = m_20003.prev_dict_entry_key
+                                              and m_20003.dict_entry = '20003'
+                                              and m_20003.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20004 on t.zzhbz =m_20004.prev_dict_entry_key
+                                              and m_20004.dict_entry ='20004'
+                                              and m_20004.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20006 on t.xtlx =m_20006.prev_dict_entry_key
+                                              and m_20006.dict_entry ='20006'
+                                              and m_20006.prev_sys='MDA5'
+where t.tx_date ='{$TX_DATE}' "!
+"01"!EV102!BASE_DATA.TEV_SETT_CRDT!EV102!MDA5.DATACENTER_TMR_JGMXLS!1!"INSERT overwrite table base_data.tev_sett_crdt partition (biz_date='{$TX_DATE}') 
+--(clear_date,
+--sequ_no,
+--branch_code,
+--cust_no,
+--cap_acct_no,
+--sec_acct_no,
+--cust_name,
+--cust_type_code,
+--tx_market_code,
+--sec_type_code,
+--sec_code,
+--sec_name,
+--circ_type_code,
+--share_attr_code,
+--curr_code,
+--seat_no,
+--entr_no,
+--decl_entr_no,
+--done_no,
+--tx_type_code,
+--done_num,
+--done_qtty,
+--done_price,
+--sett_price,
+--int_price,
+--exch_rate,
+--done_amt,
+--int_amt,
+--tx_date,
+--done_date,
+--done_time,
+--sett_date,
+--crit_comm_amt,
+--comm_amt,
+--stamp_tax,
+--tran_fee,
+--addi_fee,
+--sett_fee,
+--serv_fee,
+--receable_amt,
+--broker_fee_1,
+--cert_fee_1,
+--tran_fee_1,
+--sett_fee_1,
+--risk_fund_1,
+--receable_amt_1,
+--receable_share,
+--freeze_qtty,
+--this_qtty,
+--entr_type_code,
+--entr_mode_code,
+--busi_subj,
+--busi_sequ_no,
+--biz_time,
+--biz_src,
+--biz_date)
+SELECT 
+qsrq as clear_date ,
+lsh as Sequ_No ,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+yyb as SRC_Branch_Code ,
+khh as Cust_No ,
+jszh as Cap_Acct_No ,
+gdh as Sec_Acct_No ,
+khxm as Cust_Name ,
+coalesce(m_10003.dict_entry_key, concat('?', t.jgbz))  as cust_type_code ,
+coalesce(m_20007.dict_entry_key, concat('?', t.jys)) as tx_market_code ,
+t.zqlb as sec_type_code,
+zqdm as Sec_code ,
+zqmc as Sec_Name ,
+coalesce(m_40010.dict_entry_key, concat('?', t.ltlx)) as Circ_Type_Code ,
+coalesce(m_40011.dict_entry_key, concat('?', t.gfxz)) as Share_Attr_Code ,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+jydy as Seat_No ,
+wth as Entr_No ,
+sbwth as Decl_Entr_No ,
+cjbh as Done_No ,
+jylb as Tx_type_Code ,
+cjbs as Done_num ,
+cjsl as Done_Qtty ,
+cjjg as Done_Price ,
+jsj as Sett_Price ,
+lxjg as Int_price ,
+hl as exch_rate ,
+cjje as Done_Amt ,
+lxje as Int_Amt ,
+jyrq as Tx_Date ,
+cjrq as Done_date ,
+cjsj as Done_Time ,
+jsrq as Sett_Date ,
+bzs1 as Crit_Comm_Amt ,
+s1 as Comm_Amt ,
+s2 as Stamp_Tax ,
+s3 as Tran_Fee ,
+s4 as addi_Fee ,
+s5 as Sett_Fee ,
+s6 as Serv_Fee ,
+YSJE as receable_amt ,
+s11 as Broker_Fee_1 ,
+s12 as Cert_Fee_1 ,
+s13 as Tran_Fee_1 ,
+s15 as Sett_Fee_1 ,
+s16 as risk_fund_1 ,
+YSJe_yj as receable_amt_1 ,
+yssl as receable_share ,
+djsl as Freeze_Qtty ,
+bcsl as this_qtty ,
+coalesce(m_40008.dict_entry_key, concat('?', t.ddlb)) as Entr_type_Code ,
+coalesce(m_40007.dict_entry_key, concat('?', t.wtfs)) as Entr_Mode_Code ,
+jylb as Busi_Subj ,
+ywlsh as Busi_Sequ_No ,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from  mda5.datacenter_tmr_jgmxls t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_10003 on t.jgbz = m_10003.prev_dict_entry_key
+                                              and m_10003.dict_entry ='10003'
+                                              and m_10003.prev_sys ='MDA5' 
+left join base_data.tmg_dict_entry_map m_20007 on t.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_40010 on t.ltlx = m_40010.prev_dict_entry_key
+                                              and m_40010.dict_entry ='40010'
+                                              and m_40010.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_40011 on t.gfxz = m_40011.prev_dict_entry_key
+                                              and m_40011.dict_entry ='40011'
+                                              and m_40011.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'     
+left join base_data.tmg_dict_entry_map m_40007 on t.wtfs = m_40007.prev_dict_entry_key
+                                              and m_40007.dict_entry ='40007'
+                                              and m_40007.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_40008 on t.ddlb = m_40008.prev_dict_entry_key
+                                              and m_40008.dict_entry ='40008'
+                                              and m_40008.prev_sys='MDA5'  
+where t.tx_date='{$TX_DATE}'"!
+"01"!EV201!BASE_DATA.TEV_CAP_JOUR!EV201!MDA5.DATACENTER_TFC_ZJMXLS!1!"INSERT OVERWRITE TABLE base_data.tev_CAP_jour partition(biz_date='{$TX_DATE}') 
+--(tx_date,
+--sequ_no,
+--branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--cust_name,
+--curr_code,
+--occur_date,
+--occur_time,
+--in_amt,
+--out_amt,
+--this_acct_bal,
+--post_date,
+--v_date,
+--comm_amt,
+--stamp_tax,
+--tran_fee,
+--sett_fee,
+--other_fee,
+--rush_flag,
+--fund_src,
+--tx_acct_no,
+--tx_CODE,
+--oper_teller,
+--oper_site,
+--oper_site_mac,
+--oper_site_ip,
+--oper_site_mobile,
+--oper_site_hd,
+--oper_site_uuid,
+--oper_site_imei,
+--oper_source,
+--busi_subj,
+--busi_summ,
+--busi_sequ_no,
+--sys_type_code,
+--biz_time,
+--biz_src,
+--biz_date)
+select 
+jyrq AS Tx_Date,
+lsh AS Sequ_No,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code,
+t.yyb as src_branch_code,
+khh AS Cust_No,
+zjzh AS Cap_Acct_No,
+khxm AS cust_name,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz))  as curr_code,
+fsrq AS OCcur_Date,
+fssj AS Occur_time,
+srje AS IN_AMT,
+fcje AS OUT_AMT,
+bczhye AS this_Acct_Bal,
+jzrq AS Post_Date,
+JSRQ AS V_Date,
+yj AS Comm_Amt,
+yhs AS Stamp_Tax,
+ghf AS Tran_Fee,
+jsf AS Sett_Fee,
+qtf AS Other_Fee,
+cxbz AS Rush_Flag,
+zjly AS fund_src,
+jyzh AS tx_Acct_No,
+jydm AS tx_CODE,
+gydm AS oper_teller,
+czzd AS Oper_Site,
+regexp_replace(
+case 
+--1.1有mac字样开头，考虑存在中间分隔符或者不存在两张情况，末尾必须有分隔符或者字符尾
+when length(regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',2)
+--1.2无mac字样开头，考虑中间有分隔符号: (00:00:00:00:00:00  考虑：-|.和空格),并且前后有分隔符（标点、空格、开头和结尾）
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0)
+--1.3无mac字样开头，考虑中间无分隔符号，排除UUID造成的影响
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+     and regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)<>
+         regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',9)
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0)
+else ''
+end,
+'[\\s\\pP]','') as OPER_site_mac,
+CASE
+--2.1 IP判断有固定前缀的认为他准确
+when length(regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',4)
+ELSE
+--2.2 IP内网包含10网段 172,16-31,192.168 --剔除10,127,172,192,255网段
+regexp_extract(
+regexp_extract(upper(t.czzd),
+'(((\\s)|(\\pP)|(^))(([1-9]|1[1-9]|[2-9][0-9]|11[0-9]|12[012345689]|1[3-6][0-9]|17[013456789]|18[0-9]|19[013456789]|2[0-4][0-9]|25[0-4])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((172)[.]([1]?[0-5]|[3][2-9]|[4-9][0-9]|25[0-5]|2[0-4][0-9]|[1][0-9]{2})[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((192)[.]([1-9]?[0-9]|1[0-5][0-9]|16[012345679]|1[7-9][0-9]|2[0-4][0-9]|25[0-5])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))'
+,0)
+,'((\\s)|(\\pP)|(^))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',5)
+end as OPER_site_ip,
+case 
+--3.1手机号优先判断有前缀的记录
+when length(regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',7)
+--3.2手机号只考虑有前后分隔符
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',5)
+--3.3手机号考虑特殊情况
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',5)
+else ''
+END AS OPER_site_MOBILE,
+case 
+--4.1硬盘号只考虑带前缀的,后缀只考虑为固定的几种[;,]
+when length(regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',7)
+else ''
+end as OPER_site_hd,
+case 
+--5.1 ios的uuid考虑有uuid开头
+when length(regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+--5.2 考虑格式满足的比较特殊不容易误截取
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_UUID,
+case
+--6.1 安卓的IMEI考虑有开头
+when length(regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_IMEI,
+CASE 
+WHEN length(regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2))<>0
+THEN regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2)
+WHEN length(regexp_extract(upper(t.czzd),'([0-9]+(Z4008)($))',0))<>0
+THEN '1'
+WHEN length(regexp_extract(upper(t.czzd),'(^HSTY[0-9]+)',0))<>0
+THEN '2'
+WHEN length(regexp_extract(upper(t.czzd),'(^HH[_])',0))<>0
+THEN '3'
+ELSE '' 
+END AS OPER_SOURCE,
+ywkm AS Busi_Subj,
+zy AS Busi_Summ,
+ywlsh AS Busi_Sequ_No,
+coalesce(m_20006.dict_entry_key, concat('?', t.xtlx))  as sys_type_code,
+from_unixtime(unix_timestamp()) as biz_time,
+'MDA5' as biz_src
+from mda5.datacenter_tfc_zjmxls t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20006 on t.xtlx =m_20006.prev_dict_entry_key
+                                              and m_20006.dict_entry ='20006'
+                                              and m_20006.prev_sys='MDA5'                                             
+where t.tx_date ='{$TX_DATE}'  "!
+"01"!AC002!BASE_DATA.TAC_SEC_ACCT!AC002!MDA5.DATACENTER_TSC_GDH;MDA5.DATACENTER_TMR_GDH!1!"add jar /root/base_data/jars/udf_conv2rgts.jar {;}
+CREATE temporary FUNCTION  udf_conv2rgts AS 'com.soochow.udf.TransferUdf' {;}
+
+INSERT overwrite table base_data.tac_sec_acct 
+--(branch_code,
+--src_branch_code,
+--cust_no,
+--sec_acct_no,
+--cap_acct_no,
+--cust_name,
+--tx_market_code,
+--holder_type_code,
+--holder_state_code,
+--main_acct_flag,
+--decl_lvl_code,
+--holder_assi_attr_code,
+--curr_code,
+--seat_no,
+--rgst_date,
+--holder_prvlg_codes,
+--holder_limit_codes,
+--sys_type_code,
+--biz_time,
+--biz_src)
+select  coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code,
+        t.yyb as src_branch_code,
+        t.khh as cust_no,
+        t.gdh as sec_acct_no,
+        t.jszh as cap_acct_no,
+        t.gdxm as cust_name,
+        coalesce(m_20007.dict_entry_key, concat('?', t.jys)) as tx_market_code,
+        coalesce(m_20008.dict_entry_key, concat('?', t.gdlb)) as holder_type_code,
+        coalesce(m_20009.dict_entry_key, concat('?', t.gdzt)) as holder_state_code,
+        coalesce(m_20004.dict_entry_key, concat('?', t.zzhbz)) as main_acct_flag,
+        coalesce(m_20010.dict_entry_key, concat('?', t.sbjb)) as decl_lvl_code,
+        coalesce(m_20011.dict_entry_key, concat('?', t.gdzdsx)) as holder_assi_attr_code,
+        coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+        t.jydy as seat_no,
+        t.djrq as rgst_date,
+        t.jyqx as holder_prvlg_codes,
+        udf_conv2rgts(cast (t.gdkzsx as int )) as holder_limit_codes,
+        '4' as sys_type_code,
+        from_unixtime(unix_timestamp()) as biz_time,
+        'MDA5' as biz_src	
+     from MDA5.DATACENTER_TSC_GDH t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_20007 on t.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20008 on t.gdlb = m_20008.prev_dict_entry_key
+                                              and m_20008.dict_entry = '20008'
+                                              and m_20008.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20009 on t.gdzt = m_20009.prev_dict_entry_key
+                                              and m_20009.dict_entry = '20009'
+                                              and m_20009.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20004 on t.zzhbz =m_20004.prev_dict_entry_key
+                                              and m_20004.dict_entry ='20004'
+                                              and m_20004.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20010 on t.sbjb = m_20010.prev_dict_entry_key
+                                              and m_20010.dict_entry ='20010'
+                                              and m_20010.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20011 on t.gdzdsx =m_20011.prev_dict_entry_key
+                                              and m_20011.dict_entry ='20011'
+                                              and m_20011.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5' 
+where t.tx_date ='{$TX_DATE}' 
+
+union all 
+
+select  coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code,
+        t.yyb as src_branch_code,
+        t.khh as cust_no,
+        t.gdh as sec_acct_no,
+        t.jszh as cap_acct_no,
+        t.gdxm as cust_name,
+        coalesce(m_20007.dict_entry_key, concat('?', t.jys)) as tx_market_code,
+        coalesce(m_20008.dict_entry_key, concat('?', t.gdlb)) as holder_type_code,
+        coalesce(m_20009.dict_entry_key, concat('?', t.gdzt)) as holder_state_code,
+        coalesce(m_20004.dict_entry_key, concat('?', t.zzhbz)) as main_acct_flag,
+        coalesce(m_20010.dict_entry_key, concat('?', t.sbjb)) as decl_lvl_code,
+        coalesce(m_20011.dict_entry_key, concat('?', t.gdzdsx)) as holder_assi_attr_code,
+        coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+        t.jydy as seat_no,
+        t.djrq as rgst_date,
+        t.jyqx as holder_prvlg_codes,
+        udf_conv2rgts(cast (t.gdkzsx as int )) as holder_limit_codes,
+        '7' as sys_type_code,
+        from_unixtime(unix_timestamp()) as biz_time,
+        'MDA5' as biz_src	
+     from MDA5.DATACENTER_TMR_GDH t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_20007 on t.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20008 on t.gdlb = m_20008.prev_dict_entry_key
+                                              and m_20008.dict_entry = '20008'
+                                              and m_20008.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20009 on t.gdzt = m_20009.prev_dict_entry_key
+                                              and m_20009.dict_entry = '20009'
+                                              and m_20009.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20004 on t.zzhbz =m_20004.prev_dict_entry_key
+                                              and m_20004.dict_entry ='20004'
+                                              and m_20004.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20010 on t.sbjb = m_20010.prev_dict_entry_key
+                                              and m_20010.dict_entry ='20010'
+                                              and m_20010.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20011 on t.gdzdsx =m_20011.prev_dict_entry_key
+                                              and m_20011.dict_entry ='20011'
+                                              and m_20011.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5' 
+where t.tx_date ='{$TX_DATE}' "!
+"01"!EV103!BASE_DATA.TEV_UNSETT!EV103!MDA5.DATACENTER_TSC_DJSQSZL!1!"INSERT overwrite table base_data.tev_unsett partition (biz_date='{$TX_DATE}')
+--(sequ_no,
+--branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--sec_acct_no,
+--cust_name,
+--cust_type_code,
+--tx_market_code,
+--sec_type_code,
+--sec_code,
+--sec_name,
+--circ_type_code,
+--share_attr_code,
+--curr_code,
+--seat_no,
+--entr_no,
+--decl_entr_no,
+--done_no,
+--tx_type_code,
+--done_num,
+--done_qtty,
+--done_price,
+--done_amt,
+--tx_date,
+--done_date,
+--done_time,
+--sett_date,
+--sett_price,
+--int_price,
+--int_amt,
+--crit_comm_amt,
+--comm_amt,
+--stamp_tax,
+--tran_fee,
+--addi_fee,
+--sett_fee,
+--serv_fee,
+--receivable_amt,
+--broker_fee_1,
+--cert_fee_1,
+--tran_fee_1,
+--sett_fee_1,
+--risk_fund_1,
+--receivable_amt_1,
+--receivable_share,
+--entr_mode_code,
+--busi_subj,
+--biz_time,
+--biz_src)
+SELECT t.lsh as Sequ_No,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+t.yyb as src_branch_code,
+t.khh as Cust_No,
+t.jszh as Cap_Acct_No,
+t.gdh as Sec_Acct_No,
+t.khxm as Cust_Name,
+coalesce(m_10003.dict_entry_key, concat('?', t.jgbz))  as cust_type_code ,
+coalesce(m_20007.dict_entry_key, concat('?', t.jys)) as tx_market_code ,
+t.zqlb as Sec_type_Code,
+t.zqdm as Sec_code,
+t.zqmc as Sec_Name,
+coalesce(m_40010.dict_entry_key, concat('?', t.ltlx)) as Circ_Type_Code ,
+coalesce(m_40011.dict_entry_key, concat('?', t.gfxz)) as Share_Attr_Code ,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+t.jydy as Seat_No,
+t.wth as Entr_No,
+t.sbwth as Decl_Entr_No,
+t.cjbh as Done_No,
+t.jylb as Tx_type_Code,
+t.cjbs as Done_num,
+t.cjsl as Done_Qtty,
+t.cjjg as Done_Price,
+t.cjje as Done_Amt,
+t.jyrq as Tx_Date,
+t.cjrq as Done_date,
+t.cjsj as Done_Time,
+t.jsrq as Sett_Date,
+t.jsj as Sett_Price,
+t.lxjg as Int_price,
+t.lxje as Int_Amt,
+t.bzs1 as Crit_Comm_Amt,
+t.s1 as Comm_Amt,
+t.s2 as Stamp_Tax,
+t.s3 as Tran_Fee,
+t.s4 as addi_Fee,
+t.s5 as Sett_Fee,
+t.s6 as Serv_Fee,
+t.YSJE as receable_amt,
+t.s11 as Broker_Fee_1,
+t.s12 as Cert_Fee_1,
+t.s13 as Tran_Fee_1,
+t.s15 as Sett_Fee_1,
+t.s16 as risk_fund_1,
+t.YSJe_yj as receable_amt_1,
+t.yssl as receable_share,
+coalesce(m_40007.dict_entry_key, concat('?', t.wtfs)) as Entr_Mode_Code ,
+jylb as Busi_Subj,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from  mda5.datacenter_tsc_djsqszl t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_10003 on t.jgbz = m_10003.prev_dict_entry_key
+                                              and m_10003.dict_entry ='10003'
+                                              and m_10003.prev_sys ='MDA5' 
+left join base_data.tmg_dict_entry_map m_20007 on t.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_40010 on t.ltlx = m_40010.prev_dict_entry_key
+                                              and m_40010.dict_entry ='40010'
+                                              and m_40010.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_40011 on t.gfxz = m_40011.prev_dict_entry_key
+                                              and m_40011.dict_entry ='40011'
+                                              and m_40011.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'     
+left join base_data.tmg_dict_entry_map m_40007 on t.wtfs = m_40007.prev_dict_entry_key
+                                              and m_40007.dict_entry ='40007'
+                                              and m_40007.prev_sys='MDA5'  
+where t.tx_date='{$TX_DATE}'  "!
+"01"!PD001!BASE_DATA.TPD_SEC_CODE!PD001!TRA2.SECURITIES_TZQDM !1!"add jar /root/base_data/jars/udf_conv2rgts.jar {;}
+CREATE temporary FUNCTION  udf_conv2rgts AS 'com.soochow.udf.TransferUdf' {;}
+
+INSERT overwrite table BASE_DATA.TPD_SEC_CODE 
+--  (tx_market_code,
+--  sec_code,
+--  sec_name,
+--  sec_class_code,
+--  sec_type_code,
+--  sec_state_code,
+--  curr_code,
+--  tx_unit,
+--  min_price_chag,
+--  sec_par_value,
+--  integr_hand_qtty,
+--  NET_PRICE_TX_flag,
+--  tx_limit_codes,
+--  biz_time,
+--  biz_src)
+select 
+   coalesce(m_20007.dict_entry_key, concat('?', t.jys)) as tx_market_code,
+   t.zqdm as sec_code,
+   t.zqmc as sec_name,
+   case when substr(t.zqlb,1,1) in ('A','B','C','G','R') then 's' 
+        when substr(t.zqlb,1,1) in ('E','J','L','T') then 'f'
+        when substr(t.zqlb,1,1) in ('Z') then 'b'
+        when substr(t.zqlb,1,1) in ('H') then 'r'
+        else 'o' end as sec_class_code,
+   t.zqlb as sec_type_code,
+   coalesce(m_30002.dict_entry_key, concat('?', t.jyzt)) as sec_state_code,
+   coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+   t.jydw as tx_unit,
+   t.jyjw as min_price_chag,
+   t.zqmz as sec_par_value,
+   t.zss as integr_hand_qtty,
+   t.jjjybz as NET_PRICE_TX_flag,
+   udf_conv2rgts ( cast (t.mmxz as int)) as tx_limit_codes,
+   from_unixtime(unix_timestamp()) as biz_time,
+   'TRA2' as biz_src	
+from --MDA5.DATACENTER_TSC_ZQDM t
+    TRA2.SECURITIES_TZQDM t
+left join base_data.tmg_dict_entry_map m_20007 on t.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='TRA2'
+left join base_data.tmg_dict_entry_map m_30002 on t.jyzt = m_30002.prev_dict_entry_key
+                                              and m_30002.dict_entry ='30002'
+                                              and m_30002.prev_sys='TRA2'
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='TRA2' 
+                                              
+where t.tx_date ='{$TX_DATE}'"!
+"01"!EV104!BASE_DATA.TEV_SETT_OF!EV104!MDA5.DATACENTER_TOF_JJJGLS!1!"INSERT overwrite table BASE_DATA.TEV_SETT_OF partition(biz_date='{$TX_DATE}')
+--(sequ_no,
+--apply_no,
+--ta_sequ_no,
+--branch_code,
+--src_branch_code,
+--init_type_code,
+--cust_no,
+--cap_acct_no,
+--fund_acct_no,
+--fund_tx_acct_no,
+--cust_name,
+--cust_type_code,
+--curr_code,
+--ta_code,
+--fund_code,
+--fund_name,
+--charge_mode_code,
+--divi_mode_code,
+--disc_type_code,
+--disc_rate,
+--tx_date,
+--confirm_date,
+--sett_date,
+--entr_share,
+--entr_amt,
+--confirm_share,
+--confirm_amt,
+--receable_qtty,
+--freeze_qtty,
+--char_fee,
+--agent_fee,
+--fund_share_bal,
+--nav,
+--entr_mode_code,
+--busi_end_flag,
+--busi_subj,
+--busi_summ,
+--busi_sequ_no,
+--biz_time,
+--biz_src)
+select 
+t.LSH as Sequ_No,
+t.sqbh as apply_no,
+t.TALSH as ta_Sequ_No,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+t.yyb as SRC_Branch_Code ,
+coalesce(m_40012.dict_entry_key, concat('?', t.fqf)) as Init_type_code,
+t.KHH as cust_no,
+t.JSZH as Cap_Acct_No,
+t.JJZH as Fund_Acct_No,
+t.jyzh as fund_tx_acct_no,
+t.KHXM as cust_name,
+coalesce(m_10003.dict_entry_key, concat('?', t.jgbz))  as cust_type_code ,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+t.TADM as ta_code,
+t.JJDM as fund_code,
+t.JJMC as fund_name,
+coalesce(m_40015.dict_entry_key, concat('?', t.sffs)) as charge_mode_code,
+coalesce(m_40016.dict_entry_key, concat('?', t.fhfs)) as divi_mode_code,
+coalesce(m_40017.dict_entry_key, concat('?', t.zklx)) as disc_type_code,
+t.zkl as disc_rate,
+t.JYRQ as tx_date,
+t.QRRQ as Confirm_date,
+t.JSRQ as sett_date,
+t.WTFE as Entr_Share,
+t.WTJE as Entr_amt,
+t.QRFE as Confirm_share,
+t.QRJE as Confirm_amt,
+t.YSSL as receable_qtty,
+t.DJSL as Freeze_Qtty,
+t.SXF as Char_Fee,
+t.DLF as Agent_Fee,
+t.BCJJSL as Fund_Share_Bal,
+t.jjjz as nav,
+coalesce(m_40007.dict_entry_key, concat('?', t.wtfs)) as Entr_Mode_Code ,
+coalesce(m_40018.dict_entry_key, concat('?', t.ywjsbz)) as busi_end_flag,
+concat('OF',ywdm)as Busi_Subj,
+t.ZY as Busi_Summ,
+t.YWLSH as Busi_Sequ_No,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+
+from MDA5.DATACENTER_TOF_JJJGLS t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_10003 on t.jgbz = m_10003.prev_dict_entry_key
+                                              and m_10003.dict_entry ='10003'
+                                              and m_10003.prev_sys ='MDA5' 
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'     
+left join base_data.tmg_dict_entry_map m_40007 on t.wtfs = m_40007.prev_dict_entry_key
+                                              and m_40007.dict_entry ='40007'
+                                              and m_40007.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_40012 on t.fqf = m_40012.prev_dict_entry_key
+                                              and m_40012.dict_entry ='40012'
+                                              and m_40012.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_40015 on t.sffs = m_40015.prev_dict_entry_key
+                                              and m_40015.dict_entry ='40015'
+                                              and m_40015.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_40016 on t.fhfs = m_40016.prev_dict_entry_key
+                                              and m_40016.dict_entry ='40016'
+                                              and m_40016.prev_sys='MDA5'                                   
+left join base_data.tmg_dict_entry_map m_40017 on t.zklx = m_40017.prev_dict_entry_key
+                                              and m_40017.dict_entry ='40017'
+                                              and m_40017.prev_sys='MDA5'                                                   
+left join base_data.tmg_dict_entry_map m_40018 on t.ywjsbz = m_40018.prev_dict_entry_key
+                                              and m_40018.dict_entry ='40018'
+                                              and m_40018.prev_sys='MDA5'                                                                                             
+where t.tx_date='{$TX_DATE}'"!
+"01"!AS001!BASE_DATA.TAS_CAP_BAL!AS001!MDA5.DATACENTER_TFC_ZJZH;TRCIF.CIF_TKHXX!1!"INSERT overwrite table base_data.tas_CAP_BAL partition (biz_date='{$TX_DATE}')
+--(branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--cust_name,
+--cap_acct_state_code,
+--acct_attr_code,
+--depo_type_code,
+--main_acct_flag,
+--curr_code,
+--open_date,
+--close_date,
+--acct_bal,
+--prev_bal,
+--int_bal,
+--anti_int,
+--anti_int_accr,
+--sys_type_code,
+--biz_time,
+--biz_src)
+select 
+    coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code,
+    t.yyb as src_branch_code,
+    t.khh as cust_no,
+    t.zjzh as cap_acct_no,
+    t2.khmc as cust_name,
+    coalesce(m_20001.dict_entry_key, concat('?', t.zhzt))  as cap_acct_state_code,
+    coalesce(m_20002.dict_entry_key, concat('?', t.zhlb))  as acct_attr_code,
+    coalesce(m_20003.dict_entry_key, concat('?', t.cglb))  as depo_type_code, 
+    coalesce(m_20004.dict_entry_key, concat('?', t.zzhbz))  as main_acct_flag,
+    coalesce(m_20005.dict_entry_key, concat('?', t.bz))  as curr_code,
+    t.khrq as open_date,
+    t.xhrq as CLOSE_date,
+    T.zhye as acct_bal,
+    T.srye as prev_bal,
+    T.jxye as int_bal,
+    T.yjlx as anti_int,
+    T.yjlxjs as anti_int_accr,
+    coalesce(m_20006.dict_entry_key, concat('?', t.xtlx))  as sys_type_code,
+    from_unixtime(unix_timestamp()) as biz_time,
+    'MDA5' as biz_src	
+from mda5.datacenter_tfc_zjzh t
+left join trcif.cif_tkhxx t2 on t.khh=t2.khh
+                            and t.tx_date=t2.tx_date
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_20001 on t.zhzt = m_20001.prev_dict_entry_key
+                                              and m_20001.dict_entry ='20001'
+                                              and m_20001.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20002 on t.zhlb = m_20002.prev_dict_entry_key
+                                              and m_20002.dict_entry = '20002'
+                                              and m_20002.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20003 on t.cglb = m_20003.prev_dict_entry_key
+                                              and m_20003.dict_entry = '20003'
+                                              and m_20003.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20004 on t.zzhbz =m_20004.prev_dict_entry_key
+                                              and m_20004.dict_entry ='20004'
+                                              and m_20004.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20006 on t.xtlx =m_20006.prev_dict_entry_key
+                                              and m_20006.dict_entry ='20006'
+                                              and m_20006.prev_sys='MDA5'                                             
+where t.tx_date ='{$TX_DATE}'  "!
+"01"!AS103!BASE_DATA.TAS_SHARE_OF !AS103! MDA5.DATACENTER_TOF_JJFE;MDA5.DATACENTER_TOF_JJZH!1!"INSERT overwrite table base_data.tas_share_of partition(biz_date='{$TX_DATE}')
+--(branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--fund_acct_no,
+--fund_tx_acct_no,
+--cust_name,
+--cust_type_code,
+--ta_code,
+--fund_code,
+--fund_name,
+--charge_mode_code,
+--divi_mode_code,
+--curr_code,
+--fund_share_qtty,
+--freeze_qtty,
+--mort_freeze_qtty,
+--exte_freeze_qtty,
+--last_market_value,
+--open_date,
+--chag_date,
+--cost_amt,
+--in_amt,
+--prev_profit,
+--unpaid_profit,
+--biz_time,
+--biz_src)
+select 
+coalesce(m_10002.dict_entry_key, concat('', t2.yyb)) as branch_code ,
+t2.yyb as SRC_Branch_Code ,
+T.KHH as cust_no,
+T2.JSZH as Cap_Acct_No,
+T.JJZH as Fund_Acct_No,
+t.jyzh as fund_tx_acct_no,
+t2.khqc as cust_name,
+coalesce(m_10003.dict_entry_key, concat('?', t2.jgbz))  as cust_type_code ,
+t.TADM as ta_code,
+t.JJDM as fund_code,
+t.JJMC as fund_name,
+coalesce(m_40015.dict_entry_key, concat('?', t.sffs)) as charge_mode_code,
+coalesce(m_40016.dict_entry_key, concat('?', t.fhfs)) as divi_mode_code,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+t.JJSL as Fund_Share_qtty,
+t.DJSL as Freeze_Qtty,
+t.DYSL as Mort_Freeze_Qtty,
+t.TADJ as Exte_Freeze_Qtty,
+t.ZXSZ as last_Market_Value,
+t.KCRQ as open_date,
+t.BDRQ as Chag_date,
+t.MRJE as Cost_amt,
+t.MCJE as in_amt,
+t.ZRSY as prev_Profit,
+t.WFSY as unpaid_Profit,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from MDA5.DATACENTER_TOF_JJFE T
+LEFT JOIN MDA5.DATACENTER_TOF_JJZH t2 on t.khh=t2.khh
+                                     and t.jjzh=t2.jjzh
+                                     and t.tx_date=t2.tx_date
+left join base_data.tmg_dict_entry_map m_10002 on t2.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_10003 on t2.jgbz = m_10003.prev_dict_entry_key
+                                              and m_10003.dict_entry ='10003'
+                                              and m_10003.prev_sys ='MDA5' 
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'   
+left join base_data.tmg_dict_entry_map m_40015 on t.sffs = m_40015.prev_dict_entry_key
+                                              and m_40015.dict_entry ='40015'
+                                              and m_40015.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_40016 on t.fhfs = m_40016.prev_dict_entry_key
+                                              and m_40016.dict_entry ='40016'
+                                              and m_40016.prev_sys='MDA5'                                                
+where t.tx_date='{$TX_DATE}'"!
+"01"!EV003!BASE_DATA.TEV_ENTRUST_OF!EV003!MDA5.DATACENTER_TOF_JJWTLS!1!"INSERT OVERwrite table BASE_DATA.TEV_ENTRUST_OF partition(biz_date='{$TX_DATE}')
+--(apply_no,
+--branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--fund_acct_no,
+--fund_tx_acct_no,
+--cust_name,
+--ta_code,
+--entr_no,
+--revoke_flag,
+--revoke_apply_no,
+--seller,
+--fund_code,
+--fund_name,
+--charge_mode_code,
+--tx_date,
+--entr_date,
+--entr_time,
+--sell_site,
+--entr_share,
+--entr_amt,
+--disc_type_code,
+--disc_rate,
+--curr_code,
+--oppo_fund_acct_no,
+--oppo_seller,
+--oppo_sell_site,
+--oppo_fund_code,
+--oppo_fund_charge_mode_code,
+--tran_reason_code,
+--freeze_reason_code,
+--freeze_valid_date,
+--huge_rede_mode_code,
+--divi_mode_code,
+--fund_decl_mode_code,
+--adv_date,
+--entr_state_code,
+--confirm_flag,
+--entr_mode_code,
+--oper_teller,
+--oper_site,
+--oper_site_mac,
+--oper_site_ip,
+--oper_site_mobile,
+--oper_site_hd,
+--oper_site_uuid,
+--oper_site_imei,
+--oper_source,
+--busi_subj,
+--biz_time,
+--biz_src)
+select 
+sqbh as apply_no,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+t.yyb as SRC_Branch_Code ,
+t.KHH as cust_no,
+t.JSZH as Cap_Acct_No,
+t.JJZH as Fund_Acct_No,
+t.jyzh as fund_tx_acct_no,
+t.khxm as cust_name,
+t.TADM as Ta_Code,
+t.WTH as Entr_No,
+COALESCE(M_40001.DICT_ENTRY_KEY,CONCAT('?',T.CXBZ)) AS REVOKE_FLAG,
+t.YSQBH as Revoke_Apply_No,
+t.XSRDM as Seller,
+t.JJDM as Fund_Code,
+t.JJMC as Fund_Name,
+coalesce(m_40015.dict_entry_key, concat('?', t.sffs)) as charge_mode_code,
+JYRQ as Tx_Date,
+WTRQ as Entr_Date,
+WTSJ as Entr_Time,
+WDH as Sell_Site,
+WTFE as Entr_Share,
+WTJE as Entr_Amt,
+coalesce(m_40016.dict_entry_key, concat('?', t.zklx)) as disc_type_code,
+ZKL as Disc_Rate,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+DFJJZH as Oppo_Fund_Acct_No,
+DFXSRDM as Oppo_Seller,
+DFWDH as Oppo_Sell_Site,
+DFJJDM as Oppo_Fund_Code,
+coalesce(m_40019.dict_entry_key, concat('?', t.dfsffs)) as Oppo_Fund_Charge_Mode_code,
+coalesce(m_40020.dict_entry_key, concat('?', t.ghyy)) as Tran_Reason_Code,
+coalesce(m_40021.dict_entry_key, concat('?', t.djyy)) as Freeze_Reason_Code,
+DJYXRQ as Freeze_Valid_Date,
+coalesce(m_40022.dict_entry_key, concat('?', t.JESHCLFS)) as Huge_Rede_Mode_Code,
+coalesce(m_40016.dict_entry_key, concat('?', t.fhfs)) as Divi_Mode_Code,
+coalesce(m_40024.dict_entry_key, concat('?', t.sbfs)) as fund_Decl_Mode_code,
+YYRQ as Adv_Date,
+COALESCE(M_40006.DICT_ENTRY_KEY,CONCAT('?',T.SBJG)) AS ENTR_STATE_CODE,
+coalesce(m_40023.dict_entry_key, concat('?', t.qrbz)) as Confirm_Flag,
+COALESCE(M_40007.DICT_ENTRY_KEY,CONCAT('?',T.WTFS)) AS ENTR_MODE_CODE,
+t.wtgy as oper_teller,
+t.czzd as Oper_Site,
+regexp_replace(
+case 
+--1.1有mac字样开头，考虑存在中间分隔符或者不存在两张情况，末尾必须有分隔符或者字符尾
+when length(regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',2)
+--1.2无mac字样开头，考虑中间有分隔符号: (00:00:00:00:00:00  考虑：-|.和空格),并且前后有分隔符（标点、空格、开头和结尾）
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0)
+--1.3无mac字样开头，考虑中间无分隔符号，排除UUID造成的影响
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+     and regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)<>
+         regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',9)
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0)
+else ''
+end,
+'[\\s\\pP]','') as OPER_site_mac,
+CASE
+--2.1 IP判断有固定前缀的认为他准确
+when length(regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',4)
+ELSE
+--2.2 IP内网包含10网段 172,16-31,192.168
+regexp_extract(
+regexp_extract(upper(t.czzd),--剔除10,127,172,192,255网段
+'(((\\s)|(\\pP)|(^))(([1-9]|1[1-9]|[2-9][0-9]|11[0-9]|12[012345689]|1[3-6][0-9]|17[013456789]|18[0-9]|19[013456789]|2[0-4][0-9]|25[0-4])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((172)[.]([1]?[0-5]|[3][2-9]|[4-9][0-9]|25[0-5]|2[0-4][0-9]|[1][0-9]{2})[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((192)[.]([1-9]?[0-9]|1[0-5][0-9]|16[012345679]|1[7-9][0-9]|2[0-4][0-9]|25[0-5])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))'
+,0)
+,'((\\s)|(\\pP)|(^))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',5)
+end as OPER_site_ip,
+case 
+--3.1手机号优先判断有前缀的记录
+when length(regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',7)
+--3.2手机号只考虑有前后分隔符
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',5)
+--3.3手机号考虑特殊情况
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',5)
+else ''
+END AS OPER_site_MOBILE,
+case 
+--4.1硬盘号只考虑带前缀的,后缀只考虑为固定的几种[;,]
+when length(regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',7)
+else ''
+end as OPER_site_hd,
+case 
+--5.1 ios的uuid考虑有uuid开头
+when length(regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+--5.2 考虑格式满足的比较特殊不容易误截取
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_UUID,
+case
+--6.1 安卓的IMEI考虑有开头
+when length(regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_IMEI,
+CASE 
+WHEN length(regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2))<>0
+THEN regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2)
+WHEN length(regexp_extract(upper(t.czzd),'([0-9]+(Z4008)($))',0))<>0
+THEN '1'
+WHEN length(regexp_extract(upper(t.czzd),'(^HSTY[0-9]+)',0))<>0
+THEN '2'
+WHEN length(regexp_extract(upper(t.czzd),'(^HH[_])',0))<>0
+THEN '3'
+WHEN T.WTFS='8'
+THEN '4'
+WHEN T.WTFS='2'
+THEN '5'
+WHEN T.WTFS='4'
+THEN '6'
+else ''
+END AS OPER_SOURCE,
+YWDM as Busi_Subj,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from MDA5.DATACENTER_TOF_JJWTLS t
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002  ON T.YYB = M_10002.PREV_DICT_ENTRY_KEY
+                                               AND M_10002.DICT_ENTRY = '10002'
+                                               AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40001  ON T.CXBZ = M_40001.PREV_DICT_ENTRY_KEY
+                                               AND M_40001.DICT_ENTRY = '40001'
+                                               AND M_40001.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005  ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+                                               AND M_20005.DICT_ENTRY = '20005'
+                                               AND M_20005.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40024  ON T.SBFS = M_40024.PREV_DICT_ENTRY_KEY
+                                               AND M_40024.DICT_ENTRY = '40024'
+                                               AND M_40024.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40006  ON T.SBJG = M_40006.PREV_DICT_ENTRY_KEY
+                                               AND M_40006.DICT_ENTRY = '40006'
+                                               AND M_40006.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40007 ON T.WTFS = M_40007.PREV_DICT_ENTRY_KEY
+                                              AND M_40007.DICT_ENTRY = '40007'
+                                              AND M_40007.PREV_SYS = 'MDA5'
+left join base_data.tmg_dict_entry_map m_40015 on t.sffs = m_40015.prev_dict_entry_key
+                                              and m_40015.dict_entry ='40015'
+                                              and m_40015.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_40016 on t.fhfs = m_40016.prev_dict_entry_key
+                                              and m_40016.dict_entry ='40016'
+                                              and m_40016.prev_sys='MDA5'                                   
+left join base_data.tmg_dict_entry_map m_40017 on t.zklx = m_40017.prev_dict_entry_key
+                                              and m_40017.dict_entry ='40017'
+                                              and m_40017.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_40022 on t.JESHCLFS = m_40022.prev_dict_entry_key
+                                              and m_40022.dict_entry ='40022'
+                                              and m_40022.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_40023 on t.qrbz = m_40023.prev_dict_entry_key
+                                              and m_40023.dict_entry ='40023'
+                                              and m_40023.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_40019 on t.dfsffs = m_40019.prev_dict_entry_key
+                                              and m_40019.dict_entry ='40019'
+                                              and m_40019.prev_sys='MDA5'    
+left join base_data.tmg_dict_entry_map m_40020 on t.ghyy = m_40020.prev_dict_entry_key
+                                              and m_40020.dict_entry ='40020'
+                                              and m_40020.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_40021 on t.djyy = m_40021.prev_dict_entry_key
+                                              and m_40021.dict_entry ='40021'
+                                              and m_40021.prev_sys='MDA5'   
+where tx_date='{$TX_DATE}'"!
+"01"!PT001!BASE_DATA.TPT_CUST!PT001!TRCIF.CIF_TKHXX;TRCIF.CIF_TKHYWSX;TRCIF.CIF_LBORGANIZATION!1!"INSERT overwrite table BASE_DATA.TPT_CUST
+--(
+--cust_no,
+--cust_name,
+--cust_full_name,
+--cust_state_code,
+--branch_code,
+--src_branch_code,
+--cust_type_code,
+--open_mode_code,
+--open_date,
+--close_date,
+--revisit_date,
+--cert_type_code,
+--cert_no,
+--cert_start_date,
+--cert_end_date,
+--cert_addr,
+--cert_addr_postcode,
+--cert_iss_org,
+--cont_addr,
+--cont_addr_postcode,
+--fix_tel,
+--mobile_tel,
+--fax,
+--email,
+--nati_code,
+--tax_resident_iden_code,
+--prov_code,
+--city_code,
+--pope_code,
+--aml_lvl_code,
+--cust_LIMIT_codes,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.KHH AS CUST_NO,
+T.KHJC AS CUST_NAME,
+T.KHMC AS CUST_FULL_NAME,
+COALESCE(M_10001.DICT_ENTRY_KEY,CONCAT('?',T.KHZT)) AS CUST_STATE_CODE,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT('',T3.ORGCODE)) AS BRANCH_CODE,
+T3.ORGCODE AS SRC_BRANCH_CODE,
+COALESCE(M_10003.DICT_ENTRY_KEY,CONCAT('?',T.KHLB)) AS CUST_TYPE_CODE,
+COALESCE(M_10004.DICT_ENTRY_KEY,CONCAT('?',T.KHFS)) AS OPEN_MODE_CODE,
+T.KHRQ AS OPEN_DATE,
+T.XHRQ AS CLOSE_DATE,
+T.HFRQ AS REVISIT_DATE,
+COALESCE(M_10005.DICT_ENTRY_KEY,CONCAT('?',T.ZJLB)) AS CERT_TYPE_CODE,
+T.ZJBH AS CERT_NO,
+T.ZJQSRQ AS CERT_START_DATE,
+T.ZJJZRQ AS CERT_END_DATE,
+T.ZJDZ AS CERT_ADDR,
+T.ZJDZYB AS CERT_ADDR_POSTCODE,
+T.ZJFZJG AS CERT_ISS_ORG,
+T.DZ AS CONT_ADDR,
+T.YZBM AS CONT_ADDR_POSTCODE,
+T.DH AS FIX_TEL,
+T.SJ AS MOBILE_TEL,
+T.CZ AS FAX,
+T.EMAIL AS EMAIL,
+COALESCE(M_10006.DICT_ENTRY_KEY,CONCAT('?',T.GJ)) AS NATI_CODE,
+COALESCE(M_10007.DICT_ENTRY_KEY,CONCAT('?',T.SSJMSF)) AS TAX_RESIDENT_IDEN_CODE,
+--COALESCE(M_10008.DICT_ENTRY_KEY,CONCAT('?',T.PROVINCE)) AS PROV_CODE,
+T.PROVINCE AS PROV_CODE,
+--COALESCE(M_10009.DICT_ENTRY_KEY,CONCAT('?',T.CITY)) AS CITY_CODE,
+T.CITY AS CITY_CODE,
+--COALESCE(M_10010.DICT_ENTRY_KEY,CONCAT('?',T.SEC)) AS POPE_CODE,
+T.SEC AS POPE_CODE,
+COALESCE(M_10011.DICT_ENTRY_KEY,CONCAT('?',T2.XQFXDJ)) AS AML_LVL_CODE,
+T2.KZSX  AS CUST_LIMIT_CODES,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TRCIF' AS BIZ_SRC
+FROM TRCIF.CIF_TKHXX T
+LEFT JOIN TRCIF.CIF_TKHYWSX T2
+ON T.KHH=T2.KHH
+AND T.TX_DATE=T2.TX_DATE
+INNER JOIN TRCIF.CIF_LBORGANIZATION T3
+ON T.YYB=T3.ID
+AND T.TX_DATE=T3.TX_DATE
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10001
+ON T.KHZT = M_10001.PREV_DICT_ENTRY_KEY
+AND M_10001.DICT_ENTRY = '10001'
+AND M_10001.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T3.ORGCODE = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10003
+ON T.KHLB = M_10003.PREV_DICT_ENTRY_KEY
+AND M_10003.DICT_ENTRY = '10003'
+AND M_10003.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10004
+ON T.KHFS = M_10004.PREV_DICT_ENTRY_KEY
+AND M_10004.DICT_ENTRY = '10004'
+AND M_10004.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10005
+ON T.ZJLB = M_10005.PREV_DICT_ENTRY_KEY
+AND M_10005.DICT_ENTRY = '10005'
+AND M_10005.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10006
+ON T.GJ = M_10006.PREV_DICT_ENTRY_KEY
+AND M_10006.DICT_ENTRY = '10006'
+AND M_10006.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10007
+ON T.SSJMSF = M_10007.PREV_DICT_ENTRY_KEY
+AND M_10007.DICT_ENTRY = '10007'
+AND M_10007.Prev_Sys='TRCIF'
+--LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10008
+--ON T.PROVINCE = M_10008.PREV_DICT_ENTRY_KEY
+--AND M_10008.DICT_ENTRY = '10008'
+--AND M_10008.Prev_Sys='TRCIF'
+--LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10009
+--ON T.CITY = M_10009.PREV_DICT_ENTRY_KEY
+--AND M_10009.DICT_ENTRY = '10009'
+--AND M_10009.Prev_Sys='TRCIF'
+--LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10010
+--ON T.SEC = M_10010.PREV_DICT_ENTRY_KEY
+--AND M_10010.DICT_ENTRY = '10010'
+--AND M_10010.Prev_Sys='TRCIF'*/
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10011
+ON T2.XQFXDJ = M_10011.PREV_DICT_ENTRY_KEY
+AND M_10011.DICT_ENTRY = '10011'
+WHERE T.TX_DATE='{$TX_DATE}'"!
+"01"!AS101!BASE_DATA.TAS_HOLD!AS101!MDA5.DATACENTER_TSC_ZQGL!1!"insert overwrite table  base_data.tas_hold partition(biz_date='{$TX_DATE}')
+--(
+--tx_date,
+--cust_no,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--tx_market_code,
+--sec_acct_no,
+--circ_type_code
+--sec_code,
+--sec_name,
+--seat_no,
+--share_attr_code,
+--curr_code,
+--sec_type_code,
+--sec_qtty,
+--freeze_qtty,
+--other_freeze_qtty,
+--unsett_sec_qtty?,
+--daily_begin_mort_qtty?,
+--last_market_value,
+--buy_amt,
+--buy_qtty,
+--sell_amt,
+--sell_qtty,
+--hold_pos_cost,
+--cumu_profit_loss,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.QSRQ AS TX_DATE,
+T.KHH AS CUST_NO,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT(T.YYB)) AS BRANCH_CODE,
+T.YYB AS SRC_BRANCH_CODE,
+COALESCE(M_20007.DICT_ENTRY_KEY,CONCAT('?',T.JYS)) AS TX_MARKET_CODE,
+T.GDH AS SEC_ACCT_NO,
+COALESCE(M_40010.DICT_ENTRY_KEY,CONCAT('?',T.LTLX)) AS CIRC_TYPE_CODE,
+T.ZQDM AS SEC_CODE,
+T.ZQMC AS SEC_NAME,
+T.TGDY AS SEAT_NO,
+COALESCE(M_40011.DICT_ENTRY_KEY,CONCAT('',T.GFXZ)) AS share_attr_code,
+COALESCE(M_20005.DICT_ENTRY_KEY,CONCAT('?',T.BZ)) AS CURR_CODE,
+T.ZQLB AS SEC_TYPE_CODE,
+T.ZQSL AS SEC_QTTY,
+T.DJSL AS FREEZE_QTTY,
+T.QTDJ AS OTHER_FREEZE_QTTY,
+T.WJSSL AS UNSETT_SEC_QTTY,
+T.ZXSZ AS LAST_MARKET_VALUE,
+T.MRJE AS BUY_AMT,
+T.MRSL AS BUY_QTTY,
+T.MCJE AS SELL_AMT,
+T.MCSL AS SELL_QTTY,
+T.CCCB AS HOLD_POS_COST,
+T.LJYK AS CUMU_PROFIT_LOSS,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+FROM MDA5.DATACENTER_TSC_ZQGL T
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T.YYB = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20007
+ON T.JYS = M_20007.PREV_DICT_ENTRY_KEY
+AND M_20007.DICT_ENTRY = '20007'
+AND M_20007.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40010
+ON T.LTLX = M_40010.PREV_DICT_ENTRY_KEY
+AND M_40010.DICT_ENTRY = '40010'
+AND M_40010.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40011
+ON T.GFXZ = M_40011.PREV_DICT_ENTRY_KEY
+AND M_40011.DICT_ENTRY = '40011'
+AND M_40011.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'MDA5'
+WHERE T.TX_DATE='{$TX_DATE}'"!
+"01"!EV301!BASE_DATA.TEV_OPER_JOUR!EV301!TRCIF.CIF_TCZMX;TRCIF.CIF_LBORGANIZATION!1!"insert overwrite table  base_data.tev_oper_jour partition(biz_date='{$TX_DATE}')
+--(
+--sequ_no,
+--tx_date,
+--occu_time,
+--cust_no,
+--cust_name,
+--cap_acct_no,
+--busi_subj,
+--summy,
+--oper_teller,
+--branch_code,
+--src_branch_code,
+--oper_branch_code,
+--oper_site,
+--oper_site_mac,
+--oper_site_ip,
+--oper_site_mobile,
+--oper_site_hd,
+--oper_site_uuid,
+--oper_site_imei,
+--oper_source,
+--oper_chnl_code
+--)
+SELECT
+T.ID AS SEQU_NO,
+T.RQ AS TX_DATE,
+T.FSSJ AS OCCU_TIME,
+T.KHH AS CUST_NO,
+T.KHJC AS CUST_NAME,
+T.ZJZH AS CAP_ACCT_NO,
+T.YWKM AS BUSI_SUBJ,
+T.ZY AS SUMMY,
+T.CZGY AS OPER_TELLER,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT(T2.orgcode)) AS BRANCH_CODE,
+T2.orgcode AS SRC_BRANCH_CODE,
+COALESCE(M_10002_2.DICT_ENTRY_KEY,CONCAT(T3.orgcode)) AS OPER_BRANCH_CODE,
+T.CZZD AS OPER_SITE,
+regexp_replace(
+case 
+--1.1有mac字样开头，考虑存在中间分隔符或者不存在两张情况，末尾必须有分隔符或者字符尾
+when length(regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',2)
+--1.2无mac字样开头，考虑中间有分隔符号: (00:00:00:00:00:00  考虑：-|.和空格),并且前后有分隔符（标点、空格、开头和结尾）
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0)
+--1.3无mac字样开头，考虑中间无分隔符号，排除UUID造成的影响
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+     and regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)<>
+         regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',9)
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0)
+else ''
+end,
+'[\\s\\pP]','') as OPER_site_mac,
+CASE
+--2.1 IP判断有固定前缀的认为他准确
+when length(regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',4)
+ELSE
+--2.2 IP内网包含10网段 172,16-31,192.168
+regexp_extract(
+regexp_extract(upper(t.czzd),--剔除10,127,172,192,255网段
+'(((\\s)|(\\pP)|(^))(([1-9]|1[1-9]|[2-9][0-9]|11[0-9]|12[012345689]|1[3-6][0-9]|17[013456789]|18[0-9]|19[013456789]|2[0-4][0-9]|25[0-4])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((172)[.]([1]?[0-5]|[3][2-9]|[4-9][0-9]|25[0-5]|2[0-4][0-9]|[1][0-9]{2})[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((192)[.]([1-9]?[0-9]|1[0-5][0-9]|16[012345679]|1[7-9][0-9]|2[0-4][0-9]|25[0-5])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))'
+,0)
+,'((\\s)|(\\pP)|(^))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',5)
+end as OPER_site_ip,
+case 
+--3.1手机号优先判断有前缀的记录
+when length(regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',7)
+--3.2手机号只考虑有前后分隔符
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',5)
+--3.3手机号考虑特殊情况
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',5)
+else ''
+END AS OPER_site_MOBILE,
+case 
+--4.1硬盘号只考虑带前缀的,后缀只考虑为固定的几种[;,]
+when length(regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',7)
+else ''
+end as OPER_site_hd,
+case 
+--5.1 ios的uuid考虑有uuid开头
+when length(regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+--5.2 考虑格式满足的比较特殊不容易误截取
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_UUID,
+case
+--6.1 安卓的IMEI考虑有开头
+when length(regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_IMEI,
+CASE 
+WHEN length(regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2))<>0
+THEN regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2)
+WHEN length(regexp_extract(upper(t.czzd),'([0-9]+(Z4008)($))',0))<>0
+THEN '1'
+WHEN length(regexp_extract(upper(t.czzd),'(^HSTY[0-9]+)',0))<>0
+THEN '2'
+WHEN length(regexp_extract(upper(t.czzd),'(^HH[_])',0))<>0
+THEN '3'
+else ''
+END AS OPER_SOURCE,
+COALESCE(M_40014.DICT_ENTRY_KEY,CONCAT('?',T.FQQD)) AS OPER_CHNL_CODE,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TRCIF' AS BIZ_SRC
+FROM TRCIF.CIF_TCZMX T
+INNER JOIN TRCIF.CIF_LBORGANIZATION T2
+ON T.YYB=T2.ID
+AND T.TX_DATE=T2.TX_DATE
+INNER JOIN TRCIF.CIF_LBORGANIZATION T3
+ON T.FSYYB=T3.ID
+AND T.TX_DATE=T3.TX_DATE 
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T2.orgcode = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002_2
+ON T3.orgcode = M_10002_2.PREV_DICT_ENTRY_KEY
+AND M_10002_2.DICT_ENTRY = '10002'
+AND M_10002_2.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40014
+ON  T.FQQD = M_40014.PREV_DICT_ENTRY_KEY
+AND M_40014.DICT_ENTRY = '40014'
+AND M_40014.PREV_SYS = 'TRCIF'
+WHERE T.TX_DATE='{$TX_DATE}'"!
+"01"!AG002!BASE_DATA.TAG_COMPACT_SRP!AG002!MDA5.DATACENTER_TSC_ZYHGLS!1!"INSERT overwrite table base_data.tag_compact_srp partition(biz_date='{$TX_DATE}')
+--(clear_date,
+--compact_no,
+--inci_compact_no,
+--contr_no,
+--branch_code,
+--src_branch_code,
+--cust_no,
+--cust_name,
+--sec_acct_no,
+--seat_no,
+--pledgee_no,
+--pledgee_sec_acct_no,
+--pledgee_seat_no,
+--pledgee_name,
+--cap_usage_code,
+--tx_type_code,
+--tx_market_code,
+--sec_code,
+--sec_name,
+--circ_type_code,
+--share_attr_code,
+--pledge_qtty,
+--crit_rate,
+--fi_amt,
+--repurc_amt,
+--tx_date,
+--done_date,
+--m_date,
+--decl_entr_no,
+--entr_no,
+--done_no,
+--entr_state_code,
+--bonus_iss_qtty,
+--divi_amt,
+--divi_sett_amt,
+--int_accr,
+--anti_int,
+--in_tran_int,
+--sett_int_date,
+--sett_int_amt,
+--pen_int,
+--postpone_flag,
+--postpone_repurc_date,
+--sett_date,
+--sett_qtty,
+--sett_amt,
+--repay_int,
+--repurc_mode_code,
+--sett_flag,
+--warn_line_ratio,
+--close_pos_line_ratio,
+--flfl_mrgn_ratio,
+--chag_date,
+--step,
+--defa_flag,
+--defa_proc_date,
+--pledge_type_code,
+--holder_type_code,
+--s_exec_type_code,
+--share_source_code,
+--other_reduce_share_limit_code,
+--limit_end_date,
+--proc_sell_qtty,
+--proc_sell_amt,
+--liqu_dama,
+--other_fee,
+--confirm_bad_debt_amt,
+--first_warn_date,
+--mort_market_value,
+--funder_id,
+--funder_type_code,
+--remark,
+--cap_usage_remark,
+--correct_qtty,
+--correct_amt,
+--biz_time,
+--biz_src,
+--biz_date)
+select 
+t.rq as clear_date,
+bh as compact_No,
+xybh as Inci_compact_No,
+htbh as contr_no,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+yyb as src_branch_code,
+khh as Cust_No,
+khxm as Cust_Name,
+gdh as Sec_Acct_No,
+jydy as Seat_no,
+zqrbm as Pledgee_no,
+zqrgdh as Pledgee_sec_acct_no,
+zqrjydy as Pledgee_seat_no,
+zqrmc as Pledgee_name,
+coalesce(m_50011.dict_entry_key, concat('?', t.zjyt)) as  Cap_Usage_code,
+jylb as Tx_type_Code,
+coalesce(m_20007.dict_entry_key, concat('?', t.jys)) as tx_market_code ,
+zqdm as Sec_code,
+zqmc as Sec_Name,
+coalesce(m_40010.dict_entry_key, concat('?', t.ltlx)) as Circ_Type_Code ,
+coalesce(m_40011.dict_entry_key, concat('?', t.gfxz)) as Share_Attr_Code ,
+cjsl as pledge_Qtty,
+ll as Crit_rate,
+rzje as Fi_Amt,
+ghje as rePurc_Amt,
+jyrq as tx_Date,
+cjrq as done_Date,
+dqrq as end_date,
+sbwth as Decl_Entr_No,
+wth as Entr_No,
+cjbh as Done_No,
+COALESCE(M_40006.DICT_ENTRY_KEY,CONCAT('?',T.SBJG)) AS ENTR_STATE_CODE,
+sgsl as Bonus_Iss_Qtty,
+hlje as Divi_Amt,
+hljsje as Divi_Sett_Amt,
+lxjs as Int_Accr,
+yjlx as Anti_Int,
+dzlx as In_Tran_Int,
+jxrq as Sett_Int_Date,
+jxje as Sett_Int_amt,
+fxlx as pen_int,
+sybz as Postpone_flag,
+ghrq as Postpone_rePurc_Date,
+jsrq as Sett_Date,
+jssl as Sett_qtty,
+jsje as Sett_amt,
+ghlx as repay_int,
+COALESCE(M_50013.DICT_ENTRY_KEY,CONCAT('?',T.ghfs)) as rePurc_mode_code,
+COALESCE(M_50012.DICT_ENTRY_KEY,CONCAT('?',T.jsbz)) AS  Sett_flag,
+yjbl as Warn_Line_Ratio,
+pcbl as Close_Pos_Line_Ratio,
+lyjbl as Flfl_Mrgn_Ratio,
+BDRQ as Chag_date,
+step as Step,
+wybz as Defa_flag,
+wyczrq as Defa_Proc_date,
+zylx as pledge_type_code,
+COALESCE(M_20008.DICT_ENTRY_KEY,CONCAT('?',T.GDLB)) as Holder_type_code,
+COALESCE(M_50016.DICT_ENTRY_KEY,CONCAT('?',T.GGLB)) as S_Exec_type_code,
+COALESCE(M_50017.DICT_ENTRY_KEY,CONCAT('?',T.GFLY)) as Share_Source_code,
+COALESCE(M_50018.DICT_ENTRY_KEY,CONCAT('?',T.QTJCXZ)) as other_reduce_share_limit_code,
+jcxsr as limit_end_date,
+czmcsl as Proc_sell_qtty,
+czmcje as Proc_sell_amt,
+wyj as Liqu_Dama,
+qtfy as other_fee,
+qrhzje as Confirm_bad_debt_amt,
+scyjrq as First_Warn_date,
+dysz as Mort_Market_Value,
+rcfid as funder_id,
+COALESCE(M_50019.DICT_ENTRY_KEY,CONCAT('?',T.CZLX)) as funder_type_code,
+bzxx as remark,
+zjytms as Cap_Usage_remark,
+xzsl as correct_qtty,
+xzje as correct_amt,
+t.cjsl+t.sgsl-t.jssl as compact_unreprc_qtty,
+t.yjlx+t.dzlx+t.fxlx+t.jxje as compact_int_total,
+t.rzje-t.jsje+t.ghlx as compact_unpaid_amt,
+t.yjlx+t.dzlx+t.fxlx+t.jxje-t.ghlx  as compact_unpaid_int,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from mda5.datacenter_tsc_zyhgls t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_50011 on t.ZJYT = m_50011.prev_dict_entry_key
+                                              and m_50011.dict_entry ='50011'
+                                              and m_50011.prev_sys ='MDA5' 
+left join base_data.tmg_dict_entry_map m_50012 on t.jsbz = m_50012.prev_dict_entry_key
+                                              and m_50012.dict_entry ='50012'
+                                              and m_50012.prev_sys ='MDA5'                                                
+left join base_data.tmg_dict_entry_map m_20007 on t.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_40010 on t.ltlx = m_40010.prev_dict_entry_key
+                                              and m_40010.dict_entry ='40010'
+                                              and m_40010.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_40011 on t.gfxz = m_40011.prev_dict_entry_key
+                                              and m_40011.dict_entry ='40011'
+                                              and m_40011.prev_sys='MDA5' 
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40006  ON T.SBJG = M_40006.PREV_DICT_ENTRY_KEY
+                                               AND M_40006.DICT_ENTRY = '40006'
+                                               AND M_40006.PREV_SYS = 'MDA5'                                              
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20008  ON T.gdlb = M_20008.PREV_DICT_ENTRY_KEY
+                                               AND M_20008.DICT_ENTRY = '20008'
+                                               AND M_20008.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50013  ON T.ghfs = M_50013.PREV_DICT_ENTRY_KEY
+                                               AND M_50013.DICT_ENTRY = '50013'
+                                               AND M_50013.PREV_SYS = 'MDA5'                                                  
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50016  ON T.gglb = M_50016.PREV_DICT_ENTRY_KEY
+                                               AND M_50016.DICT_ENTRY = '50016'
+                                               AND M_50016.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50017  ON T.gfly = M_50017.PREV_DICT_ENTRY_KEY
+                                               AND M_50017.DICT_ENTRY = '50017'
+                                               AND M_50017.PREV_SYS = 'MDA5' 
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50018  ON T.qtjcxz = M_50018.PREV_DICT_ENTRY_KEY
+                                               AND M_50018.DICT_ENTRY = '50018'
+                                               AND M_50018.PREV_SYS = 'MDA5'  
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50019  ON T.czlx = M_50019.PREV_DICT_ENTRY_KEY
+                                               AND M_50019.DICT_ENTRY = '50019'
+                                               AND M_50019.PREV_SYS = 'MDA5' 
+where tx_date='{$TX_DATE}'"!
+"01"!AG003!BASE_DATA.TAG_COMPACT_ARP!AG003!MDA5.DATACENTER_TSC_YDGHLS!1!"INSERT overwrite table base_data.tag_compact_arp partition(biz_date='{$TX_DATE}')
+--(compact_no,
+--clear_date,
+--inci_compact_no,
+--contr_no,
+--branch_code,
+--src_branch_code,
+--cust_no,
+--cust_name,
+--sec_acct_no,
+--seat_no,
+--tx_type_code,
+--tx_market_code,
+--sec_code,
+--sec_name,
+--circ_type_code,
+--share_attr_code,
+--done_qtty,
+--crit_rate,
+--fi_amt,
+--repurc_amt,
+--tx_date,
+--done_date,
+--m_date,
+--decl_entr_no,
+--done_no,
+--entr_state_code,
+--bonus_iss_qtty,
+--divi_amt,
+--in_tran_int,
+--postpone_flag,
+--postpone_repurc_date,
+--sett_date,
+--sett_int_date,
+--sett_qtty,
+--sett_amt,
+--repurc_mode_code,
+--sett_flag,
+--flfl_mrgn_ratio,
+--chag_date,
+--mort_market_value,
+--step,
+--cap_usage_remark,
+--correct_qtty,
+--correct_amt,
+--biz_time,
+--biz_src)
+select 
+rq as clear_date,
+bh as compact_No,
+xybh as Inci_compact_No,
+htbh as contr_no,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+yyb as src_branch_code,
+khh as Cust_No,
+khxm as Cust_Name,
+gdh as Sec_Acct_No,
+jydy as Seat_no,
+jylb as Tx_type_Code,
+coalesce(m_20007.dict_entry_key, concat('?', t.jys)) as tx_market_code ,
+zqdm as Sec_code,
+zqmc as Sec_Name,
+coalesce(m_40010.dict_entry_key, concat('?', t.ltlx)) as Circ_Type_Code ,
+coalesce(m_40011.dict_entry_key, concat('?', t.gfxz)) as Share_Attr_Code ,
+cjsl as done_Qtty,
+ll as Crit_rate,
+rzje as Fi_Amt,
+ghje as rePurc_Amt,
+jyrq as tx_Date,
+cjrq as done_Date,
+dqrq as END_DATE,
+sbwth as Decl_Entr_No,
+cjbh as Done_No,
+COALESCE(M_40006.DICT_ENTRY_KEY,CONCAT('?',T.SBJG)) AS ENTR_STATE_CODE,
+sgsl as Bonus_Iss_Qtty,
+hlje as Divi_Amt,
+dzlx as In_Tran_Int,
+sybz as Postpone_flag,
+ghrq as Postpone_rePurc_Date,
+jsrq as Sett_Date,
+jxrq as Sett_Int_Date,
+jssl as Sett_qtty,
+jsje as Sett_amt,
+COALESCE(M_50013.DICT_ENTRY_KEY,CONCAT('?',T.ghfs)) as rePurc_mode_code,
+COALESCE(M_50012.DICT_ENTRY_KEY,CONCAT('?',T.jsbz)) AS  Sett_flag,
+lyjbl as Flfl_Mrgn_Ratio,
+BDRQ as Chag_date,
+dysz as Mort_Market_Value,
+step as Step,
+zjytms as Cap_Usage_remark,
+xzsl as correct_qtty,
+xzje as correct_amt,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from mda5.datacenter_tsc_ydghls t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_50012 on t.jsbz = m_50012.prev_dict_entry_key
+                                              and m_50012.dict_entry ='50012'
+                                              and m_50012.prev_sys ='MDA5'                                                
+left join base_data.tmg_dict_entry_map m_20007 on t.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_40010 on t.ltlx = m_40010.prev_dict_entry_key
+                                              and m_40010.dict_entry ='40010'
+                                              and m_40010.prev_sys='MDA5' 
+left join base_data.tmg_dict_entry_map m_40011 on t.gfxz = m_40011.prev_dict_entry_key
+                                              and m_40011.dict_entry ='40011'
+                                              and m_40011.prev_sys='MDA5' 
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40006  ON T.SBJG = M_40006.PREV_DICT_ENTRY_KEY
+                                               AND M_40006.DICT_ENTRY = '40006'
+                                               AND M_40006.PREV_SYS = 'MDA5'                                              
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50013  ON T.ghfs = M_50013.PREV_DICT_ENTRY_KEY
+                                               AND M_50013.DICT_ENTRY = '50013'
+                                               AND M_50013.PREV_SYS = 'MDA5'                                               
+where tx_date='{$TX_DATE}'"!
+"01"!AS104!BASE_DATA.TAS_SHARE_OTC!AS104!TROTC.FPSS_HIS_TFP_CPFE_LS;TROTC.FPSS_TFP_CPDM;TROTC.FPSS_TFP_KHTZZH!1!"INSERT overwrite table base_data.tas_share_otc partition(biz_date='{$TX_DATE}')
+--(branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--invest_acct_no,
+--tx_acct_no,
+--cust_name,
+--prod_type_code,
+--prod_code,
+--prod_name,
+--prod_share_amt,
+--freeze_share_amt,
+--cost_amt,
+--last_market_value,
+--open_date,
+--chag_date,
+--daily_freeze_share_amt,
+--accu_prft,
+--biz_time,
+--biz_src,
+--biz_date)
+select 
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+t.yyb as src_branch_code,
+t.KHH as cust_no,
+t3.jszh as cap_acct_no,
+t.tzZH as invest_acct_no,
+t.jyzh as tx_Acct_No,
+t.KHXM as cust_name,
+coalesce(m_50022.dict_entry_key, concat('?', t.cpfl)) as Prod_Type_Code,
+t.cpdm as Prod_code,
+t2.cpmc as Prod_name,
+t.cpfe as Prod_Share_amt,
+t.DJfe as Freeze_Share_amt,
+t.cccb as Cost_amt,
+t.ZXSZ as last_Market_Value,
+t.KCRQ as open_date,
+t.BDRQ as Chag_date,
+t.drdjfe as Daily_Freeze_Share_amt,
+t.ljsy as accu_Prft,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from TROTC.FPSS_HIS_TFP_CPFE_LS t
+left join TROTC.FPSS_TFP_CPDM t2   on t.cpdm=t2.cpdm  
+                                  and t.tx_date=t2.tx_date
+left join trotc.fpss_tfp_khtzzh t3 on t.khh=t3.khh 
+                                  and t.tzzh=t3.tzzh
+                                  and t.tx_date=t3.tx_date                                  
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_50022 on t.cpfl = m_50022.prev_dict_entry_key
+                                              and m_50022.dict_entry ='50022'
+                                              and m_50022.prev_sys='TROTC'                                                  
+where t.tx_date='{$TX_DATE}'     "!
+"01"!EV105!BASE_DATA.TEV_SETT_OTC!EV105!TROTC.FPSS_HIS_TFP_JGMXLS;TROTC.FPSS_TFP_CPDM!1!"INSERT overwrite table base_data.tev_sett_otc partition (biz_date='{$TX_DATE}')
+--(sequ_no,
+--branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--invest_acct_no,
+--tx_acct_no,
+--cust_name,
+--prod_type_code,
+--prod_code,
+--prod_name,
+--curr_code,
+--entr_date,
+--entr_no,
+--entr_share,
+--entr_amt,
+--contr_no,
+--apply_no,
+--done_no,
+--done_time,
+--confirm_share,
+--confirm_amt,
+--done_price,
+--char_fee,
+--agent_fee,
+--stamp_tax,
+--other_fee,
+--tran_fee,
+--int_amt,
+--int_tax,
+--disc_rate,
+--fee_remark,
+--remark,
+--this_cap_bal,
+--this_share_bal,
+--this_freeze_share_bal,
+--receable_amt,
+--sett_date,
+--broker_fee_1,
+--cert_fee_1,
+--tran_fee_1,
+--sett_fee_1,
+--risk_fund_1,
+--other_fee_1,
+--entr_mode_code,
+--busi_subj,
+--biz_time,
+--biz_src)
+select 
+LSH as Sequ_No,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+t.yyb as src_branch_code,
+KHH as cust_no,
+JSZH as Cap_Acct_No,
+TZZH as invest_acct_no,
+jyzh as tx_Acct_No,
+KHXM as cust_name,
+coalesce(m_50022.dict_entry_key, concat('?', t.cpfl)) as Prod_Type_Code,
+T.cpdm as Prod_code,
+T2.cpmc as Prod_name,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+wtrq as Entr_date,
+WTH as Entr_No,
+WTFE as Entr_Share,
+WTJE as Entr_amt,
+xybh as contr_No,
+SQBH as Apply_No,
+cjbh as Done_No,
+cjsj as Done_Time,
+QRFE as Confirm_share,
+QRJE as Confirm_amt,
+cjjg as Done_price,
+SXF as Char_Fee,
+DLF as Agent_Fee,
+yhs as Stamp_Tax,
+qtf as other_fee,
+ghf as Tran_Fee,
+lx as Int_AMT,
+lxs as Int_Tax,
+zkl as Disc_Rate,
+fysm as fee_remark,
+bzxx as remark,
+zjye as this_cap_Bal,
+FEYE as this_Share_Bal,
+FEDJYE as this_Freeze_Share_bal,
+YSje as receable_amt,
+JSRQ as sett_date,
+yj_jsf as Broker_Fee_1,
+yj_zgf as Cert_Fee_1,
+yj_ghf as Tran_Fee_1,
+yj_clearfee as Sett_Fee_1,
+yj_fxjj as risk_fund_1,
+YJ_QTF as other_fee_1,
+coalesce(m_40007.dict_entry_key, concat('?', t.wtfs)) as Entr_Mode_Code ,
+CONCAT('OTC',YWDM) as Busi_Subj,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TROTC' AS BIZ_SRC
+FROM TROTC.FPSS_HIS_TFP_JGMXLS T
+left join TROTC.FPSS_TFP_CPDM t2   on t.cpdm=t2.cpdm  
+                                  and t.tx_date=t2.tx_date
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='TROTC'     
+left join base_data.tmg_dict_entry_map m_40007 on t.wtfs = m_40007.prev_dict_entry_key
+                                              and m_40007.dict_entry ='40007'
+                                              and m_40007.prev_sys='TROTC'  
+left join base_data.tmg_dict_entry_map m_50022 on t.cpfl = m_50022.prev_dict_entry_key
+                                              and m_50022.dict_entry ='50022'
+                                              and m_50022.prev_sys='TROTC'                                                
+WHERE T.TX_DATE='{$TX_DATE}'     "!
+"01"!AG101!BASE_DATA.TAG_CONTRACT_CRDT!AG101!TRMG.MARGIN_TXY_HTXX!1!"insert overwrite table  base_data.tag_contract_crdt
+--(contr_no,
+--crdt_lvl_code,
+--cust_no,
+--curr_code,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--fi_crdt_limit,
+--sl_crdt_limit,
+--fi_int_rate,
+--sl_int_rate,
+--rgst_date,
+--alter_date,
+--contr_begin_date,
+--contr_end_date,
+--close_pos_tact_code,
+--oper_teller,
+--contr_state_code,
+--biz_time,
+--biz_src)
+SELECT
+T.HTBH AS CONTR_NO,
+COALESCE(M_50020.DICT_ENTRY_KEY,CONCAT('?',T.XYDJ)) AS CRDT_LVL_CODE,
+T.KHH AS CUST_NO,
+COALESCE(M_20005.DICT_ENTRY_KEY,CONCAT('?',T.BZ)) AS CURR_CODE,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT('',T.YYB)) AS BRANCH_CODE,
+T.YYB AS SRC_BRANCH_CODE,
+T.RZED AS FI_CRDT_LIMIT,
+T.RQED AS SL_CRDT_LIMIT,
+T.RZLL AS FI_INT_RATE,
+T.RQLL AS SL_INT_RATE,
+T.DJRQ AS RGST_DATE,
+T.XGRQ AS ALTER_DATE,
+T.KSRQ AS CONTR_BEGIN_DATE,
+T.JSRQ AS CONTR_END_DATE,
+T.PCCL AS CLOSE_POS_TACT_CODE,
+T.GYH AS OPER_TELLER,
+COALESCE(M_50021.DICT_ENTRY_KEY,CONCAT('?',T.HTZT)) AS CONTR_STATE_CODE,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TRMG' AS BIZ_SRC
+FROM TRMG.MARGIN_TXY_HTXX T
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50020
+ON T.XYDJ = M_50020.PREV_DICT_ENTRY_KEY
+AND M_50020.DICT_ENTRY = '50020'
+AND M_50020.PREV_SYS = 'TRMG'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'TRMG'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T.YYB = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50021
+ON T.HTZT = M_50021.PREV_DICT_ENTRY_KEY
+AND M_50021.DICT_ENTRY = '50021'
+AND M_50021.PREV_SYS = 'TRMG'
+WHERE T.TX_DATE='{$TX_DATE}'"!
+"01"!AC003!BASE_DATA.TAC_OF_ACCT!AC003!MDA5.DATACENTER_TOF_JJZH!1!"INSERT overwrite table base_data.tac_OF_acct 
+--(branch_code,
+--src_branch_code,
+--cust_no,
+--ta_code,
+--fund_acct_no,
+--fund_tx_acct_no,
+--cap_acct_no,
+--cust_name,
+--fund_acct_state_code,
+--cust_type_code,
+--curr_code,
+--open_date,
+--chag_date,
+--sell_site,
+--biz_time,
+--biz_src)
+select 
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+yyb as src_branch_code,
+khh as Cust_No,
+TADM as ta_code,
+jjzh as fund_Acct_No,
+jyzh as Fund_tx_Acct_No,
+jszh as Cap_Acct_No,
+khqc as Cust_Name,
+coalesce(m_20015.dict_entry_key, concat('?', t.zhzt)) as FUND_ACCT_STATE_CODE,
+coalesce(m_10003.dict_entry_key, concat('?', t.jgbz))  as cust_type_code ,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+djrq as open_date,
+BDRQ as Chag_date,
+WDH as Sell_Site,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from MDA5.DATACENTER_TOF_JJZH t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_10003 on t.jgbz = m_10003.prev_dict_entry_key
+                                              and m_10003.dict_entry ='10003'
+                                              and m_10003.prev_sys ='MDA5' 
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'   
+left join base_data.tmg_dict_entry_map m_20015 on t.zhzt = m_20015.prev_dict_entry_key
+                                              and m_20015.dict_entry ='20015'
+                                              and m_20015.prev_sys='MDA5'  
+where t.tx_date='{$TX_DATE}' "!
+"01"!AG001!BASE_DATA.TAG_COMPACT_CRDT!AG001!TRMG.DATACENTER_TXY_FZXXLS!1!"insert overwrite table base_data.tag_compact_crdt partition(biz_date='{$TX_DATE}')
+--(
+--clear_date,
+--sequ_no,
+--cust_no,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--occu_date,
+--compact_no,
+--entr_no,
+--compact_type_code,
+--tx_market_code,
+--cap_acct_no,
+--curr_code,
+--sec_acct_no,
+--sec_code,
+--sec_name,
+--sec_type_code,
+--compact_qtty,
+--compact_amt,
+--compact_fee,
+--compact_end_date,
+--compact_state_code,
+--compact_int_rate,
+--compact_int_begin_date,
+--compact_int,
+--compact_segm_int,
+--compact_pen_int,
+--compact_int_total,
+--compact_repay_int,
+--compact_unpaid_int,
+--fi_unpaid_amt,
+--sl_unpaid_qtty,
+--equity_type_code
+--biz_time,
+--biz_src
+--)
+SELECT
+T.RQ AS CLEAR_DATE,
+T.LSH AS SEQU_NO,
+T.KHH AS CUST_NO,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT('',T.YYB)) AS BRANCH_CODE,
+T.YYB AS SRC_BRANCH_CODE,
+T.FSRQ AS OCCU_DATE,
+T.LSH AS COMPACT_NO,
+T.WTH AS ENTR_NO,
+COALESCE(M_50001.DICT_ENTRY_KEY,CONCAT('?',T.JYLB)) AS COMPACT_TYPE_CODE,
+COALESCE(M_20007.DICT_ENTRY_KEY,CONCAT('?',T.JYS)) AS TX_MARKET_CODE,
+T.JSZH AS CAP_ACCT_NO,
+COALESCE(M_20005.DICT_ENTRY_KEY,CONCAT('?',T.BZ)) AS CURR_CODE,
+T.GDH AS SEC_ACCT_NO,
+T.ZQDM AS SEC_CODE,
+T.ZQMC AS SEC_NAME,
+T.ZQLB AS SEC_TYPE_CODE,
+T.RZSL AS COMPACT_QTTY,
+T.RZJE AS COMPACT_AMT,
+T.RZFY+T.RQFY AS COMPACT_FEE,
+T.DQRQ AS COMPACT_END_DATE,
+COALESCE(M_50002.DICT_ENTRY_KEY,CONCAT('?',T.FZZT)) AS COMPACT_STATE_CODE,
+T.LL AS COMPACT_INT_RATE,
+T.JXRQ AS COMPACT_INT_BEGIN_DATE,
+T.YJLX AS COMPACT_INT,
+T.FDLX AS COMPACT_SEGM_INT,
+T.FXYJLX AS COMPACT_PEN_INT,
+T.YJLX+FDLX+FXYJLX AS COMPACT_INT_TOTAL,
+T.GHLX AS COMPACT_REPAY_INT,
+T.YJLX+FDLX+FXYJLX-GHLX AS COMPACT_UNPAID_INT,
+T.RZJE-(HKJE-GHLX) AS FI_UNPAID_AMT,
+T.RQSL-HQSL AS SL_UNPAID_QTTY,
+COALESCE(M_50003.DICT_ENTRY_KEY,CONCAT('?',T.QYLB)) AS EQUITY_TYPE_CODE,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TRMG' AS BIZ_SRC
+FROM TRMG.DATACENTER_TXY_FZXXLS T
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T.YYB = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50001
+ON T.JYLB = M_50001.PREV_DICT_ENTRY_KEY
+AND M_50001.DICT_ENTRY = '50001'
+AND M_50001.PREV_SYS = 'TRMG'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20007
+ON T.JYS = M_20007.PREV_DICT_ENTRY_KEY
+AND M_20007.DICT_ENTRY = '20007'
+AND M_20007.PREV_SYS = 'TRMG'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'TRMG'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50002
+ON T.FZZT = M_50002.PREV_DICT_ENTRY_KEY
+AND M_50002.DICT_ENTRY = '50002'
+AND M_50002.PREV_SYS = 'TRMG'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_50003
+ON T.QYLB = M_50003.PREV_DICT_ENTRY_KEY
+AND M_50003.DICT_ENTRY = '50003'
+AND M_50003.PREV_SYS = 'TRMG'
+WHERE T.TX_DATE='{$TX_DATE}'
+and t.rq='{$TX_DATE}'"!
+"01"!EV001!BASE_DATA.TEV_ENTRUST!EV001!MDA5.DATACENTER_TSC_WTLS!1!"insert overwrite table base_data.tev_entrust partition(biz_date='{$TX_DATE}')
+--(
+--sequ_no,
+--cust_no,
+--entr_no,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--tx_market_code,
+--sec_acct_no,
+--tx_type_code,
+--revoke_flag,
+--revoke_entr_no,
+--sec_code,
+--sec_name,
+--sec_type_code,
+--order_type_code,
+--order_tx_limit_code,
+--order_aging_limit_code,
+--order_valid_date,
+--entr_qtty,
+--entr_price,
+--entr_amt,
+--tx_date,
+--entr_date,
+--entr_time,
+--curr_code,
+--cap_acct_no,
+--freeze_amt,
+--decl_mode_code,
+--pass_no,
+--tx_unit,
+--decl_entr_no,
+--decl_date,
+--decl_time,
+--decl_seat_no,
+--decl_record_no,
+--entr_state_code,
+--entr_resu,
+--revoke_qtty,
+--done_qtty,
+--done_amt,
+--done_avg_price,
+--done_time,
+--done_num,
+--sett_amt,
+--comm_amt,
+--oper_teller,
+--entr_mode_code,
+--oper_site,
+--oper_site_mac,
+--oper_site_ip,
+--oper_site_mobile,
+--oper_site_hd,
+--oper_site_uuid,
+--oper_site_imei,
+--oper_source,
+--entr_type_code,
+--busi_subj,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.LSH AS SEQU_NO,
+T.KHH AS CUST_NO,
+T.WTH AS ENTR_NO,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT(T.YYB)) AS BRANCH_CODE,
+t.yyb AS src_branch_code,
+COALESCE(M_20007.DICT_ENTRY_KEY,CONCAT('?',T.JYS)) AS TX_MARKET_CODE,
+T.GDH AS SEC_ACCT_NO,
+T.JYLB AS TX_TYPE_CODE,
+COALESCE(M_40001.DICT_ENTRY_KEY,CONCAT('?',T.CXBZ)) AS REVOKE_FLAG,
+T.CXWTH AS REVOKE_ENTR_NO,
+T.ZQDM AS SEC_CODE,
+T.ZQMC AS SEC_NAME,
+--COALESCE(M_30001.DICT_ENTRY_KEY,CONCAT('?',T.ZQLB)) AS SEC_TYPE_CODE,
+T.ZQLB AS SEC_TYPE_CODE,
+COALESCE(M_40002.DICT_ENTRY_KEY,CONCAT('?',T.DDLX)) AS ORDER_TYPE_CODE,
+COALESCE(M_40003.DICT_ENTRY_KEY,CONCAT('?',T.DDJYXZ)) AS ORDER_TX_LIMIT_CODE,
+COALESCE(M_40004.DICT_ENTRY_KEY,CONCAT('?',T.DDSXXZ)) AS ORDER_AGING_LIMIT_CODE,
+T.DDYXRQ AS ORDER_VALID_DATE,
+T.WTSL AS ENTR_QTTY,
+T.WTJG AS ENTR_PRICE,
+T.WTJE AS ENTR_AMT,
+T.JYRQ AS TX_DATE,
+T.WTRQ AS ENTR_DATE,
+T.WTSJ AS ENTR_TIME,
+COALESCE(M_20005.DICT_ENTRY_KEY,CONCAT('?',T.BZ)) AS CURR_CODE,
+T.JSZH AS CAP_ACCT_NO,
+T.DJZJ AS FREEZE_AMT,
+COALESCE(M_40005.DICT_ENTRY_KEY,CONCAT('?',T.SBFS)) AS DECL_MODE_CODE,
+T.TDBH AS PASS_NO,
+T.SBDW AS TX_UNIT,
+T.SBWTH AS DECL_ENTR_NO,
+T.SBRQ AS DECL_DATE,
+T.SBSJ AS DECL_TIME,
+T.SBDY AS DECL_SEAT_NO,
+T.SBJLH AS DECL_RECORD_NO,
+COALESCE(M_40006.DICT_ENTRY_KEY,CONCAT('?',T.SBJG)) AS ENTR_STATE_CODE,
+T.JGSM AS ENTR_RESU,
+T.CDSL AS REVOKE_QTTY,
+T.CJSL AS DONE_QTTY,
+T.CJJE AS DONE_AMT,
+T.CJJG AS DONE_AVG_PRICE,
+T.CJSJ AS DONE_TIME,
+T.CJBS AS DONE_NUM,
+T.QSZJ AS SETT_AMT,
+T.YJ AS COMM_AMT,
+T.WTGY AS OPER_TELLER,
+COALESCE(M_40007.DICT_ENTRY_KEY,CONCAT('?',T.WTFS)) AS ENTR_MODE_CODE,
+T.CZZD AS OPER_SITE,
+regexp_replace(
+case 
+--1.1有mac字样开头，考虑存在中间分隔符或者不存在两张情况，末尾必须有分隔符或者字符尾
+when length(regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',2)
+--1.2无mac字样开头，考虑中间有分隔符号: (00:00:00:00:00:00  考虑：-|.和空格),并且前后有分隔符（标点、空格、开头和结尾）
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0)
+--1.3无mac字样开头，考虑中间无分隔符号，排除UUID造成的影响
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+     and regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)<>
+         regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',9)
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0)
+else ''
+end,
+'[\\s\\pP]','') as OPER_site_mac,
+CASE
+--2.1 IP判断有固定前缀的认为他准确
+when length(regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',4)
+ELSE
+--2.2 IP内网包含10网段 172,16-31,192.168
+regexp_extract(
+regexp_extract(upper(t.czzd),--剔除10,127,172,192,255网段
+'(((\\s)|(\\pP)|(^))(([1-9]|1[1-9]|[2-9][0-9]|11[0-9]|12[012345689]|1[3-6][0-9]|17[013456789]|18[0-9]|19[013456789]|2[0-4][0-9]|25[0-4])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((172)[.]([1]?[0-5]|[3][2-9]|[4-9][0-9]|25[0-5]|2[0-4][0-9]|[1][0-9]{2})[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((192)[.]([1-9]?[0-9]|1[0-5][0-9]|16[012345679]|1[7-9][0-9]|2[0-4][0-9]|25[0-5])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))'
+,0)
+,'((\\s)|(\\pP)|(^))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',5)
+end as OPER_site_ip,
+case 
+--3.1手机号优先判断有前缀的记录
+when length(regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',7)
+--3.2手机号只考虑有前后分隔符
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',5)
+--3.3手机号考虑特殊情况
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',5)
+else ''
+END AS OPER_site_MOBILE,
+case 
+--4.1硬盘号只考虑带前缀的,后缀只考虑为固定的几种[;,]
+when length(regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',7)
+else ''
+end as OPER_site_hd,
+case 
+--5.1 ios的uuid考虑有uuid开头
+when length(regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+--5.2 考虑格式满足的比较特殊不容易误截取
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_UUID,
+case
+--6.1 安卓的IMEI考虑有开头
+when length(regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_IMEI,
+CASE 
+WHEN length(regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2))<>0
+THEN regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2)
+WHEN length(regexp_extract(upper(t.czzd),'([0-9]+(Z4008)($))',0))<>0
+THEN '1'
+WHEN length(regexp_extract(upper(t.czzd),'(^HSTY[0-9]+)',0))<>0
+THEN '2'
+WHEN length(regexp_extract(upper(t.czzd),'(^HH[_])',0))<>0
+THEN '3'
+WHEN T.WTFS='8'
+THEN '4'
+WHEN T.WTFS='2'
+THEN '5'
+WHEN T.WTFS='4'
+THEN '6'
+else ''
+END AS OPER_SOURCE,
+COALESCE(M_40008.DICT_ENTRY_KEY,CONCAT('?',T.DDLB)) AS ENTR_TYPE_CODE,
+T.JYLB AS BUSI_SUBJ,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+FROM MDA5.DATACENTER_TSC_WTLS T
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T.YYB = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20007
+ON T.JYS = M_20007.PREV_DICT_ENTRY_KEY
+AND M_20007.DICT_ENTRY = '20007'
+AND M_20007.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40001
+ON T.CXBZ = M_40001.PREV_DICT_ENTRY_KEY
+AND M_40001.DICT_ENTRY = '40001'
+AND M_40001.PREV_SYS = 'MDA5'
+--LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_30001
+--ON T.ZQLB = M_30001.PREV_DICT_ENTRY_KEY
+--AND M_30001.DICT_ENTRY = '30001'
+--AND M_30001.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40002
+ON T.DDLX = M_40002.PREV_DICT_ENTRY_KEY
+AND M_40002.DICT_ENTRY = '40002'
+AND M_40002.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40003
+ON T.DDJYXZ = M_40003.PREV_DICT_ENTRY_KEY
+AND M_40003.DICT_ENTRY = '40003'
+AND M_40003.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40004
+ON T.DDSXXZ = M_40004.PREV_DICT_ENTRY_KEY
+AND M_40004.DICT_ENTRY = '40004'
+AND M_40004.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40005
+ON T.SBFS = M_40005.PREV_DICT_ENTRY_KEY
+AND M_40005.DICT_ENTRY = '40005'
+AND M_40005.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40006
+ON T.SBJG = M_40006.PREV_DICT_ENTRY_KEY
+AND M_40006.DICT_ENTRY = '40006'
+AND M_40006.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40007
+ON T.WTFS = M_40007.PREV_DICT_ENTRY_KEY
+AND M_40007.DICT_ENTRY = '40007'
+AND M_40007.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40008
+ON T.DDLB = M_40008.PREV_DICT_ENTRY_KEY
+AND M_40008.DICT_ENTRY = '40008'
+AND M_40008.PREV_SYS = 'MDA5'
+where t.tx_date='{$TX_DATE}'"!
+"01"!EV004!BASE_DATA.TEV_ENTRUST_OTC!EV004!TROTC.FPSS_HIS_TFP_WTLS_LS!1!"insert overwrite TABLE base_data.tev_entrust_otc
+--(
+--sequ_no,
+--entr_no,
+--apply_no,
+--cust_no,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--cap_acct_no,
+--invest_acct_no,
+--tx_acct_no,
+--busi_subj,
+--sett_mode_code,
+--prod_code,
+--prod_name,
+--charge_mode_code,
+--entr_date,
+--decl_date,
+--entr_time,
+--entr_qtty,
+--entr_price,
+--entr_amt,
+--freeze_amt,
+--char_fee,
+--disc_rate,
+--huge_rede_mode_code,
+--contr_no,
+--divi_mode_code,
+--freeze_reason_code,
+--end_date,
+--oper_teller,
+--entr_mode_code,
+--occu_branch_code,
+--oper_site,
+--oper_site_mac,
+--oper_site_ip,
+--oper_site_mobile,
+--oper_site_hd,
+--oper_site_uuid,
+--oper_site_imei,
+--oper_source,
+--curr_code,
+--summy,
+--otc_order_state_code,
+--deal_flag,
+--confirm_date,
+--is_elig,
+--elig_summy,
+--cust_mngr,
+--arch_date,
+--done_amt,
+--done_qtty,
+--cust_risk_rating_code,
+--prod_risk_rating_code,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.DDID AS SEQU_NO,
+T.WTH AS ENTR_NO,
+T.SBWTH AS APPLY_NO,
+T.KHH AS CUST_NO,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT('',lpad(T.YYB,4,'0'))) AS BRANCH_CODE,
+T.YYB AS SRC_BRANCH_CODE,
+T.JSZH AS CAP_ACCT_NO,
+T.TZZH AS INVEST_ACCT_NO,
+T.JYZH AS TX_ACCT_NO,
+CONCAT('OTC',T.YWDM) AS BUSI_SUBJ,
+COALESCE(M_40025.DICT_ENTRY_KEY,CONCAT('?',T.JSFS)) AS SETT_MODE_CODE,
+T.CPDM AS PROD_CODE,
+T.CPJC AS PROD_NAME,
+COALESCE(M_40015.DICT_ENTRY_KEY,CONCAT('?',T.SFFS)) AS CHARGE_MODE_CODE,
+T.WTRQ AS ENTR_DATE,
+T.SBRQ AS DECL_DATE,
+T.WTSJ AS ENTR_TIME,
+T.WTSL AS ENTR_QTTY,
+T.WTJG AS ENTR_PRICE,
+T.WTJE AS ENTR_AMT,
+T.DJZJ AS FREEZE_AMT,
+T.SXF AS CHAR_FEE,
+T.ZKL AS DISC_RATE,
+COALESCE(M_40022.DICT_ENTRY_KEY,CONCAT('?',T.JESHCLFS)) AS HUGE_REDE_MODE_CODE,
+T.HTH AS CONTR_NO,
+COALESCE(M_40016.DICT_ENTRY_KEY,CONCAT('?',T.FHFS)) AS DIVI_MODE_CODE,
+COALESCE(M_40021.DICT_ENTRY_KEY,CONCAT('?',T.DJYY)) AS FREEZE_REASON_CODE,
+T.JZRQ AS END_DATE,
+T.WTGY AS OPER_TELLER,
+COALESCE(M_40007.DICT_ENTRY_KEY,CONCAT('?',T.WTFS)) AS ENTR_MODE_CODE,
+COALESCE(M_10002_2.DICT_ENTRY_KEY,CONCAT('',lpad(T.FSYYB,4,'0'))) AS OCCU_BRANCH_CODE,
+T.CZZD AS OPER_SITE,
+regexp_replace(
+case 
+--1.1有mac字样开头，考虑存在中间分隔符或者不存在两张情况，末尾必须有分隔符或者字符尾
+when length(regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',2)
+--1.2无mac字样开头，考虑中间有分隔符号: (00:00:00:00:00:00  考虑：-|.和空格),并且前后有分隔符（标点、空格、开头和结尾）
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0)
+--1.3无mac字样开头，考虑中间无分隔符号，排除UUID造成的影响
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+     and regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)<>
+         regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',9)
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0)
+else ''
+end,
+'[\\s\\pP]','') as OPER_site_mac,
+CASE
+--2.1 IP判断有固定前缀的认为他准确
+when length(regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',4)
+ELSE
+--2.2 IP内网包含10网段 172,16-31,192.168
+regexp_extract(
+regexp_extract(upper(t.czzd),--剔除10,127,172,192,255网段
+'(((\\s)|(\\pP)|(^))(([1-9]|1[1-9]|[2-9][0-9]|11[0-9]|12[012345689]|1[3-6][0-9]|17[013456789]|18[0-9]|19[013456789]|2[0-4][0-9]|25[0-4])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((172)[.]([1]?[0-5]|[3][2-9]|[4-9][0-9]|25[0-5]|2[0-4][0-9]|[1][0-9]{2})[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((192)[.]([1-9]?[0-9]|1[0-5][0-9]|16[012345679]|1[7-9][0-9]|2[0-4][0-9]|25[0-5])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))'
+,0)
+,'((\\s)|(\\pP)|(^))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',5)
+end as OPER_site_ip,
+case 
+--3.1手机号优先判断有前缀的记录
+when length(regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',7)
+--3.2手机号只考虑有前后分隔符
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',5)
+--3.3手机号考虑特殊情况
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',5)
+else ''
+END AS OPER_site_MOBILE,
+case 
+--4.1硬盘号只考虑带前缀的,后缀只考虑为固定的几种[;,]
+when length(regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',7)
+else ''
+end as OPER_site_hd,
+case 
+--5.1 ios的uuid考虑有uuid开头
+when length(regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+--5.2 考虑格式满足的比较特殊不容易误截取
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_UUID,
+case
+--6.1 安卓的IMEI考虑有开头
+when length(regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_IMEI,
+CASE 
+WHEN length(regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2))<>0
+THEN regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2)
+WHEN length(regexp_extract(upper(t.czzd),'([0-9]+(Z4008)($))',0))<>0
+THEN '1'
+WHEN length(regexp_extract(upper(t.czzd),'(^HSTY[0-9]+)',0))<>0
+THEN '2'
+WHEN length(regexp_extract(upper(t.czzd),'(^HH[_])',0))<>0
+THEN '3'
+else ''
+END AS OPER_SOURCE,
+COALESCE(M_20005.DICT_ENTRY_KEY,CONCAT('?',T.BZ)) AS CURR_CODE,
+T.ZY AS SUMMY,
+COALESCE(M_40026.DICT_ENTRY_KEY,CONCAT('?',T.DDZT)) AS OTC_ORDER_STATE_CODE,
+COALESCE(M_40027.DICT_ENTRY_KEY,CONCAT('?',T.CLBZ)) AS DEAL_FLAG,
+T.QRRQ AS CONFIRM_DATE,
+T.SFSD AS IS_ELIG,
+T.BSDSM AS SUIT_ELIG,
+T.KHJL AS CUST_MNGR,
+T.GDRQ AS ARCH_DATE,
+T.CJJE AS DONE_AMT,
+T.CJSL AS DONE_QTTY,
+COALESCE(M_40028.DICT_ENTRY_KEY,CONCAT('?',T.FXCSNL)) AS CUST_RISK_RATING_CODE,
+COALESCE(M_40029.DICT_ENTRY_KEY,CONCAT('?',T.CPFXPJ)) AS PROD_RISK_RATING_CODE,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TROTC' AS BIZ_SRC
+FROM trotc.fpss_his_tfp_wtls_ls T
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON lpad(T.YYB,4,'0') = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002_2
+ON lpad(T.fsYYB,4,'0') = M_10002_2.PREV_DICT_ENTRY_KEY
+AND M_10002_2.DICT_ENTRY = '10002'
+AND M_10002_2.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40025
+ON T.JSFS = M_40025.PREV_DICT_ENTRY_KEY
+AND M_40025.DICT_ENTRY = '40025'
+AND M_40025.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40015
+ON T.SFFS = M_40015.PREV_DICT_ENTRY_KEY
+AND M_40015.DICT_ENTRY = '40015'
+AND M_40015.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40022
+ON T.JESHCLFS = M_40022.PREV_DICT_ENTRY_KEY
+AND M_40022.DICT_ENTRY = '40022'
+AND M_40022.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40016
+ON T.FHFS = M_40016.PREV_DICT_ENTRY_KEY
+AND M_40016.DICT_ENTRY = '40016'
+AND M_40016.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40021
+ON T.DJYY = M_40021.PREV_DICT_ENTRY_KEY
+AND M_40021.DICT_ENTRY = '40021'
+AND M_40021.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40007
+ON T.WTFS = M_40007.PREV_DICT_ENTRY_KEY
+AND M_40007.DICT_ENTRY = '40007'
+AND M_40007.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40026
+ON T.DDZT = M_40026.PREV_DICT_ENTRY_KEY
+AND M_40026.DICT_ENTRY = '40026'
+AND M_40026.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40027
+ON T.CLBZ = M_40027.PREV_DICT_ENTRY_KEY
+AND M_40027.DICT_ENTRY = '40027'
+AND M_40027.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40028
+ON T.FXCSNL = M_40028.PREV_DICT_ENTRY_KEY
+AND M_40028.DICT_ENTRY = '40028'
+AND M_40028.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40029
+ON T.CPFXPJ = M_40029.PREV_DICT_ENTRY_KEY
+AND M_40029.DICT_ENTRY = '40029'
+AND M_40029.PREV_SYS = 'TROTC'
+WHERE T.TX_DATE='{$TX_DATE}'"!
+"01"!EV106!BASE_DATA.TEV_UNSETT_OTC!EV106!TROTC.FPSS_TFP_DRWTLS_DQS!1!"insert overwrite TABLE base_data.tev_unsett_otc  partition(biz_date='{$TX_DATE}')
+--(
+--sequ_no,
+--entr_no,
+--apply_no,
+--cust_no,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--cap_acct_no,
+--invest_acct_no,
+--tx_acct_no,
+--busi_subj,
+--sett_mode_code,
+--prod_code,
+--prod_name,
+--charge_mode_code,
+--entr_date,
+--decl_date,
+--entr_time,
+--entr_qtty,
+--entr_price,
+--entr_amt,
+--freeze_amt,
+--char_fee,
+--disc_rate,
+--huge_rede_mode_code,
+--contr_no,
+--divi_mode_code,
+--freeze_reason_code,
+--end_date,
+--oper_teller,
+--entr_mode_code,
+--occu_branch_code,
+--oper_site,
+--oper_site_mac,
+--oper_site_ip,
+--oper_site_mobile,
+--oper_site_hd,
+--oper_site_uuid,
+--oper_site_imei,
+--oper_source,
+--curr_code,
+--summy,
+--otc_order_state_code,
+--deal_flag,
+--confirm_date,
+--is_ELIG,
+--ELIG_summy,
+--cust_mngr,
+--done_amt,
+--done_qtty,
+--cust_risk_rating_code,
+--prod_risk_rating_code,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.DDID AS SEQU_NO,
+T.WTH AS ENTR_NO,
+T.SBWTH AS APPLY_NO,
+T.KHH AS CUST_NO,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT('',lpad(T.YYB,4,'0'))) AS BRANCH_CODE,
+T.YYB AS SRC_BRANCH_CODE,
+T.JSZH AS CAP_ACCT_NO,
+T.TZZH AS INVEST_ACCT_NO,
+T.JYZH AS TX_ACCT_NO,
+CONCAT('OTC',T.YWDM) AS BUSI_SUBJ,
+COALESCE(M_40025.DICT_ENTRY_KEY,CONCAT('?',T.JSFS)) AS SETT_MODE_CODE,
+T.CPDM AS PROD_CODE,
+T.CPJC AS PROD_NAME,
+COALESCE(M_40015.DICT_ENTRY_KEY,CONCAT('?',T.SFFS)) AS CHARGE_MODE_CODE,
+T.WTRQ AS ENTR_DATE,
+T.SBRQ AS DECL_DATE,
+T.WTSJ AS ENTR_TIME,
+T.WTSL AS ENTR_QTTY,
+T.WTJG AS ENTR_PRICE,
+T.WTJE AS ENTR_AMT,
+T.DJZJ AS FREEZE_AMT,
+T.SXF AS CHAR_FEE,
+T.ZKL AS DISC_RATE,
+COALESCE(M_40022.DICT_ENTRY_KEY,CONCAT('?',T.JESHCLFS)) AS HUGE_REDE_MODE_CODE,
+T.HTH AS CONTR_NO,
+COALESCE(M_40016.DICT_ENTRY_KEY,CONCAT('?',T.FHFS)) AS DIVI_MODE_CODE,
+COALESCE(M_40021.DICT_ENTRY_KEY,CONCAT('?',T.DJYY)) AS FREEZE_REASON_CODE,
+T.JZRQ AS END_DATE,
+T.WTGY AS OPER_TELLER,
+COALESCE(M_40007.DICT_ENTRY_KEY,CONCAT('?',T.WTFS)) AS ENTR_MODE_CODE,
+COALESCE(M_10002_2.DICT_ENTRY_KEY,CONCAT('',lpad(T.FSYYB,4,'0'))) AS OCCU_BRANCH_CODE,
+T.CZZD AS OPER_SITE,
+regexp_replace(
+case 
+--1.1有mac字样开头，考虑存在中间分隔符或者不存在两张情况，末尾必须有分隔符或者字符尾
+when length(regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',2)
+--1.2无mac字样开头，考虑中间有分隔符号: (00:00:00:00:00:00  考虑：-|.和空格),并且前后有分隔符（标点、空格、开头和结尾）
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0)
+--1.3无mac字样开头，考虑中间无分隔符号，排除UUID造成的影响
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+     and regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)<>
+         regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',9)
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0)
+else ''
+end,
+'[\\s\\pP]','') as OPER_site_mac,
+CASE
+--2.1 IP判断有固定前缀的认为他准确
+when length(regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',4)
+ELSE
+--2.2 IP内网包含10网段 172,16-31,192.168
+regexp_extract(
+regexp_extract(upper(t.czzd),--剔除10,127,172,192,255网段
+'(((\\s)|(\\pP)|(^))(([1-9]|1[1-9]|[2-9][0-9]|11[0-9]|12[012345689]|1[3-6][0-9]|17[013456789]|18[0-9]|19[013456789]|2[0-4][0-9]|25[0-4])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((172)[.]([1]?[0-5]|[3][2-9]|[4-9][0-9]|25[0-5]|2[0-4][0-9]|[1][0-9]{2})[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((192)[.]([1-9]?[0-9]|1[0-5][0-9]|16[012345679]|1[7-9][0-9]|2[0-4][0-9]|25[0-5])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))'
+,0)
+,'((\\s)|(\\pP)|(^))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',5)
+end as OPER_site_ip,
+case 
+--3.1手机号优先判断有前缀的记录
+when length(regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',7)
+--3.2手机号只考虑有前后分隔符
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',5)
+--3.3手机号考虑特殊情况
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',5)
+else ''
+END AS OPER_site_MOBILE,
+case 
+--4.1硬盘号只考虑带前缀的,后缀只考虑为固定的几种[;,]
+when length(regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',7)
+else ''
+end as OPER_site_hd,
+case 
+--5.1 ios的uuid考虑有uuid开头
+when length(regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+--5.2 考虑格式满足的比较特殊不容易误截取
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_UUID,
+case
+--6.1 安卓的IMEI考虑有开头
+when length(regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_IMEI,
+CASE 
+WHEN length(regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2))<>0
+THEN regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2)
+WHEN length(regexp_extract(upper(t.czzd),'([0-9]+(Z4008)($))',0))<>0
+THEN '1'
+WHEN length(regexp_extract(upper(t.czzd),'(^HSTY[0-9]+)',0))<>0
+THEN '2'
+WHEN length(regexp_extract(upper(t.czzd),'(^HH[_])',0))<>0
+THEN '3'
+else ''
+END AS OPER_SOURCE,
+COALESCE(M_20005.DICT_ENTRY_KEY,CONCAT('?',T.BZ)) AS CURR_CODE,
+T.ZY AS SUMMY,
+COALESCE(M_40026.DICT_ENTRY_KEY,CONCAT('?',T.DDZT)) AS OTC_ORDER_STATE_CODE,
+COALESCE(M_40027.DICT_ENTRY_KEY,CONCAT('?',T.CLBZ)) AS DEAL_FLAG,
+T.QRRQ AS CONFIRM_DATE,
+T.SFSD AS IS_ELIG,
+T.BSDSM AS ELIG_SUMMY,
+T.KHJL AS CUST_MNGR,
+T.CJJE AS DONE_AMT,
+T.CJSL AS DONE_QTTY,
+COALESCE(M_40028.DICT_ENTRY_KEY,CONCAT('?',T.FXCSNL)) AS CUST_RISK_RATING_CODE,
+COALESCE(M_40029.DICT_ENTRY_KEY,CONCAT('?',T.CPFXPJ)) AS PROD_RISK_RATING_CODE,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TROTC' AS BIZ_SRC
+FROM trotc.fpss_tfp_drwtls_dqs T
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON lpad(T.YYB,4,'0') = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002_2
+ON lpad(T.fsYYB,4,'0') = M_10002_2.PREV_DICT_ENTRY_KEY
+AND M_10002_2.DICT_ENTRY = '10002'
+AND M_10002_2.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40025
+ON T.JSFS = M_40025.PREV_DICT_ENTRY_KEY
+AND M_40025.DICT_ENTRY = '40025'
+AND M_40025.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40015
+ON T.SFFS = M_40015.PREV_DICT_ENTRY_KEY
+AND M_40015.DICT_ENTRY = '40015'
+AND M_40015.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40022
+ON T.JESHCLFS = M_40022.PREV_DICT_ENTRY_KEY
+AND M_40022.DICT_ENTRY = '40022'
+AND M_40022.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40016
+ON T.FHFS = M_40016.PREV_DICT_ENTRY_KEY
+AND M_40016.DICT_ENTRY = '40016'
+AND M_40016.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40021
+ON T.DJYY = M_40021.PREV_DICT_ENTRY_KEY
+AND M_40021.DICT_ENTRY = '40021'
+AND M_40021.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40007
+ON T.WTFS = M_40007.PREV_DICT_ENTRY_KEY
+AND M_40007.DICT_ENTRY = '40007'
+AND M_40007.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40026
+ON T.DDZT = M_40026.PREV_DICT_ENTRY_KEY
+AND M_40026.DICT_ENTRY = '40026'
+AND M_40026.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40027
+ON T.CLBZ = M_40027.PREV_DICT_ENTRY_KEY
+AND M_40027.DICT_ENTRY = '40027'
+AND M_40027.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40028
+ON T.FXCSNL = M_40028.PREV_DICT_ENTRY_KEY
+AND M_40028.DICT_ENTRY = '40028'
+AND M_40028.PREV_SYS = 'TROTC'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40029
+ON T.CPFXPJ = M_40029.PREV_DICT_ENTRY_KEY
+AND M_40029.DICT_ENTRY = '40029'
+AND M_40029.PREV_SYS = 'TROTC'
+WHERE T.TX_DATE='{$TX_DATE}'"!
+"01"!EV005!BASE_DATA.TEV_ENTRUST_OPT!EV005!MDA5.DATACENTER_TSO_WTLS!1!"insert OVERWRITE TABLE  base_data.tev_entrust_opt PARTITION(BIZ_DATE='{$TX_DATE}')
+--(
+--sequ_no,
+--cust_no,
+--entr_no,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--tx_market_code,
+--sec_acct_no,
+--revoke_flag,
+--revoke_entr_no,
+--compact_no,
+--compact_name,
+--curr_code,
+--opt_type_code,
+--tx_dire_code,
+--cove_flag,
+--openclose_flag,
+--sec_code,
+--sec_name,
+--order_type_code,
+--entr_qtty,
+--entr_price,
+--entr_amt,
+--tx_date,
+--entr_date,
+--entr_time,
+--cap_acct_no,
+--freeze_amt,
+--decl_mode_code,
+--pass_no,
+--decl_entr_no,
+--revokedecl_entr_no,
+--decl_date,
+--decl_time,
+--decl_seat_no,
+--decl_record_no,
+--entr_state_code,
+--entr_resu,
+--revoke_qtty,
+--done_qtty,
+--done_amt,
+--done_avg_price,
+--done_time,
+--done_num,
+--sett_amt,
+--comm_amt,
+--oper_teller,
+--entr_mode_code,
+--oper_site,
+--oper_site_mac,
+--oper_site_ip,
+--oper_site_mobile,
+--oper_site_hd,
+--oper_site_uuid,
+--oper_site_imei,
+--oper_source,
+--entr_type_code,
+--busi_subj,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.LSH AS SEQU_NO,
+T.KHH AS CUST_NO,
+T.WTH AS ENTR_NO,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT('',T.YYB)) AS BRANCH_CODE,
+T.YYB AS SRC_BRANCH_CODE,
+COALESCE(M_20007.DICT_ENTRY_KEY,CONCAT('?',T.JYS)) AS TX_MARKET_CODE,
+T.GDH AS SEC_ACCT_NO,
+COALESCE(M_40001.DICT_ENTRY_KEY,CONCAT('?',T.CXBZ)) AS REVOKE_FLAG,
+T.CXWTH AS REVOKE_ENTR_NO,
+T.HYDM AS COMPACT_NO,
+T.HYMC AS COMPACT_NAME,
+COALESCE(M_20005.DICT_ENTRY_KEY,CONCAT('?',T.BZ)) AS CURR_CODE,
+COALESCE(M_60001.DICT_ENTRY_KEY,CONCAT('?',T.QQLX)) AS OPT_TYPE_CODE,
+COALESCE(M_60003.DICT_ENTRY_KEY,CONCAT('?',T.MMFX)) AS TX_DIRE_CODE,
+COALESCE(M_60002.DICT_ENTRY_KEY,CONCAT('?',T.BDBQ)) AS COVE_FLAG,
+COALESCE(M_60004.DICT_ENTRY_KEY,CONCAT('?',T.KPBZ)) AS OPENCLOSE_FLAG,
+T.ZQDM AS SEC_CODE,
+T.ZQMC AS SEC_NAME,
+COALESCE(M_40002.DICT_ENTRY_KEY,CONCAT('?',T.DDLX)) AS ORDER_TYPE_CODE,
+T.WTSL AS ENTR_QTTY,
+T.WTJG AS ENTR_PRICE,
+T.WTJE AS ENTR_AMT,
+T.WTRQ AS TX_DATE,
+T.WTRQ AS ENTR_DATE,
+T.WTSJ AS ENTR_TIME,
+T.JSZH AS CAP_ACCT_NO,
+T.DJZJ AS FREEZE_AMT,
+COALESCE(M_40005.DICT_ENTRY_KEY,CONCAT('?',T.SBFS)) AS DECL_MODE_CODE,
+T.TDBH AS PASS_NO,
+T.SBWTH AS DECL_ENTR_NO,
+T.CXSBWTH AS REVOKEDECL_ENTR_NO,
+T.SBRQ AS DECL_DATE,
+T.SBSJ AS DECL_TIME,
+T.SBDY AS DECL_SEAT_NO,
+T.SBJLH AS DECL_RECORD_NO,
+COALESCE(M_40006.DICT_ENTRY_KEY,CONCAT('?',T.SBJG)) AS ENTR_STATE_CODE,
+T.JGSM AS ENTR_RESU,
+T.CDSL AS REVOKE_QTTY,
+T.CJSL AS DONE_QTTY,
+T.CJJE AS DONE_AMT,
+T.CJJG AS DONE_AVG_PRICE,
+T.CJSJ AS DONE_TIME,
+T.CJBS AS DONE_NUM,
+T.QSZJ AS SETT_AMT,
+T.YJ AS COMM_AMT,
+T.WTGY AS OPER_TELLER,
+COALESCE(M_40007.DICT_ENTRY_KEY,CONCAT('?',T.WTFS)) AS ENTR_MODE_CODE,
+T.CZZD AS OPER_SITE,
+regexp_replace(
+case 
+--1.1有mac字样开头，考虑存在中间分隔符或者不存在两张情况，末尾必须有分隔符或者字符尾
+when length(regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',2)
+--1.2无mac字样开头，考虑中间有分隔符号: (00:00:00:00:00:00  考虑：-|.和空格),并且前后有分隔符（标点、空格、开头和结尾）
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0)
+--1.3无mac字样开头，考虑中间无分隔符号，排除UUID造成的影响
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+     and regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)<>
+         regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',9)
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0)
+else ''
+end,
+'[\\s\\pP]','') as OPER_site_mac,
+CASE
+--2.1 IP判断有固定前缀的认为他准确
+when length(regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',4)
+ELSE
+--2.2 IP内网包含10网段 172,16-31,192.168
+regexp_extract(
+regexp_extract(upper(t.czzd),--剔除10,127,172,192,255网段
+'(((\\s)|(\\pP)|(^))(([1-9]|1[1-9]|[2-9][0-9]|11[0-9]|12[012345689]|1[3-6][0-9]|17[013456789]|18[0-9]|19[013456789]|2[0-4][0-9]|25[0-4])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((172)[.]([1]?[0-5]|[3][2-9]|[4-9][0-9]|25[0-5]|2[0-4][0-9]|[1][0-9]{2})[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((192)[.]([1-9]?[0-9]|1[0-5][0-9]|16[012345679]|1[7-9][0-9]|2[0-4][0-9]|25[0-5])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))'
+,0)
+,'((\\s)|(\\pP)|(^))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',5)
+end as OPER_site_ip,
+case 
+--3.1手机号优先判断有前缀的记录
+when length(regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',7)
+--3.2手机号只考虑有前后分隔符
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',5)
+--3.3手机号考虑特殊情况
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',5)
+else ''
+END AS OPER_site_MOBILE,
+case 
+--4.1硬盘号只考虑带前缀的,后缀只考虑为固定的几种[;,]
+when length(regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',7)
+else ''
+end as OPER_site_hd,
+case 
+--5.1 ios的uuid考虑有uuid开头
+when length(regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+--5.2 考虑格式满足的比较特殊不容易误截取
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_UUID,
+case
+--6.1 安卓的IMEI考虑有开头
+when length(regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_IMEI,
+CASE 
+WHEN length(regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2))<>0
+THEN regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2)
+WHEN length(regexp_extract(upper(t.czzd),'([0-9]+(Z4008)($))',0))<>0
+THEN '1'
+WHEN length(regexp_extract(upper(t.czzd),'(^HSTY[0-9]+)',0))<>0
+THEN '2'
+WHEN length(regexp_extract(upper(t.czzd),'(^HH[_])',0))<>0
+THEN '3'
+else ''
+END AS OPER_SOURCE,
+COALESCE(M_40008.DICT_ENTRY_KEY,CONCAT('?',T.DDLB)) AS ENTR_TYPE_CODE,
+case when CONCAT(t.mmfx,t.kpbz,t.bdbq)='1O0' THEN 'OPT100'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='2O0' THEN 'OPT200'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='1C0' THEN 'OPT110'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='2C0' THEN 'OPT210'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='2O1' THEN 'OPT201'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='1C1' THEN 'OPT111'
+ ELSE ''
+END AS busi_subj,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+FROM MDA5.DATACENTER_TSO_WTLS T
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T.YYB = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20007
+ON T.JYS = M_20007.PREV_DICT_ENTRY_KEY
+AND M_20007.DICT_ENTRY = '20007'
+AND M_20007.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40001
+ON T.CXBZ = M_40001.PREV_DICT_ENTRY_KEY
+AND M_40001.DICT_ENTRY = '40001'
+AND M_40001.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_60001
+ON T.QQLX = M_60001.PREV_DICT_ENTRY_KEY
+AND M_60001.DICT_ENTRY = '60001'
+AND M_60001.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_60003
+ON T.MMFX = M_60003.PREV_DICT_ENTRY_KEY
+AND M_60003.DICT_ENTRY = '60003'
+AND M_60003.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_60002
+ON T.BDBQ = M_60002.PREV_DICT_ENTRY_KEY
+AND M_60002.DICT_ENTRY = '60002'
+AND M_60002.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_60004
+ON T.KPBZ = M_60004.PREV_DICT_ENTRY_KEY
+AND M_60004.DICT_ENTRY = '60004'
+AND M_60004.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40002
+ON T.DDLX = M_40002.PREV_DICT_ENTRY_KEY
+AND M_40002.DICT_ENTRY = '40002'
+AND M_40002.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40005
+ON T.SBFS = M_40005.PREV_DICT_ENTRY_KEY
+AND M_40005.DICT_ENTRY = '40005'
+AND M_40005.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40006
+ON T.SBJG = M_40006.PREV_DICT_ENTRY_KEY
+AND M_40006.DICT_ENTRY = '40006'
+AND M_40006.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40007
+ON T.WTFS = M_40007.PREV_DICT_ENTRY_KEY
+AND M_40007.DICT_ENTRY = '40007'
+AND M_40007.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40008
+ON T.DDLB = M_40008.PREV_DICT_ENTRY_KEY
+AND M_40008.DICT_ENTRY = '40008'
+AND M_40008.PREV_SYS = 'MDA5'
+WHERE T.TX_DATE='{$TX_DATE}'"!
+"01"!AS105!BASE_DATA.TAS_HOLD_OPT!AS105!MDA5.DATACENTER_TSO_HYCCLS!1!"insert OVERWRITE TABLE base_data.TAS_HOLD_OPT PARTITION(BIZ_DATE='{$TX_DATE}')
+--(
+--tx_date,
+--cust_no,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--tx_market_code,
+--sec_acct_no,
+--compact_no,
+--compact_name,
+--tx_dire_code,
+--cove_flag,
+--opt_type_code,
+--sec_code,
+--sec_name,
+--curr_code,
+--sec_qtty,
+--last_market_value,
+--mrgn,
+--rgst_corp_mrgn,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.QSRQ AS TX_DATE,
+T.KHH AS CUST_NO,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT('?',T.YYB)) AS BRANCH_CODE,
+T.YYB AS SRC_BRANCH_CODE,
+COALESCE(M_20007.DICT_ENTRY_KEY,CONCAT('?',T.JYS)) AS TX_MARKET_CODE,
+T.GDH AS SEC_ACCT_NO,
+T.HYDM AS COMPACT_NO,
+T.HYMC AS COMPACT_NAME,
+COALESCE(M_60003.DICT_ENTRY_KEY,CONCAT('?',T.MMFX)) AS TX_DIRE_CODE,
+COALESCE(M_60002.DICT_ENTRY_KEY,CONCAT('?',T.BDBQ)) AS COVE_FLAG,
+COALESCE(M_60001.DICT_ENTRY_KEY,CONCAT('?',T.QQLX)) AS OPT_TYPE_CODE,
+T.ZQDM AS SEC_CODE,
+T.ZQMC AS SEC_NAME,
+T.BZ AS CURR_CODE,
+T.ZQSL AS SEC_QTTY,
+T.ZXSZ AS LAST_MARKET_VALUE,
+T.BZJ AS MRGN,
+T.BZJ_YJ AS RGST_CORP_MRGN,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+FROM mda5.datacenter_tso_hyccls t
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T.YYB = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20007
+ON T.JYS = M_20007.PREV_DICT_ENTRY_KEY
+AND M_20007.DICT_ENTRY = '20007'
+AND M_20007.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_60003
+ON T.MMFX = M_60003.PREV_DICT_ENTRY_KEY
+AND M_60003.DICT_ENTRY = '60003'
+AND M_60003.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_60002
+ON T.BDBQ = M_60002.PREV_DICT_ENTRY_KEY
+AND M_60002.DICT_ENTRY = '60002'
+AND M_60002.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_60001
+ON T.QQLX = M_60001.PREV_DICT_ENTRY_KEY
+AND M_60001.DICT_ENTRY = '60001'
+AND M_60001.PREV_SYS = 'MDA5'
+WHERE T.tx_date='{$TX_DATE}'"!
+"01"!EV107!BASE_DATA.TEV_SETT_OPT!EV107!MDA5.DATACENTER_TSO_JGMXLS!1!"INSERT OVERWRITE TABLE base_data.tev_sett_opt PARTITION (BIZ_DATE='{$TX_DATE}') 
+--(clear_date,
+--sequ_no,
+--branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--sec_acct_no,
+--cust_name,
+--cust_type_code,
+--tx_market_code,
+--seat_no,
+--done_no,
+--entr_no,
+--decl_entr_no,
+--compact_no,
+--compact_name,
+--curr_code,
+--opt_type_code,
+--tx_dire_code,
+--openclose_flag,
+--cove_flag,
+--tx_date,
+--done_time,
+--done_num,
+--done_qtty,
+--done_price,
+--sett_price,
+--done_amt,
+--crit_comm_amt,
+--comm_amt,
+--stamp_tax,
+--tran_fee,
+--addi_fee,
+--sett_fee,
+--tx_rule_fee,
+--rece_amt,
+--broker_fee_1,
+--cert_fee_1,
+--tran_fee_1,
+--sett_fee_1,
+--risk_fund_1,
+--rece_amt_1,
+--rece_share,
+--this_share_bal,
+--freeze_share,
+--sett_date,
+--sec_code,
+--entr_mode_code,
+--BUSI_SUBJ,
+--busi_sequ_no,
+--biz_time,
+--biz_src)
+select 
+qsrq AS clear_date,
+lsh AS Sequ_No,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+yyb AS src_branch_code,
+khh AS Cust_No,
+jszh AS Cap_Acct_No,
+gdh AS Sec_Acct_No,
+khxm AS Cust_Name,
+coalesce(m_10003.dict_entry_key, concat('?', t.jgbz))  as cust_type_code ,
+coalesce(m_20007.dict_entry_key, concat('?', t.jys)) as tx_market_code ,
+jydy AS Seat_No,
+cjbh AS Done_No,
+wth AS Entr_No,
+sbwth AS Decl_Entr_No,
+hydm AS Compact_No,
+hymc AS Compact_Name,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+coalesce(m_60001.dict_entry_key, concat('?', t.qqlx)) AS Opt_type_code,
+coalesce(m_60003.dict_entry_key, concat('?', t.mmfx)) AS Tx_Dire_code,
+coalesce(m_60004.dict_entry_key, concat('?', t.kpbz)) AS OpenClose_flag,
+coalesce(m_60002.dict_entry_key, concat('?', t.bdbq)) AS Cove_Flag,
+cjrq AS done_Date,
+cjsj AS Done_Time,
+cjbs AS Done_num,
+cjsl AS Done_Qtty,
+cjjg AS Done_Price,
+jsj AS Sett_Price,
+cjje AS Done_Amt,
+bzs1 AS Crit_Comm_Amt,
+s1 AS Comm_Amt,
+s2 AS Stamp_Tax,
+s3 AS Tran_Fee,
+s4 AS addi_Fee,
+s5 AS Sett_Fee,
+s6 AS Tx_rule_Fee,
+YSJE AS rece_amt,
+s11 AS Broker_Fee_1,
+s12 AS Cert_Fee_1,
+s13 AS Tran_Fee_1,
+s15 AS Sett_Fee_1,
+s16 AS risk_fund_1,
+YSJe_yj AS rece_amt_1,
+yssl AS rece_share,
+bcsl AS this_share_bal,
+djsl AS Freeze_share,
+jsrq AS Sett_Date,
+zqdm AS Sec_code,
+coalesce(m_40007.dict_entry_key, concat('?', t.wtfs)) as Entr_Mode_Code ,
+case when CONCAT(t.mmfx,t.kpbz,t.bdbq)='1O0' THEN 'OPT100'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='2O0' THEN 'OPT200'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='1C0' THEN 'OPT110'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='2C0' THEN 'OPT210'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='2O1' THEN 'OPT201'
+     when CONCAT(t.mmfx,t.kpbz,t.bdbq)='1C1' THEN 'OPT111'
+ ELSE ''
+END AS busi_subj,                      
+ywlsh AS Busi_Sequ_No,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from mda5.datacenter_tso_jgmxls t
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_10003 on t.jgbz = m_10003.prev_dict_entry_key
+                                              and m_10003.dict_entry ='10003'
+                                              and m_10003.prev_sys ='MDA5' 
+left join base_data.tmg_dict_entry_map m_20007 on t.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='MDA5'     
+left join base_data.tmg_dict_entry_map m_40007 on t.wtfs = m_40007.prev_dict_entry_key
+                                              and m_40007.dict_entry ='40007'
+                                              and m_40007.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_60001 on t.qqlx = m_60001.prev_dict_entry_key
+                                              and m_60001.dict_entry ='60001'
+                                              and m_60001.prev_sys='MDA5'                                                
+left join base_data.tmg_dict_entry_map m_60002 on t.bdbq = m_60002.prev_dict_entry_key
+                                              and m_60002.dict_entry ='60002'
+                                              and m_60002.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_60003 on t.mmfx = m_60003.prev_dict_entry_key
+                                              and m_60003.dict_entry ='60003'
+                                              and m_60003.prev_sys='MDA5'  
+left join base_data.tmg_dict_entry_map m_60004 on t.kpbz = m_60004.prev_dict_entry_key
+                                              and m_60004.dict_entry ='60004'
+                                              and m_60004.prev_sys='MDA5'    
+where t.tx_date='{$TX_DATE}'     "!
+"01"!PT004!BASE_DATA.TPT_CUST_ELIG_RATING!PT004!TRCIF.CIF_TKHSDX!1!"insert overwrite TABLE BASE_DATA.TPT_CUST_ELIG_RATING
+--(
+--cust_no,
+--elig_type_code,
+--elig_rating_type_code,
+--elig_lvl_code,
+--elig_lvl_name,
+--elig_score,
+--rating_date,
+--rating_end_date,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.KHH AS CUST_NO,
+COALESCE(M_10024.DICT_ENTRY_KEY,CONCAT('?',T.SDXFL)) AS ELIG_TYPE_CODE,
+COALESCE(M_10025.DICT_ENTRY_KEY,CONCAT('?',T.SDXLB)) AS ELIG_RATING_TYPE_CODE,
+COALESCE(M_10026.DICT_ENTRY_KEY,CONCAT('?',T.CPDJ)) AS ELIG_LVL_CODE,
+T2.DJSM AS ELIG_LVL_NAME,
+T.CPDF AS ELIG_SCORE,
+T.CPRQ AS RATING_DATE,
+T.CPYXQ AS RATING_END_DATE,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TRCIF' AS BIZ_SRC
+FROM  trcif.cif_tkhsdx t
+LEFT JOIN trcif.cif_tpj_cpdj t2
+ON t.sdxfl=t2.sdxfl
+AND t.cpdj=t2.djbm
+AND T.tx_date=T2.tx_date
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10024
+ON T.SDXFL = M_10024.PREV_DICT_ENTRY_KEY
+AND M_10024.DICT_ENTRY = '10024'
+AND M_10024.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10025
+ON T.SDXLB = M_10025.PREV_DICT_ENTRY_KEY
+AND M_10025.DICT_ENTRY = '10025'
+AND M_10025.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10026
+ON T.CPDJ = M_10026.PREV_DICT_ENTRY_KEY
+AND M_10026.DICT_ENTRY = '10026'
+AND M_10026.PREV_SYS = 'TRCIF'
+WHERE T.tx_date='{$TX_DATE}'"!
+"01"!EV002!BASE_DATA.TEV_ENTRUST_CRDT!EV002!MDA5.DATACENTER_TMR_WTLS!1!"insert overwrite table base_data.tev_entrust_crdt partition(biz_date='{$TX_DATE}')
+--(
+--sequ_no,
+--cust_no,
+--entr_no,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--tx_market_code,
+--sec_acct_no,
+--tx_type_code,
+--revoke_flag,
+--revoke_entr_no,
+--sec_code,
+--sec_name,
+--sec_type_code,
+--order_type_code,
+--order_tx_limit_code,
+--order_aging_limit_code,
+--order_valid_date,
+--entr_qtty,
+--entr_price,
+--entr_amt,
+--tx_date,
+--entr_date,
+--entr_time,
+--curr_code,
+--cap_acct_no,
+--freeze_amt,
+--decl_mode_code,
+--pass_no,
+--tx_unit,
+--decl_entr_no,
+--decl_date,
+--decl_time,
+--decl_seat_no,
+--decl_record_no,
+--entr_state_code,
+--entr_resu,
+--revoke_qtty,
+--done_qtty,
+--done_amt,
+--done_avg_price,
+--done_time,
+--done_num,
+--sett_amt,
+--comm_amt,
+--oper_teller,
+--entr_mode_code,
+--oper_site,
+--oper_site_mac,
+--oper_site_ip,
+--oper_site_mobile,
+--oper_site_hd,
+--oper_site_uuid,
+--oper_site_imei,
+--oper_source,
+--entr_type_code,
+--busi_subj,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.LSH AS SEQU_NO,
+T.KHH AS CUST_NO,
+T.WTH AS ENTR_NO,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT(T.YYB)) AS BRANCH_CODE,
+t.yyb AS src_branch_code,
+COALESCE(M_20007.DICT_ENTRY_KEY,CONCAT('?',T.JYS)) AS TX_MARKET_CODE,
+T.GDH AS SEC_ACCT_NO,
+T.JYLB AS TX_TYPE_CODE,
+COALESCE(M_40001.DICT_ENTRY_KEY,CONCAT('?',T.CXBZ)) AS REVOKE_FLAG,
+T.CXWTH AS REVOKE_ENTR_NO,
+T.ZQDM AS SEC_CODE,
+T.ZQMC AS SEC_NAME,
+--COALESCE(M_30001.DICT_ENTRY_KEY,CONCAT('?',T.ZQLB)) AS SEC_TYPE_CODE,
+T.ZQLB AS SEC_TYPE_CODE,
+COALESCE(M_40002.DICT_ENTRY_KEY,CONCAT('?',T.DDLX)) AS ORDER_TYPE_CODE,
+COALESCE(M_40003.DICT_ENTRY_KEY,CONCAT('?',T.DDJYXZ)) AS ORDER_TX_LIMIT_CODE,
+COALESCE(M_40004.DICT_ENTRY_KEY,CONCAT('?',T.DDSXXZ)) AS ORDER_AGING_LIMIT_CODE,
+T.DDYXRQ AS ORDER_VALID_DATE,
+T.WTSL AS ENTR_QTTY,
+T.WTJG AS ENTR_PRICE,
+T.WTJE AS ENTR_AMT,
+T.JYRQ AS TX_DATE,
+T.WTRQ AS ENTR_DATE,
+T.WTSJ AS ENTR_TIME,
+COALESCE(M_20005.DICT_ENTRY_KEY,CONCAT('?',T.BZ)) AS CURR_CODE,
+T.JSZH AS CAP_ACCT_NO,
+T.DJZJ AS FREEZE_AMT,
+COALESCE(M_40005.DICT_ENTRY_KEY,CONCAT('?',T.SBFS)) AS DECL_MODE_CODE,
+T.TDBH AS PASS_NO,
+T.SBDW AS TX_UNIT,
+T.SBWTH AS DECL_ENTR_NO,
+T.SBRQ AS DECL_DATE,
+T.SBSJ AS DECL_TIME,
+T.SBDY AS DECL_SEAT_NO,
+T.SBJLH AS DECL_RECORD_NO,
+COALESCE(M_40006.DICT_ENTRY_KEY,CONCAT('?',T.SBJG)) AS ENTR_STATE_CODE,
+T.JGSM AS ENTR_RESU,
+T.CDSL AS REVOKE_QTTY,
+T.CJSL AS DONE_QTTY,
+T.CJJE AS DONE_AMT,
+T.CJJG AS DONE_AVG_PRICE,
+T.CJSJ AS DONE_TIME,
+T.CJBS AS DONE_NUM,
+T.QSZJ AS SETT_AMT,
+T.YJ AS COMM_AMT,
+T.WTGY AS OPER_TELLER,
+COALESCE(M_40007.DICT_ENTRY_KEY,CONCAT('?',T.WTFS)) AS ENTR_MODE_CODE,
+T.CZZD AS OPER_SITE,
+regexp_replace(
+case 
+--1.1有mac字样开头，考虑存在中间分隔符或者不存在两张情况，末尾必须有分隔符或者字符尾
+when length(regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'(MAC[\\s\\pP])(([0-9a-fA-F]{2}[\\pP]?){5}[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',2)
+--1.2无mac字样开头，考虑中间有分隔符号: (00:00:00:00:00:00  考虑：-|.和空格),并且前后有分隔符（标点、空格、开头和结尾）
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))((([0-9a-fA-F]{2}[:]){5}|([0-9a-fA-F]{2}[-]){5}|([0-9a-fA-F]{2}[|]){5}|([0-9a-fA-F]{2}[.]){5}|([0-9a-fA-F]{2}[\\s]){5})[0-9a-fA-F]{2}((\\s)|(\\pP)|($)))',0)
+--1.3无mac字样开头，考虑中间无分隔符号，排除UUID造成的影响
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+     and regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)<>
+         regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{4}[-])([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',9)
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0)
+else ''
+end,
+'[\\s\\pP]','') as OPER_site_mac,
+CASE
+--2.1 IP判断有固定前缀的认为他准确
+when length(regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((IIP:)|(MIP:))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',4)
+ELSE
+--2.2 IP内网包含10网段 172,16-31,192.168
+regexp_extract(
+regexp_extract(upper(t.czzd),--剔除10,127,172,192,255网段
+'(((\\s)|(\\pP)|(^))(([1-9]|1[1-9]|[2-9][0-9]|11[0-9]|12[012345689]|1[3-6][0-9]|17[013456789]|18[0-9]|19[013456789]|2[0-4][0-9]|25[0-4])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((172)[.]([1]?[0-5]|[3][2-9]|[4-9][0-9]|25[0-5]|2[0-4][0-9]|[1][0-9]{2})[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))|(((\\s)|(\\pP)|(^))((192)[.]([1-9]?[0-9]|1[0-5][0-9]|16[012345679]|1[7-9][0-9]|2[0-4][0-9]|25[0-5])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9])[.](25[0-5]|2[0-4][0-9]|[1][0-9]{2}|[1-9]?[0-9]))((\\s)|(\\pP)|($)))'
+,0)
+,'((\\s)|(\\pP)|(^))(\\d+.\\d+.\\d+.\\d+)((\\s)|(\\pP)|($))',5)
+end as OPER_site_ip,
+case 
+--3.1手机号优先判断有前缀的记录
+when length(regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((MPN:)|(IP:)|(A-)|(I-)|(HSTY))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',7)
+--3.2手机号只考虑有前后分隔符
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})((\\s)|(\\pP)|($))',5)
+--3.3手机号考虑特殊情况
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',0))<>0
+THEN regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))(1[3-9][0-9]{9})(Z4008)((\\s)|(\\pP)|($))',5)
+else ''
+END AS OPER_site_MOBILE,
+case 
+--4.1硬盘号只考虑带前缀的,后缀只考虑为固定的几种[;,]
+when length(regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((HD)|(HDD))((\\s)|(\\pP))([0-9a-zA-Z-_\\s.]+)(([;,])|($))',7)
+else ''
+end as OPER_site_hd,
+case 
+--5.1 ios的uuid考虑有uuid开头
+when length(regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(UUID)((\\s)|(\\pP))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+--5.2 考虑格式满足的比较特殊不容易误截取
+when length(regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'((\\s)|(\\pP)|(^))([0-9a-fA-F]{8}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{4}[-][0-9a-fA-F]{12})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_UUID,
+case
+--6.1 安卓的IMEI考虑有开头
+when length(regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',0))<>0
+then regexp_extract(upper(t.czzd),'(IMEI)((\\s)|(\\pP))([0-9]{15})((\\s)|(\\pP)|($))',5)
+else ''
+end as OPER_site_IMEI,
+CASE 
+WHEN length(regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2))<>0
+THEN regexp_extract(upper(t.czzd),'(TYPE[\\s\\pP])([0-9a-zA-Z_]+)(([;,@-])|($))',2)
+WHEN length(regexp_extract(upper(t.czzd),'([0-9]+(Z4008)($))',0))<>0
+THEN '1'
+WHEN length(regexp_extract(upper(t.czzd),'(^HSTY[0-9]+)',0))<>0
+THEN '2'
+WHEN length(regexp_extract(upper(t.czzd),'(^HH[_])',0))<>0
+THEN '3'
+WHEN T.WTFS='8'
+THEN '4'
+WHEN T.WTFS='2'
+THEN '5'
+WHEN T.WTFS='4'
+THEN '6'
+else ''
+END AS OPER_SOURCE,
+COALESCE(M_40008.DICT_ENTRY_KEY,CONCAT('?',T.DDLB)) AS ENTR_TYPE_CODE,
+T.JYLB AS BUSI_SUBJ,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+FROM MDA5.DATACENTER_TMR_WTLS T
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T.YYB = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20007
+ON T.JYS = M_20007.PREV_DICT_ENTRY_KEY
+AND M_20007.DICT_ENTRY = '20007'
+AND M_20007.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40001
+ON T.CXBZ = M_40001.PREV_DICT_ENTRY_KEY
+AND M_40001.DICT_ENTRY = '40001'
+AND M_40001.PREV_SYS = 'MDA5'
+--LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_30001
+--ON T.ZQLB = M_30001.PREV_DICT_ENTRY_KEY
+--AND M_30001.DICT_ENTRY = '30001'
+--AND M_30001.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40002
+ON T.DDLX = M_40002.PREV_DICT_ENTRY_KEY
+AND M_40002.DICT_ENTRY = '40002'
+AND M_40002.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40003
+ON T.DDJYXZ = M_40003.PREV_DICT_ENTRY_KEY
+AND M_40003.DICT_ENTRY = '40003'
+AND M_40003.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40004
+ON T.DDSXXZ = M_40004.PREV_DICT_ENTRY_KEY
+AND M_40004.DICT_ENTRY = '40004'
+AND M_40004.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40005
+ON T.SBFS = M_40005.PREV_DICT_ENTRY_KEY
+AND M_40005.DICT_ENTRY = '40005'
+AND M_40005.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40006
+ON T.SBJG = M_40006.PREV_DICT_ENTRY_KEY
+AND M_40006.DICT_ENTRY = '40006'
+AND M_40006.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40007
+ON T.WTFS = M_40007.PREV_DICT_ENTRY_KEY
+AND M_40007.DICT_ENTRY = '40007'
+AND M_40007.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40008
+ON T.DDLB = M_40008.PREV_DICT_ENTRY_KEY
+AND M_40008.DICT_ENTRY = '40008'
+AND M_40008.PREV_SYS = 'MDA5'
+where t.tx_date='{$TX_DATE}'
+"!
+"01"!PT003!BASE_DATA.TPT_CUST_ORG_INFO!PT003!TRCIF.CIF_TJGKHXX!1!"INSERT OVERWRITE TABLE BASE_DATA.TPT_CUST_ORG_INFO
+--(
+--cust_no,
+--corp_type_code,
+--cap_attr_code,
+--nati_attr_code,
+--list_flag,
+--lp_type_code,
+--indu_class_code,
+--corp_web,
+--regi_addr,
+--regi_date,
+--oper_range,
+--regi_cap_amt,
+--regi_cap_curr_code,
+--unify_soci_crdt_no,
+--busi_license_audit_date,
+--organ_no,
+--organ_no_start_date,
+--organ_no_end_date,
+--organ_no_iss_org,
+--organ_no_audit_date,
+--organ_no_addr,
+--nati_tax_cert_no,
+--nati_tax_cert_start_date,
+--nati_tax_cert_end_date,
+--nati_tax_cert_iss_org,
+--nati_tax_cert_audit_date,
+--loca_tax_cert_no,
+--loca_tax_cert_start_date,
+--loca_tax_cert_end_date,
+--loca_tax_cert_iss_org,
+--loca_tax_cert_audit_date,
+--lp_name,
+--lp_cert_type_code,
+--lp_cert_no,
+--lp_cert_start_date,
+--lp_cert_end_date,
+--operr_name,
+--operr_cert_type_code,
+--operr_cert_no,
+--operr_cert_start_date,
+--operr_cert_end_date,
+--operr_tel,
+--operr_mobile,
+--operr_sex_code,
+----princ_name,
+----princ_cert_type_code,
+----princ_cert_no,
+----princ_cert_start_date,
+----princ_cert_end_date,
+----ctrler_name,
+----ctrler_cert_type_code,
+----ctrler_cert_no,
+----ctrler_cert_start_date,
+----ctrler_cert_end_date,
+--biz_time,
+--biz_src
+--)
+  SELECT T.KHH AS CUST_NO,
+         COALESCE(M_10017.DICT_ENTRY_KEY, CONCAT('?', T.QYLB)) AS CORP_TYPE_CODE,
+         COALESCE(M_10018.DICT_ENTRY_KEY, CONCAT('?', T.ZBSX)) AS CAP_ATTR_CODE,
+         COALESCE(M_10019.DICT_ENTRY_KEY, CONCAT('?', T.GYSX)) AS NATI_ATTR_CODE,
+         COALESCE(M_10020.DICT_ENTRY_KEY, CONCAT('?', T.SSSX)) AS LIST_FLAG,
+         COALESCE(M_10021.DICT_ENTRY_KEY, CONCAT('?', T.FRLB)) AS LP_TYPE_CODE,
+         COALESCE(M_10022.DICT_ENTRY_KEY, CONCAT('?', T.HYDM)) AS INDU_CLASS_CODE,
+         T.JGWZDZ AS CORP_WEB,
+         T.JGZCDZ AS REGI_ADDR,
+         T.JGZCRQ AS REGI_DATE,
+         T.JGJYFW AS OPER_RANGE,
+         T.JGZCZB AS REGI_CAP_AMT,
+         COALESCE(M_20005.DICT_ENTRY_KEY, CONCAT('?', T.JGZCBZ)) AS REGI_CAP_CURR_CODE,
+         NULL AS UNIFY_SOCI_CRDT_NO,
+         T.YYZZNJRQ AS BUSI_LICENSE_AUDIT_DATE,
+         T.ZZJGDM AS ORGAN_NO,
+         T.ZZJGDMQSRQ AS ORGAN_NO_START_DATE,
+         T.ZZJGDMJZRQ AS ORGAN_NO_END_DATE,
+         T.ZZJGDMFZJG AS ORGAN_NO_ISS_ORG,
+         T.ZZJGDMNJRQ AS ORGAN_NO_AUDIT_DATE,
+         T.ZZJGDMZJDZ AS ORGAN_NO_ADDR,
+         T.GSSWDJZ AS NATI_TAX_CERT_NO,
+         T.GSSWDJZQSRQ AS NATI_TAX_CERT_START_DATE,
+         T.GSSWDJZJZRQ AS NATI_TAX_CERT_END_DATE,
+         T.GSSWDJZFZJG AS NATI_TAX_CERT_ISS_ORG,
+         T.GSSWDJZNJRQ AS NATI_TAX_CERT_AUDIT_DATE,
+         T.DSSWDJZ AS LOCA_TAX_CERT_NO,
+         T.DSSWDJZQSRQ AS LOCA_TAX_CERT_START_DATE,
+         T.DSSWDJZJZRQ AS LOCA_TAX_CERT_END_DATE,
+         T.DSSWDJZFZJG AS LOCA_TAX_CERT_ISS_ORG,
+         T.DSSWDJZNJRQ AS LOCA_TAX_CERT_AUDIT_DATE,
+         T.FRDBXM AS LP_NAME,
+         COALESCE(M_10005.DICT_ENTRY_KEY, CONCAT('?', T.FRDBZJLB)) AS LP_CERT_TYPE_CODE,
+         T.FRDBZJBH AS LP_CERT_NO,
+         T.FRDBZJQSRQ AS LP_CERT_START_DATE,
+         T.FRDBZJJZRQ AS LP_CERT_END_DATE,
+         T.JBRXM AS OPERR_NAME,
+         COALESCE(M_10005_2.DICT_ENTRY_KEY, CONCAT('?', T.JBRZJLB)) AS OPERR_CERT_TYPE_CODE,
+         T.JBRZJBH AS OPERR_CERT_NO,
+         T.JBRZJQSRQ AS OPERR_CERT_START_DATE,
+         T.JBRZJJZRQ AS OPERR_CERT_END_DATE,
+         T.JBRDH AS OPERR_TEL,
+         T.JBRSJ AS OPERR_MOBILE,
+         COALESCE(M_10012.DICT_ENTRY_KEY, CONCAT('?', T.JBRXB)) AS OPERR_SEX_CODE,
+         T.FZRXM AS PRINC_NAME,
+         COALESCE(M_10005_3.DICT_ENTRY_KEY, CONCAT('?', T.FZRZJLB)) AS PRINC_CERT_TYPE_CODE,
+         T.FZRZJBH AS PRINC_CERT_NO,
+         T.FZRZJQSRQ AS PRINC_CERT_START_DATE,
+         T.FZRZJJZRQ AS PRINC_CERT_END_DATE,
+         T.KGGD AS CTRLER_NAME,
+         COALESCE(M_10005_4.DICT_ENTRY_KEY, CONCAT('?', T.KGGDZJLB)) AS CTRLER_CERT_TYPE_CODE,
+         T.KGGDZJBH AS CTRLER_CERT_NO,
+         T.KGGDZJQSRQ AS CTRLER_CERT_START_DATE,
+         T.KGGDZJJZRQ AS CTRLER_CERT_END_DATE,
+         FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+         'TRCIF' AS BIZ_SRC
+    FROM TRCIF.CIF_TJGKHXX T
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10017 ON T.QYLB =
+                                                      M_10017.PREV_DICT_ENTRY_KEY
+                                                  AND M_10017.DICT_ENTRY =
+                                                      '10017'
+                                                  AND M_10017.PREV_SYS =
+                                                      'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10018 ON T.ZBSX =
+                                                      M_10018.PREV_DICT_ENTRY_KEY
+                                                  AND M_10018.DICT_ENTRY =
+                                                      '10018'
+                                                  AND M_10018.PREV_SYS =
+                                                      'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10019 ON T.GYSX =
+                                                      M_10019.PREV_DICT_ENTRY_KEY
+                                                  AND M_10019.DICT_ENTRY =
+                                                      '10019'
+                                                  AND M_10019.PREV_SYS =
+                                                      'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10020 ON T.SSSX =
+                                                      M_10020.PREV_DICT_ENTRY_KEY
+                                                  AND M_10020.DICT_ENTRY =
+                                                      '10020'
+                                                  AND M_10020.PREV_SYS =
+                                                      'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10021 ON T.FRLB =
+                                                      M_10021.PREV_DICT_ENTRY_KEY
+                                                  AND M_10021.DICT_ENTRY =
+                                                      '10021'
+                                                  AND M_10021.PREV_SYS =
+                                                      'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10022 ON T.HYDM =
+                                                      M_10022.PREV_DICT_ENTRY_KEY
+                                                  AND M_10022.DICT_ENTRY =
+                                                      '10022'
+                                                  AND M_10022.PREV_SYS =
+                                                      'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005 ON T.JGZCBZ =
+                                                      M_20005.PREV_DICT_ENTRY_KEY
+                                                  AND M_20005.DICT_ENTRY =
+                                                      '20005'
+                                                  AND M_20005.PREV_SYS =
+                                                      'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10005 ON T.FRDBZJLB =
+                                                      M_10005.PREV_DICT_ENTRY_KEY
+                                                  AND M_10005.DICT_ENTRY =
+                                                      '10005'
+                                                  AND M_10005.PREV_SYS =
+                                                      'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10005_2 ON T.JBRZJLB =
+                                                        M_10005_2.PREV_DICT_ENTRY_KEY
+                                                    AND M_10005_2.DICT_ENTRY =
+                                                        '10005'
+                                                    AND M_10005_2.PREV_SYS =
+                                                        'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10012 ON T.JBRXB =
+                                                      M_10012.PREV_DICT_ENTRY_KEY
+                                                  AND M_10012.DICT_ENTRY =
+                                                      '10012'
+                                                  AND M_10012.PREV_SYS =
+                                                      'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10005_3 ON T.FZRZJLB =
+                                                        M_10005_3.PREV_DICT_ENTRY_KEY
+                                                    AND M_10005_3.DICT_ENTRY =
+                                                        '10005'
+                                                    AND M_10005_3.PREV_SYS =
+                                                        'TRCIF'
+    LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10005_4 ON T.KGGDZJLB =
+                                                        M_10005_4.PREV_DICT_ENTRY_KEY
+                                                    AND M_10005_4.DICT_ENTRY =
+                                                        '10005'
+                                                    AND M_10005_4.PREV_SYS =
+                                                        'TRCIF'
+   WHERE T.TX_DATE = '{$TX_DATE}'"!
+"01"!AS102!BASE_DATA.TAS_HOLD_CRDT!AS102!MDA5.DATACENTER_TMR_ZQGL!1!"insert overwrite table  base_data.tas_hold_crdt partition(biz_date='{$TX_DATE}')
+--(
+--tx_date,
+--cust_no,
+--cust_name,
+--branch_code,
+--src_branch_code,
+--tx_market_code,
+--sec_acct_no,
+--circ_type_code
+--sec_code,
+--sec_name,
+--seat_no,
+--share_attr_code,
+--curr_code,
+--sec_type_code,
+--sec_qtty,
+--freeze_qtty,
+--other_freeze_qtty,
+--unsett_sec_qtty?,
+--daily_begin_mort_qtty?,
+--last_market_value,
+--buy_amt,
+--buy_qtty,
+--sell_amt,
+--sell_qtty,
+--hold_pos_cost,
+--cumu_profit_loss,
+--biz_time,
+--biz_src
+--)
+SELECT
+T.QSRQ AS TX_DATE,
+T.KHH AS CUST_NO,
+T.KHXM AS CUST_NAME,
+COALESCE(M_10002.DICT_ENTRY_KEY,CONCAT(T.YYB)) AS BRANCH_CODE,
+T.YYB AS SRC_BRANCH_CODE,
+COALESCE(M_20007.DICT_ENTRY_KEY,CONCAT('?',T.JYS)) AS TX_MARKET_CODE,
+T.GDH AS SEC_ACCT_NO,
+COALESCE(M_40010.DICT_ENTRY_KEY,CONCAT('?',T.LTLX)) AS CIRC_TYPE_CODE,
+T.ZQDM AS SEC_CODE,
+T.ZQMC AS SEC_NAME,
+T.TGDY AS SEAT_NO,
+COALESCE(M_40011.DICT_ENTRY_KEY,CONCAT('',T.GFXZ)) AS share_attr_code,
+COALESCE(M_20005.DICT_ENTRY_KEY,CONCAT('?',T.BZ)) AS CURR_CODE,
+T.ZQLB AS SEC_TYPE_CODE,
+T.ZQSL AS SEC_QTTY,
+T.DJSL AS FREEZE_QTTY,
+T.QTDJ AS OTHER_FREEZE_QTTY,
+T.WJSSL AS UNSETT_SEC_QTTY,
+T.ZXSZ AS LAST_MARKET_VALUE,
+T.MRJE AS BUY_AMT,
+T.MRSL AS BUY_QTTY,
+T.MCJE AS SELL_AMT,
+T.MCSL AS SELL_QTTY,
+T.CCCB AS HOLD_POS_COST,
+T.LJYK AS CUMU_PROFIT_LOSS,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+FROM MDA5.DATACENTER_TMR_ZQGL T
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10002
+ON T.YYB = M_10002.PREV_DICT_ENTRY_KEY
+AND M_10002.DICT_ENTRY = '10002'
+AND M_10002.PREV_SYS = 'TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20007
+ON T.JYS = M_20007.PREV_DICT_ENTRY_KEY
+AND M_20007.DICT_ENTRY = '20007'
+AND M_20007.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40010
+ON T.LTLX = M_40010.PREV_DICT_ENTRY_KEY
+AND M_40010.DICT_ENTRY = '40010'
+AND M_40010.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_40011
+ON T.GFXZ = M_40011.PREV_DICT_ENTRY_KEY
+AND M_40011.DICT_ENTRY = '40011'
+AND M_40011.PREV_SYS = 'MDA5'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.BZ = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'MDA5'
+WHERE T.TX_DATE='{$TX_DATE}'"!
+"01"!PT002!BASE_DATA.TPT_CUST_INDV_INFO!PT002!TRCIF.CIF_TGRKHXX!1!"add jar /root/base_data/jars/udf_get_age.jar {;}
+CREATE temporary FUNCTION  udf_get_age AS 'com.soochow.udf.GetAgeUdf' {;}
+
+INSERT overwrite table BASE_DATA.TPT_CUST_INDV_INFO
+/*(
+cust_no,
+birthday,
+age,
+sex_code,
+educ_code,
+career_code,
+ethnic_code,
+birthplace,
+marr_state_code,
+family_addr,
+family_addr_postcode,
+family_tel,
+corp_name,
+corp_addr,
+corp_addr_postcode,
+corp_tel,
+position,
+biz_time,
+biz_src
+)*/
+SELECT
+T.KHH AS CUST_NO,
+T.CSRQ AS BIRTHDAY,
+udf_get_age(t.CSRQ,t2.zjbh) as age,
+COALESCE(M_10012.DICT_ENTRY_KEY,CONCAT('?',T.XB)) AS SEX_CODE,
+COALESCE(M_10013.DICT_ENTRY_KEY,CONCAT('?',T.XLDM)) AS EDUC_CODE,
+COALESCE(M_10014.DICT_ENTRY_KEY,CONCAT('?',T.ZYDM)) AS CAREER_CODE,
+COALESCE(M_10015.DICT_ENTRY_KEY,CONCAT('?',T.MZDM)) AS ETHNIC_CODE,
+T.JG AS BIRTHPLACE,
+COALESCE(M_10016.DICT_ENTRY_KEY,CONCAT('?',T.HYZK)) AS MARR_STATE_CODE,
+T.JTDZ AS FAMILY_ADDR,
+T.JTYB AS FAMILY_ADDR_POSTCODE,
+T.JTDH AS FAMILY_TEL,
+T.GZDW AS CORP_NAME,
+T.GZDWDZ AS CORP_ADDR,
+T.GZDWYB AS CORP_ADDR_POSTCODE,
+T.GZDWDH AS CORP_TEL,
+T.ZW AS POSITION,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TRCIF' AS BIZ_SRC
+FROM TRCIF.CIF_TGRKHXX T
+left join TRCIF.CIF_TKHXX T2
+on t.khh=t2.khh
+and t.tx_date=t2.tx_date
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10012
+ON T.XB = M_10012.PREV_DICT_ENTRY_KEY
+AND M_10012.DICT_ENTRY = '10012'
+AND M_10012.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10013
+ON T.XLDM = M_10013.PREV_DICT_ENTRY_KEY
+AND M_10013.DICT_ENTRY = '10013'
+AND M_10013.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10014
+ON T.ZYDM = M_10014.PREV_DICT_ENTRY_KEY
+AND M_10014.DICT_ENTRY = '10014'
+AND M_10014.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10015
+ON T.MZDM = M_10015.PREV_DICT_ENTRY_KEY
+AND M_10015.DICT_ENTRY = '10015'
+AND M_10015.Prev_Sys='TRCIF'
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_10016
+ON T.HYZK = M_10016.PREV_DICT_ENTRY_KEY
+AND M_10016.DICT_ENTRY = '10016'
+AND M_10016.Prev_Sys='TRCIF'
+WHERE T.TX_DATE='{$TX_DATE}'"!
+"01"!PD101!BASE_DATA.TPD_RMB_MIDRATE!PD101!WIND.WIND_FXRMBMIDRATE!1!"insert overwrite table base_data.tpd_rmb_midrate partition(biz_date='{$TX_DATE}')
+--(
+-- tx_date,
+-- curr_code,
+-- curr_midrate,
+--BIZ_TIME,
+--BIZ_SRC
+--)
+select t.trade_dt as tx_date,
+coalesce(m_20005.dict_entry_key, concat('',t.crncy_code)) as curr_code,
+t.crncy_midrate as curr_midrate,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'WIND' AS BIZ_SRC
+from wind.wind_fxrmbmidrate t 
+LEFT JOIN BASE_DATA.TMG_DICT_ENTRY_MAP M_20005
+ON T.crncy_code = M_20005.PREV_DICT_ENTRY_KEY
+AND M_20005.DICT_ENTRY = '20005'
+AND M_20005.PREV_SYS = 'WIND'
+where t.tx_date='{$TX_DATE}'"!
+"03"!BS_AS001!BASE_SUM.TAS_ASSET!BS_AS001!!1!"insert overwrite table base_sum.TAS_ASSET PARTITION(biz_date='{$TX_DATE}')
+--(
+--branch_code	营业部
+--cust_no	客户号
+--cust_name	客户名称
+--cap_bal	普通资金账户余额 RMB
+--cap_crdt	信用资金账户余额
+--cap_opt	期权资金账户余额
+--hold_stock_a	A股持仓市值 RMB
+--hold_stock_b	B股持仓市值 RMB
+--hold_stock_hk	港股通持仓市值 RMB
+--hold_stock_sk	深港通持仓市值 RMB
+--hold_stock_ta	三板A持仓市值
+--hold_stock_tu	三板B持仓市值 RMB
+--hold_fund	场内基金市值
+--hold_bond	债券市值
+--hold_uncirc	非流通证券市值
+--hold_stock_crdt	A股持仓市值 信用账户
+--hold_fund_crdt	基金市值  信用账户
+--hold_bond_crdt	债券市值 信用账户
+--hold_opt	期权合约市值
+--hold_of	开放式基金市值
+--hold_otc	OTC持仓市值
+--liab_fi_bal	融资余额
+--liab_fi_unpaid_int	融资未付利息
+--liab_sl_bal	融券余额
+--liab_sl_unpaid_int	融券未付利息
+--liab_srp_unpaid_bal	股票质押未付本金
+--liab_srp_unpaid_int	股票质押未付利息
+--liab_arp	约定购回负债
+--liab_repurc	债券正回购负债
+--unsett_arp	约定购回未交收市值
+--unsett_cap_hb	上海B股在途资金 RMB
+--unsett_cap_sb	深圳B股在途资金 RMB
+--unsett_cap_tu	三板B股在途资金 RMB
+--unsett_cap_hk	沪港通在途资金
+--unsett_cap_sk	深港通在途资金
+--unsett_reverse_repurc	逆回购在途资金
+--unsett_cap_of	开放式基金在途资金
+--unsett_otc	OTC未交收市值
+--biz_time	数据时间
+--biz_src	数据来源
+--)
+select
+	ta.branch_code,
+	ta.cust_no,
+	ta.cust_name,
+    nvl(tb.cap_bal,0),
+    nvl(tb.cap_crdt,0),
+    nvl(tb.cap_opt,0),
+    nvl(tc.hold_stock_a,0),	
+    nvl(tc.hold_stock_b,0),
+    nvl(tc.hold_stock_hk,0),	
+    nvl(tc.hold_stock_sk,0),	
+    nvl(tc.hold_stock_ta,0),	
+    nvl(tc.hold_stock_tu,0),	
+    nvl(tc.hold_fund,0),	
+    nvl(tc.hold_bond,0),	
+    nvl(tc.hold_uncirc,0),
+    nvl(td.hold_stock_crdt,0),
+    nvl(td.hold_fund_crdt,0),
+    nvl(td.hold_bond_crdt,0),
+    nvl(te.hold_opt,0),
+    nvl(tf.hold_of,0),
+    nvl(tg.hold_otc,0),
+    nvl(th.liab_fi_bal,0),
+    nvl(th.liab_fi_unpaid_int,0),
+    nvl(th.liab_sl_bal,0),
+    nvl(th.liab_sl_unpaid_int,0),
+    nvl(ti.liab_srp_unpaid_bal,0),
+    nvl(ti.liab_srp_unpaid_int,0),
+    nvl(tj.liab_arp,0),
+    nvl(tk.liab_repurc,0),
+    nvl(tj.unsett_arp,0),
+    nvl(tk.unsett_cap_hb,0),
+    nvl(tk.unsett_cap_sb,0),
+    nvl(tk.unsett_cap_tu,0),
+    nvl(tk.unsett_cap_hk,0),
+    nvl(tk.unsett_cap_sk,0),
+    nvl(tk.unsett_reverse_repurc,0),
+    nvl(tl.unsett_cap_of,0),
+    nvl(tm.unsett_otc,0),
+    from_unixtime(unix_timestamp()) as biz_time,
+   'BASE_DATA' as biz_src	
+from base_data.tpt_cust  ta
+left join 
+    (select
+	     a.cust_no,
+	     sum(case when a.sys_type_code='4' then a.acct_bal*nvl(b.curr_midrate,1) else 0 end) as cap_bal,
+	     sum(case when a.sys_type_code='7' then a.acct_bal else 0 end) as cap_crdt,
+	     sum(case when a.sys_type_code='9' then a.acct_bal else 0 end) as cap_opt
+       from base_data.tas_cap_bal a
+       left join base_data.tpd_rmb_midrate b on a.curr_code  = b.curr_code
+	                                    and b.biz_date ='{$TX_DATE}'   
+	   where a.biz_date='{$TX_DATE}'                                 
+       group by a.cust_no) tb
+    on  ta.cust_no =tb.cust_no
+left join
+    (select
+     a.cust_no,
+	--1、A股持仓
+	sum(case when a.tx_market_code in ('SH','SZ') 
+          and substr(a.sec_type_code,1,1) in ('A','B','C','G','R')
+          and a.circ_type_code='1'
+         then (case when a.hold_market_value=0 and a.sec_qtty>0 and a.hold_pos_cost>0 AND a.sec_type_code in ('A4','C4') THEN a.hold_pos_cost else a.hold_market_value end )
+         --新股申购缴款日,取成本
+         else 0 end) as hold_stock_a,
+    --2、B股持仓 RMB
+	sum(case when a.tx_market_code in ('HB','SB') 
+          and substr(a.sec_type_code,1,1) in ('A','B','C','G','R')
+          and a.circ_type_code='1'
+         then a.hold_market_value
+         else 0 end) as hold_stock_b,    
+    --3、沪港通持仓
+    sum(case when a.tx_market_code in ('HK') 
+          and substr(a.sec_type_code,1,1) in ('A','B','C','G','R') 
+          and a.circ_type_code='1'
+         then a.hold_market_value
+         else 0 end) as hold_stock_hk,  
+     --4、深港通持仓
+    sum(case when a.tx_market_code in ('SK') 
+          and substr(a.sec_type_code,1,1) in ('A','B','C','G','R') 
+          and a.circ_type_code='1'
+         then a.hold_market_value
+         else 0 end) as hold_stock_SK,       
+	--5、三板A持仓
+    sum(case when a.tx_market_code in ('TA') 
+          and substr(a.sec_type_code,1,1) in ('A','B','C','G','R') 
+          and a.circ_type_code='1'
+         then a.hold_market_value
+         else 0 end) as hold_stock_ta,  
+	--6、三板B持仓 RMB
+    sum(case when a.tx_market_code in ('TU') 
+          and substr(a.sec_type_code,1,1) in ('A','B','C','G','R') 
+          and a.circ_type_code='1'
+         then a.hold_market_value
+         else 0 end) as hold_stock_TU,  
+	--7、场内基金持仓
+    sum(case when a.tx_market_code in ('SH','SZ') 
+          and substr(a.sec_type_code,1,1) in ('E','J','L','T')
+          and a.circ_type_code='1'
+         then a.hold_market_value
+         else 0 end) as hold_fund,  
+    --8、债券持仓
+    sum(case when  a.tx_market_code in ('SH','SZ') 
+          and substr(a.sec_type_code,1,1) in ('Z')
+          and a.circ_type_code='1'
+         then a.hold_market_value
+         else 0 end) as hold_bond,
+    --9、非流通持仓 RMB
+      sum(case when  a.circ_type_code ='0' 
+         then a.hold_market_value
+         else 0 end) as hold_uncirc     
+	from 
+	(select
+	    a.branch_code,
+		a.cust_no,
+	    a.tx_market_code,
+	    a.circ_type_code,
+		a.sec_code,
+		c.sec_name,
+		a.sec_type_code,
+		a.sec_qtty,
+		a.last_market_value,
+		a.hold_pos_cost,
+		(case when instr(concat(',',b.tx_limit_codes,','),',8,')>0  --是否计算市值
+		     then a.sec_qtty*  --c.tx_unit, mda5的证券数量已经乘了交易单元
+		         (case when b.correct_price=0 and a.tx_market_code in ('SH','SZ') and substr(a.sec_type_code,1,1) in ('Z') then c.sec_par_value 
+		               else b.correct_price end  --取不到价格，就用面值，修正债券的计算
+		         + case when c.net_price_tx_flag='1' then b.int_price else 0 end)  --考虑债券的全净价
+		     else 0 end)*nvl(d.curr_midrate,1)  as hold_market_value		--转rmb
+	from base_data.tas_hold a
+	left join base_data.tpd_quotation b on a.tx_market_code = b.tx_market_code
+		                               and a.sec_code = b.sec_code
+		                               and b.biz_date = '{$TX_DATE}'
+	left join base_data.tpd_sec_code c on a.tx_market_code =c.tx_market_code
+	                                   and a.sec_code = c.sec_code
+	left join base_data.tpd_rmb_midrate d on case when a.tx_market_code in('HK','SK') THEN 'HKD' else a.curr_code end = d.curr_code
+	                                     and d.biz_date ='{$TX_DATE}'                                   
+	                                   
+	where a.biz_date='{$TX_DATE}')A
+	group by a.cust_no
+     )tc
+    on  ta.cust_no =tc.cust_no
+left join
+   (select 
+    a.cust_no,
+	--10、A股持仓 信用 
+	sum(case when a.tx_market_code in ('SH','SZ') 
+          and substr(a.sec_type_code,1,1) in ('A','B','C','G','R')
+         then (case when a.hold_market_value=0 and a.sec_qtty>0 and a.hold_pos_cost>0 AND a.sec_type_code in ('A4','C4') THEN a.hold_pos_cost else a.hold_market_value end )
+         --新股申购缴款日,取成本
+         else 0 end) as hold_stock_crdt,
+	--11、场内基金持仓 信用
+    sum(case when a.tx_market_code in ('SH','SZ') 
+          and substr(a.sec_type_code,1,1) in ('E','J','L','T')
+         then a.hold_market_value
+         else 0 end) as hold_fund_crdt,  
+    --12、债券持仓 信用
+    sum(case when  a.tx_market_code in ('SH','SZ') 
+          and substr(a.sec_type_code,1,1) in ('Z')
+         then a.hold_market_value
+         else 0 end) as hold_bond_crdt
+	from 
+	(select
+	    a.branch_code,
+		a.cust_no,
+	    a.tx_market_code,
+	    a.circ_type_code,
+		a.sec_code,
+		c.sec_name,
+		a.sec_type_code,
+		a.sec_qtty,
+		a.last_market_value,
+		a.hold_pos_cost,
+		(case when instr(concat(',',b.tx_limit_codes,','),',8,')>0  --是否计算市值
+		     then a.sec_qtty*  --c.tx_unit, mda5的证券数量已经乘了交易单元
+		         (case when b.correct_price=0 and a.tx_market_code in ('SH','SZ') and substr(a.sec_type_code,1,1) in ('Z') then c.sec_par_value 
+		               else b.correct_price end  --取不到价格，就用面值，修正债券的计算
+		         + case when c.net_price_tx_flag='1' then b.int_price else 0 end)  --考虑债券的全净价
+		     else 0 end)  as hold_market_value	
+	from base_data.tas_hold_crdt a
+	left join base_data.tpd_quotation b on a.tx_market_code = b.tx_market_code
+		                               and a.sec_code = b.sec_code
+		                               and b.biz_date = '{$TX_DATE}'
+	left join base_data.tpd_sec_code c on a.tx_market_code =c.tx_market_code
+	                                   and a.sec_code = c.sec_code                                                                 
+	where a.biz_date='{$TX_DATE}')A
+	group by a.cust_no)td
+   on ta.cust_no =td.cust_no
+left join (	
+	--13、期权合约持仓	     
+	 select 
+	        a.cust_no,
+	        sum(a.last_market_value) as hold_opt
+	    from base_data.tas_hold_opt a
+	where biz_date='{$TX_DATE}'
+    group by a.cust_no ) te
+   on ta.cust_no =te.cust_no
+left join (
+	--14、开放式基金持仓	     
+	select
+	        a.cust_no,
+	        sum(a.last_market_value) as hold_of
+	    from base_data.tas_share_of a
+	where biz_date='{$TX_DATE}'
+    group by a.cust_no) tf
+  on ta.cust_no =tf.cust_no
+left join (
+	select 
+	       a.cust_no,
+	        sum(a.last_market_value) as hold_OTC
+	    from base_data.tas_share_OTC a
+	where biz_date='{$TX_DATE}'
+    group by a.cust_no) tg
+  on  ta.cust_no =tg.cust_no
+left join (
+     select
+      t.cust_no,
+      sum(case when t.compact_type_code = '1' then t.fi_unpaid_amt + t.compact_fee ELSE 0 end) as liab_fi_bal ,
+      sum(case when t.compact_type_code = '2' then t.sl_unpaid_qtty*t2.correct_price ELSE 0 end) as liab_sl_bal,
+      sum(case when t.compact_type_code = '1' then t.compact_unpaid_int ELSE 0 end) as liab_fi_unpaid_int,
+      sum(case when t.compact_type_code = '2' then t.compact_unpaid_int ELSE 0 end) as liab_sl_unpaid_int
+  from
+   base_data.tag_compact_crdt t
+  left join base_data.tpd_quotation t2 on
+    t.tx_market_code = t2.tx_market_code
+    and t.sec_code = t2.sec_code
+    and t.biz_date = t2.biz_date
+  where t.compact_state_code = '0'
+    and t.biz_date = '{$TX_DATE}'
+  group by t.cust_no)th
+   on ta.cust_no =th.cust_no
+left join 
+--股票质押负债
+   (select
+    t.cust_no,
+    sum(t.fi_amt-t.sett_amt + t.repay_int) as liab_srp_unpaid_bal,
+    sum(t.anti_int + t.in_tran_int + t.pen_int + t.SETT_INT_AMT-t.repay_int) as liab_srp_unpaid_int,
+    sum(t.compact_unpaid_amt) ,
+    sum(t.compact_unpaid_int) 
+  from
+    base_data.tag_compact_srp t
+ where t.sett_flag = '0'
+   and t.biz_date = '{$TX_DATE}'
+ group by
+    t.cust_no )ti
+  on ta.cust_no =ti.cust_no
+left join ( 
+    --约定购回负债
+ select
+    t.cust_no,
+    sum(t.repurc_amt-t.divi_amt) as liab_arp,--负债 
+    sum(t.mort_market_value) as unsett_arp--未购回在途市值
+	from base_data.tag_compact_arp t
+where
+	t.sett_flag = '0'
+	and t.biz_date = '{$TX_DATE}'
+group by
+   t.cust_no)tj
+  on  ta.cust_no =tj.cust_no
+left join (
+    select
+	t.cust_no,
+	sum (
+	case
+		when t.busi_subj in ('4') THEN t.done_amt
+		else 0
+	end ) as liab_repurc,
+	--正回购负债
+ sum (
+	case
+		when t.busi_subj in ('5') THEN t.done_amt
+		else 0
+	end ) as unsett_reverse_repurc,
+	--逆回购在途资金
+ sum (
+	case
+		when t.busi_subj in ('2')
+		and t.tx_market_code = 'HB' then t.done_amt*COALESCE(t2.curr_midrate,
+		1)
+		else 0
+	end ) as unsett_cap_hb,
+	sum (
+	case
+		when t.busi_subj in ('2')
+		and t.tx_market_code = 'SB' then t.done_amt*COALESCE(t2.curr_midrate,
+		1)
+		else 0
+	end ) as unsett_cap_sb,
+	sum (
+	case
+		when t.busi_subj in ('2')
+		and t.tx_market_code = 'TU' then t.done_amt*COALESCE(t2.curr_midrate,
+		1)
+		else 0
+	end ) as unsett_cap_tu,
+	sum (
+	case
+		when t.busi_subj in ('2')
+		and t.tx_market_code = 'HK' then t.done_amt*COALESCE(t2.curr_midrate,
+		1)
+		else 0
+	end ) as unsett_cap_hk,
+	sum (
+	case
+		when t.busi_subj in ('2')
+		and t.tx_market_code = 'SK' then t.done_amt*COALESCE(t2.curr_midrate,
+		1)
+		else 0
+	end ) as unsett_cap_sk
+from
+	base_data.tev_unsett t
+left join base_data.tpd_rmb_midrate t2 on
+	t.biz_date = t2.biz_date
+	and t.curr_code = t2.curr_code
+where
+	t.biz_date = '{$TX_DATE}'
+group by
+	t.cust_no)tk
+ on ta.cust_no =tk.cust_no
+left join (
+--开放式基金待交收 
+   select  a.cust_no,
+	      sum(a.confirm_amt) as unsett_cap_of
+    from base_data.tev_unsett_of a
+   where a.biz_date='{$TX_DATE}'
+     and a.busi_subj in (
+     '124',	--赎回
+     '142'	--强行赎回
+     )
+     group by a.cust_no)tl
+on ta.cust_no =tl.cust_no     
+left join ( 
+    --OTC 待交收
+     select
+	      a.cust_no,
+	      sum(a.entr_amt) as unsett_otc
+    from base_data.tev_unsett_otc a
+   where a.biz_date='{$TX_DATE}'
+     and a.busi_subj in (
+     'OTC020',	--认购
+     'OTC022',	--申购
+     'OTC024',	--赎回
+     'OTC042'	--强行赎回
+     )
+     group by a.cust_no )tm
+ on  ta.cust_no =tm.cust_no  "!
+"01"!PD104!BASE_DATA.TPD_NAV_OF!PD104!MDA5.DATACENTER_TOF_JJJZ!1!"insert overwrite table base_data.tpd_nav_of partition(biz_date='{$TX_DATE}')
+--(
+-- tx_date,
+-- ta_code,
+-- fund_code,
+-- fund_name,
+-- NAV,
+--BIZ_TIME,
+--BIZ_SRC
+--)
+select t.rq as tx_date,
+       t.tadm as ta_code,
+       t.jjdm as fund_code,
+       t.jjmc as fund_name,
+       t.jjjz as nav,
+       FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+       'MDA5' AS BIZ_SRC
+from mda5.datacenter_tof_jjjz t
+WHERE T.tx_date='{$TX_DATE}';"!
+"02"!MG001!BASE_DATA.TMG_CNT_MONITOR!MG101!BASE_DATA!1!"set hive.exec.dynamic.partition=true{;}
+set hive.exec.dynamic.partition.mode=nonsrict{;}
+
+insert overwrite table base_data.tmg_cnt_monitor partition(run_date)
+select 'tac_cap_acct' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tac_cap_acct
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tpt_cust_indv_info' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tpt_cust_indv_info
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tpt_cust_org_info' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tpt_cust_org_info
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tac_sec_acct' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tac_sec_acct
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tac_fund_acct' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tac_fund_acct
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tpd_sec_code' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tpd_sec_code
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tpt_branch' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tpt_branch
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tag_compact_srp' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tag_compact_srp
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tag_compact_arp' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tag_compact_arp
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tag_contract_crdt' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tag_contract_crdt
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_entrust_otc' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_entrust_otc
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tpt_cust' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tpt_cust
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tpt_cust_elig_rating' as tb_name,
+'full scale table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tpt_cust_elig_rating
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tag_compact_crdt' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tag_compact_crdt
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tas_fund' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tas_fund
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tas_hold' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tas_hold
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tas_hold_crdt' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tas_hold_crdt
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tas_hold_opt' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tas_hold_opt
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tas_share_of' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tas_share_of
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tas_share_otc' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tas_share_otc
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_entrust' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_entrust
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_entrust_crdt' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_entrust_crdt
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_entrust_of' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_entrust_of
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_entrust_opt' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_entrust_opt
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_fund_jour' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_fund_jour
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_oper_jour' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_oper_jour
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_sett' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_sett
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_sett_crdt' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_sett_crdt
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_sett_of' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_sett_of
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_sett_opt' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_sett_opt
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_sett_otc' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_sett_otc
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_unsett' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_unsett
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+
+union all
+
+select 'tev_unsett_otc' as tb_name,
+'partitioned table' as tb_type,
+count(1) as cnt,
+'{$run_date}' as run_date
+from base_data.tev_unsett_otc
+where from_unixtime(unix_timestamp(biz_time, 'yyyy-mm-dd'), 'yyyymmdd') = '{$run_date}'
+"!
+"02"!MG002!BASE_DATA.TMG_CNT_RATIO_MONITOR!MG102!BASE_DATA.TMG_CNT_MONITOR!1!"set hive.exec.dynamic.partition=true{;}
+set hive.exec.dynamic.partition.mode=nonsrict{;}
+
+with t_today_cnt as (
+SELECT tb_name,
+       tb_type,
+       cnt as today_cnt,
+       run_date
+  from base_data.tmg_cnt_monitor
+ where run_date = '{$run_date}'
+),
+t_last_run_date as (
+SELECT max(run_date) as last_run_date 
+  from base_data.tmg_cnt_monitor
+ where run_date < '{$run_date}'
+),
+t_yest_cnt as (
+SELECT tb_name,
+       cnt as yest_cnt,
+       run_date as last_run_date
+  from base_data.tmg_cnt_monitor t1
+  join t_last_run_date t2 on (t1.run_date = t2.last_run_date)
+)
+insert overwrite table base_data.tmg_cnt_ratio_monitor partition(run_date)
+SELECT ROW_NUMBER() OVER(order by t1.tb_name) as rn,
+       t1.tb_name,
+       t1.tb_type,
+       t1.today_cnt,
+       t2.yest_cnt,
+       (today_cnt - yest_cnt)/yest_cnt as rate,
+       t1.run_date
+  from t_today_cnt t1
+  join t_yest_cnt t2 on (t1.tb_name = t2.tb_name)
+ where run_date = '{$run_date}'"!
+"01"!EV108!BASE_DATA.TEV_UNSETT_OF!EV108!TRA2.OFS_TOF_DJS!1!"INSERT overwrite table  base_data.tev_unsett_of PARTITION (BIZ_DATE='{$TX_DATE}')
+--(sequ_no,
+--branch_code,
+--src_branch_code,
+--cust_no,
+--cap_acct_no,
+--fund_acct_no,
+--fund_tx_acct_no,
+--cust_name,
+--curr_code,
+--ta_code,
+--fund_code,
+--fund_name,
+--order_date,
+--confirm_date,
+--sett_date,
+--sett_flag,
+--confirm_amt,
+--char_fee,
+--entr_mode_code,
+--busi_subj,
+--biz_time,
+--biz_src,
+--biz_date)
+select 
+LSH AS Sequ_No,
+coalesce(m_10002.dict_entry_key, concat('', t.yyb)) as branch_code ,
+yyb AS src_branch_code,
+KHH AS cust_no,
+JSZH AS Cap_Acct_No,
+JJZH AS Fund_Acct_No,
+jyzh AS Fund_tx_Acct_No,
+KHXM AS cust_name,
+coalesce(m_20005.dict_entry_key, concat('?', t.bz)) as curr_code,
+TADM AS ta_code,
+JJDM AS fund_code,
+jjjc AS fund_name,
+wtrq AS order_date,
+QRRQ AS Confirm_date,
+JSRQ AS sett_date,
+jsbz AS Sett_flag,
+QRJE AS Confirm_amt,
+SXF AS Char_Fee,
+coalesce(m_40007.dict_entry_key, concat('?', t.wtfs)) as Entr_Mode_Code ,
+YWDM AS Busi_Subj,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'TRA2' AS BIZ_SRC
+from tra2.ofs_tof_djs t 
+left join base_data.tmg_dict_entry_map m_10002 on t.yyb = m_10002.prev_dict_entry_key
+                                              and m_10002.dict_entry ='10002'
+                                              and m_10002.prev_sys ='TRCIF'  
+left join base_data.tmg_dict_entry_map m_20005 on t.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='TRA2'     
+left join base_data.tmg_dict_entry_map m_40007 on t.wtfs = m_40007.prev_dict_entry_key
+                                              and m_40007.dict_entry ='40007'
+                                              and m_40007.prev_sys='TRA2'  
+where t.tx_date='{$TX_DATE}'"!
+"01"!PD102!BASE_DATA.TPD_QUOTATION!PD102!MDA5.DATACENTER_TSC_ZQHQ;TRA2.SECURITIES_TZQDM;WIND.WIND_ASHAREDIVIDEND;WIND.WIND_WINDCUSTOMCODE!1!"INSERT overwrite table BASE_DATA.TPD_QUOTATION partition (biz_date='{$TX_DATE}')
+--(tx_date,
+--tx_market_code,
+--sec_code,
+--sec_name,
+--curr_code,
+--prev_close_price,
+--open_price,
+--close_price,
+--correct_PRICE,
+--high_price,
+--low_price,
+--match_qty,
+--match_sum,
+--NET_PRICE_TX_flag,
+--int_price,
+--tx_limit_codes,
+--tx_STATE_CODE,
+--BIZ_TIME,
+--BIZ_SRC)
+select 
+a.rq as tx_date,
+coalesce(m_20007.dict_entry_key, concat('?', a.jys)) as tx_market_code,
+a.zqdm as sec_code,
+b.zqmc as sec_name,
+coalesce(m_20005.dict_entry_key,concat('?',b.bz)) as curr_code,
+null as prev_close_price,
+null as open_price,
+(case a.spj when 0 then A.zsp else a.spj end) as close_price,
+nvL(round((case a.spj when 0 then A.zsp else a.spj end-c.cash_dvd_per_sh_pre_tax)/(1+stk_dvd_per_sh),3),
+          cast(case a.spj when 0 then A.zsp else a.spj end as double) )  as  correct_PRICE,  --修正权益登记日股票除权除息的价格,提前一天算出除权价
+null as high_price,
+null as low_price,
+null as match_qty,
+null as match_sum,
+b.jjjybz as NET_PRICE_TX_CODE,
+a.lxjg as int_price,
+b.mmxz as tx_limit_codes,
+coalesce(m_30002.dict_entry_key, concat('?', b.jyzt)) as sec_state_code,
+FROM_UNIXTIME(UNIX_TIMESTAMP()) AS BIZ_TIME,
+'MDA5' AS BIZ_SRC
+from MDA5.DATACENTER_TSC_ZQHQ a
+--tra3.datacenter_tzqhq a
+left join --MDA5.DATACENTER_TSC_ZQDM b
+          tra2.securities_tzqdm    b    on  a.jys=b.jys
+                                       and  a.zqdm=b.zqdm
+                                       and  b.tx_date='{$TX_DATE}'
+
+left join (select b.s_info_code,a.eqy_record_dt,a.stk_dvd_per_sh,a.cash_dvd_per_sh_pre_tax
+                 from WIND.WIND_ASHAREDIVIDEND a 
+           inner join WIND.WIND_WINDCUSTOMCODE b on a.s_info_windcode =b.s_info_windcode
+                                                and a.eqy_record_dt is not null 
+                                                and a.eqy_record_dt <>''
+                                                and b.s_info_exchmarket in ('SSE','SZSE')
+                                                and a.tx_date='{$TX_DATE}'
+                                                and b.tx_date='{$TX_DATE}') c
+                                         on a.zqdm =c.s_info_code
+                                        and a.rq = c.eqy_record_dt
+                                        and a.jys in ('SH','SZ','HB','SB')
+                                       
+left join base_data.tmg_dict_entry_map m_20005 on b.bz = m_20005.prev_dict_entry_key
+                                              and m_20005.dict_entry ='20005'
+                                              and m_20005.prev_sys='TRA2'  
+left join base_data.tmg_dict_entry_map m_20007 on a.jys = m_20007.prev_dict_entry_key
+                                              and m_20007.dict_entry ='20007'
+                                              and m_20007.prev_sys='MDA5'
+left join base_data.tmg_dict_entry_map m_30002 on b.jyzt = m_30002.prev_dict_entry_key
+                                              and m_30002.dict_entry ='30002'
+                                              and m_30002.prev_sys='TRA2' 
+                                                                                                                         
+where a.tx_date='{$TX_DATE}'"!
