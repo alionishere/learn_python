@@ -32,6 +32,14 @@ def test_args(*args, **kwargs):
     print(type(kwargs))
 
 
-test_args(12, 3, 4, a='asd', b='asdsd')
-print('-*' * 50)
-test_args()
+def rm_semicolon(sql_stmt):
+    return sql_stmt.strip().strip(';')
+
+
+sql = '''
+select * from ; dual ; 
+'''
+print(rm_semicolon(sql))
+# test_args(12, 3, 4, a='asd', b='asdsd')
+# print('-*' * 50)
+# test_args()
