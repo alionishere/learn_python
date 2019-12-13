@@ -18,6 +18,11 @@ def generate_task(task_id, cmd):
     return task_id
 
 
+def generate_sql():
+    sql = "insert into public.t_task_cfg values ('PT005', 'PT', '', 'echo ''this is pt004''', '03', '005', 0)"
+    return sql
+
+
 conn = get_db_conn()
 cur = conn.cursor()
 sql = '''
@@ -30,6 +35,7 @@ select task_id
  where task_group_no = 0
  order by task_oder
 '''
+# sql = generate_sql()
 cur.execute(sql)
 res = cur.fetchall()
 res_pd = pd.DataFrame(res, columns=["task_id", 'task_topic', "pre_task_id", "task_cmd"])
