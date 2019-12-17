@@ -8,9 +8,10 @@ def test(*args, **kwargs):
     print(args)
     print(kwargs)
     print(kwargs['name'])
+    print(kwargs['start_date'])
 
 
-# test(1, 2, 3, 4, 5, name='Kylin', age='27')
+test(1, 2, 3, 4, 5, name='Kylin', age='27', start_date=datetime(2019, 12, 5, 13, 10, 10))
 # 日期的获取合加减
 print('today is is %s' %(date.today()))
 end_date = (date.today() + timedelta(days=-1))   # strftime('%Y%m%d')
