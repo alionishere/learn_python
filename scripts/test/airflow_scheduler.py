@@ -25,6 +25,13 @@ args = {
 }
 
 
+def gen_args(**kwargs):
+    return {
+        'owner': 'root',
+        'start_date': kwargs['start_date']
+    }
+
+
 def gen_dag(dag_id, sh_interval):
     dag = DAG(
         dag_id=dag_id,
