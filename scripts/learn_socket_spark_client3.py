@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 import socket
 import time
+import sys
 
 
 def gen_test_sql(num):
     return "insert into cif.t_test_01 values('%s')" % num
 
 
-sql_lst = [gen_test_sql(n) for n in range(3, 10)]
+start_num = int(sys.argv[1])
+end_num = int(sys.argv[2])
+
+sql_lst = [gen_test_sql(n) for n in range(start_num, end_num)]
 # sql_lst = [b"insert into cif.t_test_01 values('03')"]
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
