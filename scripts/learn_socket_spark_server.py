@@ -40,7 +40,6 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('127.0.0.1', 9998))
 s.listen(5)
 spark = get_spark('test_001')
-print('Waiting for connection...')
 
 while True:
     # 接受一个新连接:
