@@ -44,9 +44,20 @@ print('Waiting for connection...')
 
 while True:
     # 接受一个新连接:
+    global spark
     sock, addr = s.accept()
+    # 此处应该判断spark是否有效，去官网查询对应的API
+    try:
+        spark.sql('select 1').show()
+    except Exception as e:
+        print('-**=' * 20)
+        print('Try to rebuild spark.......')
+        spark = None
+        spark = get_spark('test_002')
+        print('Rebuild spark successfully.......')
+        print('-**=' * 30)
+        # time.sleep(3)
+
     # 创建新线程来处理TCP连接:
-    if spark:
-        spark = get_spark('test_001')
     t = threading.Thread(target=tcplink, args=(sock, addr, spark))
     t.start()
