@@ -23,7 +23,7 @@ def Pdf_Jpg(file_name):
     for img in image_jpeg.sequence:
         img_page = IM(image=img)
         req_image.append(img_page.make_blob('jpg'))
-    long = len(req_image)
+    # long = len(req_image)
     i = 0
     for img in req_image:
         ff = open(r'E:/SCOOCHOW/2_dcp/4_test/tmp/' + str(i) + '.jpg', 'wb')
@@ -60,16 +60,17 @@ def baidu_Ocr(fname):
     # print(ll)
     ll = ll['words_result']
     n = len(ll)
-    for l in range(n):
-        print(ll[l]['words'])
+    print(ll)
+    # for l in range(n):
+    #     print(ll[l]['words'])
 
 
 def Work():
     file_name = r'E:/SCOOCHOW/2_dcp/4_test/tmp/1.pdf'
     Pdf_Jpg(file_name)
-    file = r'E:/SCOOCHOW/2_dcp/4_test/tmp/1.jpg'
+    file = r'E:/SCOOCHOW/2_dcp/4_test/tmp/0.jpg'
     baidu_Ocr(file)
-    # src =cv.imread('C:/Temp/0.jpg')
+    # src =cv.imread('E:/SCOOCHOW/2_dcp/4_test/tmp/0.jpg')
     # cv.imshow("src", src)
     # recognize_text(src)
     # text = pytesseract.image_to_string(file,lang='chi_sim')
