@@ -26,7 +26,7 @@ def Pdf_Jpg(file_name):
     long = len(req_image)
     i = 0
     for img in req_image:
-        ff = open('C:/Temp/' + str(i) + '.jpg', 'wb')
+        ff = open(r'E:/SCOOCHOW/2_dcp/4_test/tmp/' + str(i) + '.jpg', 'wb')
         ff.write(img)
         ff.close()
         i += 1
@@ -65,9 +65,9 @@ def baidu_Ocr(fname):
 
 
 def Work():
-    # file_name='C:/Temp/1.pdf'
-    # Pdf_Jpg(file_name)
-    file = 'C:/Temp/1.jpg'
+    file_name = r'E:/SCOOCHOW/2_dcp/4_test/tmp/1.pdf'
+    Pdf_Jpg(file_name)
+    file = r'E:/SCOOCHOW/2_dcp/4_test/tmp/1.jpg'
     baidu_Ocr(file)
     # src =cv.imread('C:/Temp/0.jpg')
     # cv.imshow("src", src)
