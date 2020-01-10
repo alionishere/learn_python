@@ -1,3 +1,4 @@
 # -*- coding: utf-8 -*-
 
-f = open('/tmp/test.txt')
+with open('', 'r') as f:
+    s = f.read()
