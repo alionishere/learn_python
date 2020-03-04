@@ -37,9 +37,23 @@ def rm_semicolon(sql_stmt):
 
 
 sql = '''
-select * from ; dual ; 
+select * from ; dual ; ||
+abc;
+abcd
 '''
-print(rm_semicolon(sql))
+
+
+def replace_char(string, char, index):
+    string = list(string)
+    string[index] = char
+    return ''.join(string)
+
+
+if __name__ == '__main__':
+    idx = sql.rfind(';')
+    print(idx)
+    print(replace_char(sql, '&&', idx))
+
 # test_args(12, 3, 4, a='asd', b='asdsd')
 # print('-*' * 50)
 # test_args()
