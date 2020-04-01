@@ -4,6 +4,8 @@ import pymysql as pm
 import psycopg2 as pg
 import cx_Oracle
 import sys
+import pandas
+
 from datetime import date, timedelta
 
 
