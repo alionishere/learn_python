@@ -49,7 +49,7 @@ def get_group_flag(group_no, if_ck_date=True, tx_date=(date.today() + timedelta(
 
 
 def is_trading_date(tx_date):
-    print('Check over') 
+    print('Check over')
     return True
 
 
