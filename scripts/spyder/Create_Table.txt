@@ -1,0 +1,74 @@
+Drop table AMAC_SMJJ_MANAGER;
+CREATE TABLE AMAC_SMJJ_MANAGER(
+id number,
+jgcxxx VARCHAR2(4000),
+jjglrch VARCHAR2(400),
+jjglrzh VARCHAR2(400),
+djbh VARCHAR2(400) not null,
+zzjgdm VARCHAR2(400),
+djsj CHAR(8),
+clsj CHAR(8),
+zcdz VARCHAR2(400),
+bgdz VARCHAR2(400),
+zczb VARCHAR2(400),
+sjzb VARCHAR2(400),
+qyxz VARCHAR2(400),
+zczbsjbl VARCHAR2(400),
+gljjzylb VARCHAR2(400),
+sqqtywlx VARCHAR2(400),
+ygrs VARCHAR2(400),
+jgwz VARCHAR2(400),
+sfwhy VARCHAR2(400),
+dqhylx VARCHAR2(400),
+rhsj CHAR(8),
+flyjszt VARCHAR2(400),
+lsswsmc VARCHAR2(400),
+lsxm VARCHAR2(400),
+fddbr VARCHAR2(400),
+sfycyzg VARCHAR2(400),
+zgqdfs VARCHAR2(400),
+gzll clob,
+ggqk clob,
+jgxxzhgxsj CHAR(8),
+tbtsxx VARCHAR2(400)
+);
+
+drop table AMAC_SMJJ;
+create table AMAC_SMJJ
+(
+  id                CHAR(50) not null,
+  fundno            CHAR(50),
+  fundname          VARCHAR2(400),
+  managername       VARCHAR2(400),
+  managertype       VARCHAR2(50),
+  workingstate      VARCHAR2(50),
+  putonrecorddate   NUMBER,
+  lastquarterupdate VARCHAR2(50),
+  isdeputemanage    VARCHAR2(50),
+  url               VARCHAR2(400),
+  establishdate     NUMBER,
+  managerurl        VARCHAR2(400),
+  mandatorname      VARCHAR2(400)
+);
+
+drop table AMAC_SMJJ_FUND;
+create table AMAC_SMJJ_FUND
+(
+  jjmc       VARCHAR2(400) not null,
+  jjbm       VARCHAR2(400),
+  clsj       CHAR(8),
+  basj       CHAR(8),
+  jjbajd     VARCHAR2(400),
+  jjlx       VARCHAR2(400),
+  bz         VARCHAR2(400),
+  jjglr      VARCHAR2(400),
+  gllx       VARCHAR2(400),
+  tgr        VARCHAR2(400),
+  yzzt       VARCHAR2(400),
+  jjxxzhgxsj CHAR(8),
+  jjxhtbts   VARCHAR2(400),
+  dyyb       VARCHAR2(400),
+  bnb        VARCHAR2(400),
+  nb         VARCHAR2(400),
+  jb         VARCHAR2(400)
+);
