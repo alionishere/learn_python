@@ -268,8 +268,7 @@ class PickCar:
                             except Exception as e:
                                 print(e)
                             continue
-                        elif self.driver.find_element_by_id('ratio').text.split('/')[
-                            0] == '0' and self.driver.find_element_by_xpath(self.successOrNot2).text == '没有车位可预约':
+                        elif self.driver.find_element_by_id('ratio').text.split('/')[0] == '0' and self.driver.find_element_by_xpath(self.successOrNot2).text == '没有车位可预约':
                             time.sleep(1)
                             #                            print("当前没有车位释放，继续捡漏!")
                             continue
