@@ -23,6 +23,23 @@ SELECT t1.OWNER
  ORDER BY COLUMN_ID
 '''
 
+get_mysql_meta_sql = '''
+SELECT TABLE_SCHEMA
+       ,TABLE_NAME
+       ,COLUMN_NAME
+       ,ORDINAL_POSITION
+       ,DATA_TYPE
+       ,CHARACTER_MAXIMUM_LENGTH
+       ,CHARACTER_OCTET_LENGTH
+       ,NUMERIC_PRECISION
+       ,NUMERIC_SCALE
+       ,COLUMN_TYPE
+  FROM INFORMATION_SCHEMA.COLUMNS
+ WHERE TABLE_SCHEMA = '%s' 
+   AND TABLE_NAME  = '%s'
+   ;
+'''
+
 
 def get_ora_meta(conn, sql, src_schema, src_tb, hive_schema='', hive_tb=''):
     fields = []
@@ -33,17 +50,59 @@ def get_ora_meta(conn, sql, src_schema, src_tb, hive_schema='', hive_tb=''):
     print('--' * 30)
     cur.execute(sql)
     res = cur.fetchall()
-    # print(res)
+
+    for field in res:
+        if field[3] == 'CLOB' or field == 'DATE':
+            field_attr = field[2] + ' STRING ' + 'COMMENT \'' + str(field[7]) + '\''
+            field_attrs.append(field_attr)
+        elif field[3] == 'VARCHAR2' or field[3] == 'VARCHAR' or field[3] == 'CHAR':
+            field_attr = field[2] + ' VARCHAR(' + str(field[4]) + ') COMMENT \'' + str(field[7]) + '\''
+            field_attrs.append(field_attr)
+        elif field[3] == 'NUMBER':
+            field_attr = ''
+            if field[6] == 0:
+                field_attr = field[2] + ' BIGINT ' + 'COMMENT \'' + str(field[7]) + '\''
+            elif field[5] is not None and field[6] is not None:
+                field_attr = field[2] + ' DECIMAL(' + str(field[5]) + ',' + str(field[6]) + ') COMMENT \'' + str(field[7]) + '\''
+            else:
+                field_attr = field[2] + ' DECIMAL(23,4)' + ' COMMENT \'' + str(field[7]) + '\''
+            field_attrs.append(field_attr)
+        else:
+            field_attr = field[2] + ' STRING ' + ' COMMENT \'' + str(field[7]) + '\''
+            field_attrs.append(field_attr)
+        # print(field)
+        fields.append(field[2])
+        # break
+    cur.close()
+    fields = ','.join(fields)
+    field_attrs = ',\n'.join(field_attrs)
+    # print(field_attrs)
+    create_str = '''
+CREATE TABLE %s.%s (\n%s\n)
+PARTITIONED BY (TX_DATE STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\u0001'
+STORED AS PARQUE
+LOCATION '/DWZQ/%s/%s';
     '''
-    SELECT t1.OWNER       0
-       ,t1.TABLE_NAME     1
-       ,t1.COLUMN_NAME    2
-       ,t1.DATA_TYPE      3
-       ,t1.DATA_LENGTH    4
-       ,t1.DATA_PRECISION 5
-       ,t1.DATA_SCALE     6
-       ,t2.COMMENTS       7
-    '''
+    hive_tb = '%s_%s' % (src_schema, src_tb)
+    hive_tb_temp = '%s_TEMP' % hive_tb
+    create_stmt = create_str % (hive_schema.upper(), hive_tb.upper(), field_attrs, hive_schema.upper(), hive_tb.upper())
+    create_stmt_temp = create_str % (hive_schema.upper(), hive_tb_temp.upper(), field_attrs, hive_schema.upper(), hive_tb_temp.upper())
+    print(create_stmt)
+    print(create_stmt_temp)
+    return create_stmt
+
+
+def get_mysql_meta(conn, sql, src_schema, src_tb, hive_schema='', hive_tb=''):
+    fields = []
+    field_attrs = []
+    cur = conn.cursor()
+    sql = sql % (src_schema.upper(), src_tb.upper())
+    print(sql)
+    print('--' * 30)
+    cur.execute(sql)
+    res = cur.fetchall()
+
     for field in res:
         if field[3] == 'CLOB' or field == 'DATE':
             field_attr = field[2] + ' STRING ' + 'COMMENT \'' + str(field[7]) + '\''
