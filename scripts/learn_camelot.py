@@ -4,11 +4,11 @@ import camelot
 import pdfplumber
 import pandas as pd
 
-path = r'E:\tmp\temp_dw.pdf'
+path = r'E:\tmp\东北证券：2019年年度报告.pdf'
 # extract tb from pdf
-tbs = camelot.read_pdf(path, pages='169', flavor='lattice')
+tbs = camelot.read_pdf(path, pages='40', flavor='stream')
 # tbs = camelot.read_pdf(path)
-
+print(tbs[0].data)
 # with pdfplumber.open(path) as pdf:
 #     # content = ''
 #     # for i in range(len(pdf.pages)):
@@ -20,4 +20,3 @@ tbs = camelot.read_pdf(path, pages='169', flavor='lattice')
 #     for table in page.extract_table():
 #         df = pd.DataFrame(table)
 #     print(df)
-
