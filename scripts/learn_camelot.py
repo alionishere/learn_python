@@ -6,8 +6,9 @@ import pandas as pd
 
 path = r'E:\tmp\东北证券：2019年年度报告.pdf'
 # extract tb from pdf
-tbs = camelot.read_pdf(path, pages='40', flavor='stream')
+tbs = camelot.read_pdf(path, pages='149-175', flavor='stream')
 # tbs = camelot.read_pdf(path)
+print(len(tbs))
 print(tbs[0].data)
 # with pdfplumber.open(path) as pdf:
 #     # content = ''
