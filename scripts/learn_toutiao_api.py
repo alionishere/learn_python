@@ -9,6 +9,7 @@ def get_clue_list():
         # ':scheme': 'https',
         # 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 AppVersion/1.7.0BXMQTJ AppVersion/1.7.0BXMQTJ AppVersion/1.7.0BXMQTJ AppVersion/1.7.0BXMQTJ AppVersion/1.7.0BXMQTJ AppVersion/1.7.0BXMQTJ',
         # 'X-Debug-Mode': '1',
+        # 'access_token': '9396dcfe63999568bbfca0f8324c6b8937509e4e'
         'access_token': '9396dcfe63999568bbfca0f8324c6b8937509e4e'
     }
 
