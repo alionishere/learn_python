@@ -17,7 +17,7 @@ def get_clue_list():
     uri = "2/tools/clue/get/"
     url = open_api_url_prefix + uri
     data = {
-        'advertiser_ids': ["1662581690593287"],
+        'advertiser_ids': ["1668338098434056"],
         # 'access_token': '9396dcfe63999568bbfca0f8324c6b8937509e4e',
         'start_time': '2019-06-17',
         'end_time': '2021-06-17'
