@@ -93,7 +93,7 @@ WHEN NOT MATCHED THEN INSERT
 (ADVERTISER_NAME,APP_NAME,SITE_ID,TELEPHONE,CREATE_TIME_DETAIL,CITY_NAME,CREATE_TIME,CONVERT_STATUS,MODULE_ID,CLUE_ID,"date",FORM_REMARK,LOCATION,EMAIL,STORE_ID,STORE_PACK_REMARK,STORE_PACK_NAME,STORE_ADDRESS,STORE_LOCATION,STORE_NAME,STORE_REMARK,STORE_PACK_ID,PROVINCE_NAME,AD_ID,CLUE_SOURCE,WEIXIN,ADVERTISER_ID,REMARK_DICT,ADDRESS,AD_NAME,QQ,REMARK,NAME,GENDER,AGE,REQ_ID,CLUE_TYPE,MODULE_NAME,EXTERNAL_URL)
 VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')
   ''' % (
-    data_lst[9], data_lst[7], data_lst[1], data_lst[2], data_lst[3], data_lst[4], data_lst[5], data_lst[6], data_lst[7], data_lst[8],
+    data_lst[9], data_lst[7], data_lst[0], data_lst[1], data_lst[2], data_lst[3], data_lst[4], data_lst[5], data_lst[6], data_lst[7], data_lst[8],
     data_lst[9], data_lst[10], data_lst[11], data_lst[12], data_lst[13], data_lst[14], data_lst[15], data_lst[16],
     data_lst[17], data_lst[18], data_lst[19], data_lst[20], data_lst[21], data_lst[22], data_lst[23], data_lst[24],
     data_lst[25], data_lst[26], data_lst[27], data_lst[28], data_lst[29], data_lst[30], data_lst[31], data_lst[32],
