@@ -65,36 +65,18 @@ client = OEClient()
 
 # 有效期自行查询文档，记得是一天一换
 # http://localhost:8000/oauth/oceanengine?state=your_custom_params&auth_code=2b6d5c90d1eb9fee8b036dae96c2d2fccd7ea1d3
-auth_code = '4a8c3bbccc50f2af4d4c65c5d589a7bacf76703b'
-response = client.fetch_access_token(auth_code)
-print(response.text)
-# 下面是上面几行的输出
-'''
-{
-    "message": "OK",
-    "code": 0,
-    "data": {
-        "advertiser_id": 1668338098434056,
-        "advertiser_name": "东吴证券-西北街营业部",
-        "access_token": "e7db5285d22efd25ab85aa0c0f968f5a200c0b4b",
-        "refresh_token_expires_in": 2591999,
-        "advertiser_ids": [
-            1668338098434056
-        ],
-        "expires_in": 86399,
-        "refresh_token": "9ed0c2f4934750a1a1941b3b8bf2390d78893ac2"
-    },
-    "request_id": "202008251522300100230302171B00F2CF"
-}
-'''
+# auth_code = '4a8c3bbccc50f2af4d4c65c5d589a7bacf76703b'
+auth_code = 'a736cc977c2ff3b1f633fef3eb6805f475372ec0'
+# response = client.fetch_access_token(auth_code)
+# print(response.text)
 
 ###################################
 # refresh token
 ###################################
-refresh_token = "9ed0c2f4934750a1a1941b3b8bf2390d78893ac2"
+refresh_token = "ca3c90ed2a9f903afc0191e5d47e9eb7503830ca"
 
-rsp_refresh_token = client.refresh_access_token(refresh_token)
-print(rsp_refresh_token)
+# rsp_refresh_token = client.refresh_access_token(refresh_token)
+# print(rsp_refresh_token)
 
 
 # get db connection
@@ -124,7 +106,7 @@ def close_db(cursor, conn):
     conn.close()
 
 # client.access_token = 'e7db5285d22efd25ab85aa0c0f968f5a200c0b4b'
-client.access_token = '40178f82083f046cc52d244ed414f426fbaa5ac0'
+client.access_token = 'b11a7a53621ece5b8ccb9376b76aac9700d21df3'
 # 1662581690593287 这个ID得单独带上，可能还得看看有没有其他的广告主ID
 # 头条的ID体系不是太明白，oAuth后获取到的ID是1668338098434056，实际应该写1662581690593287
 advertiser_ids = [1668338098434056, 1662581690593287]
@@ -134,8 +116,8 @@ response = client.fetch_clue_list(advertiser_ids, start_time, end_time)
 # print(response.text)
 rsp_lst = response.json()['data']['list']
 
-# conn = get_db_conn()
-# cur = conn.cursor()
+conn = get_db_conn()
+cur = conn.cursor()
 
 for res in rsp_lst:
     result = []
@@ -219,9 +201,9 @@ for res in rsp_lst:
     result.append(module_name)
     result.append(external_url)
     print(result)
-    # write2db(cur, result)
-# conn.commit()
-# close_db(cur, conn)
+    write2db(cur, result)
+conn.commit()
+close_db(cur, conn)
 
 # create_engine('oracle://qmcb:qmcb@localhost:1521/tqmcbdb')
 # engine = create_engine('oracle://kingstar:kingstar@10.29.7.211:1521/siddc01')
