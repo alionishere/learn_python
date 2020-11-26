@@ -226,7 +226,8 @@ def fetch_data_to_db(advertiser_ids, start_time, end_time):
 
 # 1662581690593287 这个ID得单独带上，可能还得看看有没有其他的广告主ID
 # 头条的ID体系不是太明白，oAuth后获取到的ID是1668338098434056，实际应该写1662581690593287
-advertiser_ids = [1668338098434056, 1662581690593287]
+advertiser_ids = [1668338098434056, 1676511650326543]
+# advertiser_ids = [1668338098434056, 1662581690593287]
 # start_time = str(date.today())
 # end_time = str(date.today())
 start_date = date.today() + timedelta(days=-22)
