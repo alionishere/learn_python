@@ -18,7 +18,6 @@ k = 0
 # pdf = pdfplumber.open('C:/Users/13637/Desktop/dwzq.pdf')
 pdf = pdfplumber.open('E:/tmp/dwzq.pdf')
 
-print('\n')
 print('开始读取数据')
 print('\n')
 
@@ -92,7 +91,6 @@ for page in pdf.pages[1:300]:
         for i in range(page_number - 1, page_number + 2):
             page_use = pdf.pages[i]
             for table in page_use.extract_tables():
-
                 for row in table:
                     for m in dic4:
                         if m in row:
