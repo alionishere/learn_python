@@ -70,7 +70,6 @@ for page in pdf.pages[1:300]:
         for i in range(page_number - 1, page_number + 2):
             page_use = pdf.pages[i]
             for table in page_use.extract_tables():
-
                 for row in table:
                     # print(row)
                     for m in dic3:
