@@ -85,7 +85,7 @@ for bond_company in dic5:
                             if m in row:
                                 table_data = [i for i in row if i is not None]
                                 print(table_data)
-        if not table_data:
+        if table_data == []:
             if k >= 2:
                 k = 0
                 table_data = []
@@ -111,7 +111,7 @@ for bond_company in dic5:
                             if m in row:
                                 table_data = [i for i in row if i is not None]
                                 print(table_data)
-        if not table_data:
+        if table_data == []:
             if k >= 2:
                 k = 0
                 table_data = []
