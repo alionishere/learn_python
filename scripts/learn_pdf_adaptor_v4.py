@@ -26,39 +26,78 @@ dic5 = ['华泰证券']
 # 方案2
 # 通过表名+页码定位
 # 表名#表序号#是否跨页#页码&表定位
-ebs = ['2、结算备付金#1#n#129&1', '3、融出资金#1#n#129&2', '3、融出资金#1#y#129']
-k = 0
-table_data = []
+ebs = ['结算备付金#1#n#129&1', '融出资金#1#n#129&2', '融出资金#2#y#129&3&1', '衍生金融工具#1#y#130&2&2', '买入返售金融资产#1#y#133&2&1',
+       '买入返售金融资产#2#n#134&2', '买入返售金融资产#3#n#134&3', '存出保证金#1#n#131&1']
+# ebs = ['2、结算备付金#1#n#129&1']
 
 pdf = pdfplumber.open(r'E:\tmp\光大证券2019年年度报告.pdf')
+
 # 母公司资产负债表
-for page in pdf.pages[1:400]:
-    # print(type(page.extract_tables()))
-    # sys.exit()
-    data = page.extract_text()
-    for i in ebs:
-        item = i.split('#')[0]
-        tb_seq_str = i.split('#')[1]
-        if item in data:   # 有些复制出的带空格，其实PDF原本不带
-            print('item: %s' % item)
-            page_no = page.page_number
-            print('page_no: %s' % page_no)
-            # for m in rang e(page_no - 1, page_no + 2):
-            content_lst = []
-            if tb_seq_str == '3':
-                page_content_1 = pdf.pages[page_no - 1]
-                tbls_1 = page_content_1.extract_tables()
-                print('tb_cnt: %s' % len(tbls_1))
-                for row in tbls_1[len(tbls_1) - 1]:
-                    content_lst_temp = [n for n in row]
-                    # content_lst.append(content_lst_temp)
-                    print(content_lst_temp)
-                page_content_2 = pdf.pages[page_no]
-                print('--' * 20)
-                tbls_2 = page_content_2.extract_tables()
-                for row in tbls_2[0]:
-                    content_lst = [n for n in row]
-                    print(content_lst)
+for i in ebs:
+    item = i.split('#')[0]
+    item_no = int(i.split('#')[1])  # 指标项序号
+    double_spread = i.split('#')[2].lower().strip()  # 是否跨页：y 跨页， n 不跨页
+    detail_cfg = i.split('#')[3]  # 若跨页，则配置第几页，否则，配置第几页第几个表
+    item_page_no = int(detail_cfg.split('&')[0])
+    tbls = pdf.pages[item_page_no - 1].extract_tables()
+    tbl_name = 'item: %s_%s' % (item, item_no)
+    print(tbl_name)
+    if double_spread == 'n':
+        item_tb_no = int(detail_cfg.split('&')[1])
+        tgt_tb = tbls[item_tb_no - 1]
+        for row in tgt_tb:
+            row_lst = [n for n in row]
+            print(row_lst)
+        print('-*' * 50)
+    elif double_spread == 'y':
+        item_tb_no_1 = int(detail_cfg.split('&')[1])
+        item_tb_no_2 = int(detail_cfg.split('&')[2])
+        tbls_2 = pdf.pages[item_page_no].extract_tables()
+        tgt_tb_1 = tbls[item_tb_no_1 - 1]
+        tgt_tb_2 = tbls_2[item_tb_no_2 - 1]
+        print('.....%s' % len(tbls_2))
+        for row in tgt_tb_1:
+            row_lst = [n for n in row]
+            print(row_lst)
+        for row in tgt_tb_2:
+            row_lst = [n for n in row]
+            print(row_lst)
+        print('-*' * 50)
+        # for row in tbls_2[1]:
+        #     row_lst = [n for n in row]
+        #     print(row_lst)
+    else:
+        print('Configuration item error! Please check!')
+
+# for page in pdf.pages[1:400]:
+#     # print(type(page.extract_tables()))
+#     # sys.exit()
+#     data = page.extract_text()
+#     for i in ebs:
+#         item = i.split('#')[0]
+#         item_no = i.split('#')[1]
+#         double_spread = i.split('#')[2]  # 是否跨页：y 跨页， n 不跨页
+#         detail_cfg = i.split('#')[3]  # 若跨页，则配置第几页，否则，配置第几页第几个表
+
+#         print('item: %s' % item)
+#         page_no = page.page_number
+#         print('page_no: %s' % page_no)
+#         # for m in rang e(page_no - 1, page_no + 2):
+#         content_lst = []
+#         if item_no == '3':
+#             page_content_1 = pdf.pages[page_no - 1]
+#             tbls_1 = page_content_1.extract_tables()
+#             print('tb_cnt: %s' % len(tbls_1))
+#             for row in tbls_1[len(tbls_1) - 1]:
+#                 content_lst_temp = [n for n in row]
+#                 # content_lst.append(content_lst_temp)
+#                 print(content_lst_temp)
+#             page_content_2 = pdf.pages[page_no]
+#             print('--' * 20)
+#             tbls_2 = page_content_2.extract_tables()
+#             for row in tbls_2[0]:
+#                 content_lst = [n for n in row]
+#                 print(content_lst)
             # print(content_lst)
 
             # for tb_seq in tb_seq_lst:
