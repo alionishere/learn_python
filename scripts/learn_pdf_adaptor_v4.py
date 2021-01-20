@@ -35,7 +35,10 @@ ebs = ['结算备付金#1#n#0#129&1', '融出资金#1#n#0#129&2', '融出资金#
        '买入返售金融资产#2#n#0#134&2', '买入返售金融资产#3#n#0#134&3', '存出保证金#1#n#0#131&1', '交易性金融资产#1#n#0#136&1',
        '交易性金融资产#2#n#0#137&3', '交易性金融资产#3#n#0#137&2', '债权投资#1#y#1#137&1&2', '债权投资#2#n#0#138&3', '其他债权投资#1#n#0#138&1',
        '其他权益工具投资#1#n#0#139&1', '其他权益工具投资#1#n#0#140&2', '长期股权投资#1#y#2#140&1&1', '融券业务#1#n#0#152&2',
-       '资产减值准备变动表#1#n#0#152&1', '金融工具及其他项目预期信用损失准备表#1#n#0#153&1']
+       '资产减值准备变动表#1#n#0#152&1', '金融工具及其他项目预期信用损失准备表#1#n#0#153&1', '应付短期融资款#1#n#0#154&1',
+       '交易性金融负债#1#n#0#155&1', '卖出回购金融资产款#1#y#1#155&2&1', '卖出回购金融资产款#2#n#1#156&2', '卖出回购金融资产款#3#n#0#156&3',
+       '卖出回购金融资产款#4#n#0#156&4', '应付债券#1#y#1#160&1&1', '投资收益#1#n#0#171&1', '投资收益#2#n#0#171&2', '公允价值变动收益#1#n#0#172&1',
+       '信用减值损失#1#n#0#173&2']
 # ebs = ['2、结算备付金#1#n#129&1']
 
 pdf = pdfplumber.open(r'E:\tmp\光大证券2019年年度报告.pdf')
@@ -91,63 +94,3 @@ for i in ebs:
             print('-*' * 50)
     else:
         print('Configuration item error! Please check!')
-
-# for page in pdf.pages[1:400]:
-#     # print(type(page.extract_tables()))
-#     # sys.exit()
-#     data = page.extract_text()
-#     for i in ebs:
-#         item = i.split('#')[0]
-#         item_no = i.split('#')[1]
-#         double_spread = i.split('#')[2]  # 是否跨页：y 跨页， n 不跨页
-#         detail_cfg = i.split('#')[3]  # 若跨页，则配置第几页，否则，配置第几页第几个表
-
-#         print('item: %s' % item)
-#         page_no = page.page_number
-#         print('page_no: %s' % page_no)
-#         # for m in rang e(page_no - 1, page_no + 2):
-#         content_lst = []
-#         if item_no == '3':
-#             page_content_1 = pdf.pages[page_no - 1]
-#             tbls_1 = page_content_1.extract_tables()
-#             print('tb_cnt: %s' % len(tbls_1))
-#             for row in tbls_1[len(tbls_1) - 1]:
-#                 content_lst_temp = [n for n in row]
-#                 # content_lst.append(content_lst_temp)
-#                 print(content_lst_temp)
-#             page_content_2 = pdf.pages[page_no]
-#             print('--' * 20)
-#             tbls_2 = page_content_2.extract_tables()
-#             for row in tbls_2[0]:
-#                 content_lst = [n for n in row]
-#                 print(content_lst)
-            # print(content_lst)
-
-            # for tb_seq in tb_seq_lst:
-            #     for row in tbls[int(tb_seq)]:
-            #         # print(type(row))
-            #         content_lst = [n for n in row]
-            #         print(content_lst)
-    # if '母公司资产负债表' in data:
-    #     k = k + 1
-    #     page_number = page.page_number
-    #     print(page_number)
-        # for i in range(page_number - 1, page_number + 2):
-        #     page_use = pdf.pages[i]
-        #     for table in page_use.extract_tables():
-        #         for row in table:
-        #             for m in dic1:
-        #                 if m in row:
-        #                     table_data = [i for i in row if i is not None]
-        #                     print(table_data)
-    # if not table_data:
-    #     if k >= 2:
-    #         k = 0
-    #         table_data = []
-    #         break
-    # else:
-    #     k = 0
-    #     table_data = []
-    #     break
-
-# pdf.close()
