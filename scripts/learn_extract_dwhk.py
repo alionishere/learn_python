@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import xlrd
 import cx_Oracle
-import time
 from datetime import datetime
 import logging
 
