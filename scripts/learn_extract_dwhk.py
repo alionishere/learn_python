@@ -3,6 +3,11 @@ import xlrd
 import cx_Oracle
 import time
 from datetime import datetime
+import logging
+
+LOG_FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
+logging.basicConfig(filename='D:/whk/log/dwhk_%s.log' % datetime.now().strftime('%Y%m%d'), level=logging.INFO,
+                    format=LOG_FORMAT)
 
 
 # 访问数据库，插入数据
@@ -29,10 +34,8 @@ def write2db(file_name, t_date, user_name, sql, tb_name, sheet_idx, row_limit, i
     sheet = readbook.sheet_by_index(sheet_idx)  # 索引的方式，从0开始
     if if_row_limit:
         nrows = row_limit
-        print('nrows:%s' % nrows)
     else:
         nrows = sheet.nrows  # 行
-        print(nrows)
     ncols = sheet.ncols  # 列
     conn = get_db_conn()
     cur = conn.cursor()
@@ -41,7 +44,6 @@ def write2db(file_name, t_date, user_name, sql, tb_name, sheet_idx, row_limit, i
         data = [sheet.cell(r, c).value for c in range(0, ncols)]
         data.append(user_name)
         data.append(t_date)
-        # print(data)
         insert_sql(cur, sql, data)
     conn.commit()
     close_db(cur, conn)
@@ -55,9 +57,7 @@ def run(file_name, tb_name_lst, sql_lst, sheet_interval=1, if_row_limit=True):
         row_limit = int(tb_name_lst[i].split('&')[1])
         sql = sql_lst[i] % tb_name
         sheet_inx = i + sheet_interval
-        print(sql)
         write2db(file_name, t_date, user_name, sql, tb_name, sheet_inx, row_limit, if_row_limit)
-        print('*' * 50)
 
 
 # main
@@ -74,15 +74,30 @@ sql_lst = ['INSERT INTO SC61.%s(A,B,C,D,E,F,G,USER_NAME,DS_DATE) VALUES(:1,:2,:3
            'INSERT INTO SC61.%s(A,B,C,D,E,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7)',
            'INSERT INTO SC61.%s(A,B,C,D,E,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7)',
            'INSERT INTO SC61.%s(A,B,C,D,E,F,G,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9)']
-sql_lst2 = ['INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19,:20)',
-            'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19)',
-            'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19,:20,:21,:22,:23,:24,:25,:26)',
-            'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12)',
-            'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19,:20,:21,:22,:23)',
-            'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19,:20)',
-            'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16)',
-            'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17)',
-            'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13)']
+sql_lst2 = [
+    'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19,:20)',
+    'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19)',
+    'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19,:20,:21,:22,:23,:24,:25,:26)',
+    'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12)',
+    'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19,:20,:21,:22,:23)',
+    'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19,:20)',
+    'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16)',
+    'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17)',
+    'INSERT INTO SC61.%s(A,B,C,D,E,F,G,H,I,J,K,USER_NAME,DS_DATE) VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13)']
 
-run(file_name, tb_name_lst, sql_lst, sheet_interval=0)
-# run(file_name2, tb_name_lst2, sql_lst2, sheet_interval=0, if_row_limit=False)
+try:
+    run(file_name, tb_name_lst, sql_lst)
+except Exception as e:
+    logging.error('read file 1 error!')
+    logging.error(e)
+else:
+    logging.info('read file 1 successful!')
+
+try:
+    run(file_name2, tb_name_lst2, sql_lst2, sheet_interval=0, if_row_limit=False)
+except:
+    logging.error('read file 2 error!')
+    logging.error(e)
+else:
+    logging.info('read file 2 successful!')
+
