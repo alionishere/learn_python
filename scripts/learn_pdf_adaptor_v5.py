@@ -1,5 +1,6 @@
 import sys
 import pdfplumber
+import tabula
 
 # 通过表名+页码定位
 # 表名#表序号#是否跨页#页码&表定位
