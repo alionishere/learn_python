@@ -13,9 +13,9 @@ logging.basicConfig(filename='D:/whk/log/toutiao.log', level=logging.INFO, forma
 
 class OEClient:
     # APP_ID = '1675629103409171'
-    APP_ID = '1676714476618766'
+    APP_ID = '1679163061779460'
     # APP_SECRET = 'bb7b48457ea3722742a7f34888bc21c66243c0fa'
-    APP_SECRET = '3ef0c18b6380ce1ae5e8ffea5c143855b244a5a1'
+    APP_SECRET = 'd85f9f6be5bd6c9250d6e268dce99ce9b6c73cc3'
     # APP_OAUTH_CALLBACK_URL = 'http://localhost:8000/oauth/oceanengine'
     APP_OAUTH_CALLBACK_URL = 'http://localhost:8000/oauth/oceanengine'
     # AUTHORIZED_URL = '''https://ad.oceanengine.com/openapi/audit/oauth.html?app_id=1675629103409171&state=your_custom_params&scope=%5B800%2C100%2C69%2C200%2C73%2C42%2C43%2C44%2C45%2C210%2C47%2C720%2C40%2C242%2C243%2C723%2C56%2C760%2C250%2C220%2C30%5D&material_auth=1&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth%2Foceanengine&rid=07svavgox0yf'''
@@ -72,6 +72,7 @@ client = OEClient()
 # 有效期自行查询文档，记得是一天一换
 # http://localhost:8000/oauth/oceanengine?state=your_custom_params&auth_code=2b6d5c90d1eb9fee8b036dae96c2d2fccd7ea1d3
 # auth_code = 'd58336650607ba3e1afa059606e10f2457e6b466'
+# auth_code = '02a0620098da4d94edc82aecc768ff6490ff5ada'
 # response = client.fetch_access_token(auth_code)
 # print(response.text)
 
@@ -80,16 +81,16 @@ client = OEClient()
 ###################################
 # hour = str(datetime.now().hour)
 # refresh_token = "08a23e120dcd7871c4d96392024d4f52dac21461"
-with open('D:/whk/log/refresh_token.dat', 'r') as fr:
+with open('D:/whk/log/refresh_token2.dat', 'r') as fr:
     refresh_token = fr.read()
 
 rsp_refresh_token = client.refresh_access_token(refresh_token)
-# print(rsp_refresh_token)
+print(rsp_refresh_token)
 # print(rsp_refresh_token['data']['refresh_token'])
 refresh_token = rsp_refresh_token['data']['refresh_token']
 
 logging.info('refresh_token: %s' % refresh_token)
-with open('D:/whk/log/refresh_token.dat', 'w') as fw:
+with open('D:/whk/log/refresh_token2.dat', 'w') as fw:
     fw.write(refresh_token)
 
 # client.access_token = '24fb05d857eb17f77199fa7f36ac267d3d342c29'
@@ -129,7 +130,7 @@ def close_db(cursor, conn):
 
 
 def fetch_data_to_db(advertiser_ids, start_time, end_time):
-    for page in range(1, 5):
+    for page in range(1, 7):
         response = client.fetch_clue_list(advertiser_ids, start_time, end_time, page)
         print(response.text)
         rsp_lst = response.json()['data']['list']
@@ -226,11 +227,10 @@ def fetch_data_to_db(advertiser_ids, start_time, end_time):
 
 # 1662581690593287 这个ID得单独带上，可能还得看看有没有其他的广告主ID
 # 头条的ID体系不是太明白，oAuth后获取到的ID是1668338098434056，实际应该写1662581690593287
-advertiser_ids = [1668338098434056, 1676511650326543]
-# advertiser_ids = [1668338098434056, 1662581690593287]
+advertiser_ids = [1678971206080525, 1678971204908045, 1678971179505677, 1678971205601288, 1678971205260301]
 # start_time = str(date.today())
 # end_time = str(date.today())
-start_date = date.today() + timedelta(days=-22)
-for i in range(107):
+start_date = date.today() + timedelta(days=0)
+for i in range(1, 3):
     print(start_date + timedelta(days=-i), end=',')
     fetch_data_to_db(advertiser_ids, str(start_date + timedelta(days=-i)), str(start_date + timedelta(days=-i)))

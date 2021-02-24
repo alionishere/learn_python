@@ -7,8 +7,9 @@ from sqlalchemy.ext.declarative import declarative_base
 
 class OEClient:
     # APP_ID = '1675629103409171'
-    APP_ID = '1676714476618766'
     # APP_SECRET = 'bb7b48457ea3722742a7f34888bc21c66243c0fa'
+
+    APP_ID = '1676714476618766'
     APP_SECRET = '3ef0c18b6380ce1ae5e8ffea5c143855b244a5a1'
     # APP_OAUTH_CALLBACK_URL = 'http://localhost:8000/oauth/oceanengine'
     APP_OAUTH_CALLBACK_URL = 'http://localhost:8000/oauth/oceanengine'
