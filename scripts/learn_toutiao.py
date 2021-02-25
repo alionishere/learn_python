@@ -2,7 +2,6 @@
 import requests
 
 
-
 class OEClient:
     APP_ID = '1675629103409171'
     APP_SECRET = 'bb7b48457ea3722742a7f34888bc21c66243c0fa'

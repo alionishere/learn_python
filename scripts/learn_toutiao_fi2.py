@@ -51,7 +51,7 @@ class OEClient:
         rsp_data = rsp.json()
         return rsp_data
 
-    def get_advertiser_daily_stat(self, advertiser_id, start_date, end_date, page):
+    def get_advertiser_daily_stat(self, advertiser_id, start_date, end_date, page, access_token):
         open_api_url_prefix = "https://ad.oceanengine.com/open_api/"
         uri = "2/advertiser/fund/daily_stat/"
         url = open_api_url_prefix + uri
@@ -62,7 +62,7 @@ class OEClient:
             "page": page,
             "page_size": 100
         }
-        headers = {"Access-Token": self.access_token}
+        headers = {"Access-Token": access_token}
         rsp = requests.get(url, json=params, headers=headers)
         rsp_data = rsp.json()
         return rsp_data
@@ -73,19 +73,19 @@ client = OEClient()
 ###################################
 # refresh token
 ###################################
-with open('D:/whk/log/refresh_token_fi_4.dat', 'r') as fr:
+with open('D:/whk/log/refresh_token_fi_2.dat', 'r') as fr:
     refresh_token = fr.read()
-# rps_data = client.fetch_access_token(auth_code='c78cdb035e6dd60a930c6dc08ae3f6ec1858601f')
+# rps_data = client.fetch_access_token(auth_code='589ff1a544ef352d8282be3ef451cc40ce572eb4')
 # print(rps_data.text)
 # import sys
 # sys.exit(0)
-# refresh_token = '1e1aa4717445bd5466b9b879a8d4f6a97e45147b'
+# refresh_token = '2262141b901dfccf7bb92371a91196cd407871a0'
 rsp_refresh_token = client.refresh_access_token(refresh_token)
 refresh_token = rsp_refresh_token['data']['refresh_token']
 # print('refresh_token: %s' % refresh_token)
 
 logging.info('refresh_token: %s' % refresh_token)
-with open('D:/whk/log/refresh_token_fi_4.dat', 'w') as fw:
+with open('D:/whk/log/refresh_token_fi_2.dat', 'w') as fw:
     fw.write(refresh_token)
 
 client.access_token = rsp_refresh_token['data']['access_token']
@@ -148,9 +148,16 @@ start_date = str(date.today() + timedelta(days=0))
 end_date = str(date.today())
 
 tb_name = 'SC61.T_TOUTIAO_FI'
+# for advertiser_id in advertiser_ids:
+#     # print(advertiser_id)
+#     try:
+#         fetch_advertiser_data(tb_name, advertiser_id, start_date, start_date)
+#     except Exception as e:
+#         print('Error 1: %s' % e)
+#         pass
 
 for i in range(1, 5):
     start_date = str(date.today() + timedelta(days=-i))
     # print(start_date)
     tb_name = 'SC61.T_TOUTIAO_FI'
-    fetch_advertiser_data(tb_name, advertiser_ids4, start_date, start_date)
+    fetch_advertiser_data(tb_name, advertiser_ids, start_date, start_date)
