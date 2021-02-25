@@ -102,15 +102,20 @@ def close_db(cursor, conn):
     conn.close()
 
 
-def write2db(tb_name, rsp_dic):
+def del_data(cursor, tb_name, advertise_id, t_date):
+    sql = 'delete sc61.%s where advertise_id = %s and date_f = %s' %(tb_name, advertise_id, t_date)
+    cursor.execute(sql)
+
+
+def write2db(tb_name, rsp_dic, conn, cur):
     keys = ', '.join(key + '_F' for key in rsp_dic.keys())
     # values = ', '.join(['%s'] * len(rsp_dic))
     values = ':1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12'
     sql = 'INSERT INTO {tb_name}({keys}) VALUES ({values})'.format(tb_name=tb_name, keys=keys, values=values)
     # print(sql)
     print(list(rsp_dic.values()))
-    conn = get_db_conn()
-    cur = conn.cursor()
+    # conn = get_db_conn()
+    # cur = conn.cursor()
     cur.execute(sql, list(rsp_dic.values()))
     conn.commit()
     close_db(cur, conn)
@@ -123,6 +128,8 @@ def fetch_advertiser_data(tb_name, advertiser_ids, start_date, end_date):
                 response = client.get_advertiser_daily_stat(advertiser_id, start_date, end_date, page)
                 rsp_dic = response['data']['list'][0]
                 print(rsp_dic)
+                conn = get_db_conn()
+                cur = conn.cursor()
                 # write2db(tb_name, rsp_dic)
         except Exception as e:
             print('Error 1: %s' % e)
