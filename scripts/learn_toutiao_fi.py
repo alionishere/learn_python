@@ -103,7 +103,7 @@ def close_db(cursor, conn):
 
 
 def del_data(cursor, tb_name, advertise_id, t_date):
-    sql = 'delete sc61.%s where advertise_id = %s and date_f = %s' %(tb_name, advertise_id, t_date)
+    sql = 'delete sc61.%s where advertise_id = %s and date_f = %s' % (tb_name, advertise_id, t_date)
     cursor.execute(sql)
 
 
@@ -130,6 +130,7 @@ def fetch_advertiser_data(tb_name, advertiser_ids, start_date, end_date):
                 print(rsp_dic)
                 conn = get_db_conn()
                 cur = conn.cursor()
+                # del_data(cur, tb_name, advertiser_id, start_date)
                 # write2db(tb_name, rsp_dic)
         except Exception as e:
             print('Error 1: %s' % e)
