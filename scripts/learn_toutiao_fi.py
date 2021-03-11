@@ -70,27 +70,37 @@ class OEClient:
 
 client = OEClient()
 
+
 ###################################
 # refresh token
 ###################################
-with open('D:/whk/log/refresh_token_fi_4.dat', 'r') as fr:
-    refresh_token = fr.read()
-# rps_data = client.fetch_access_token(auth_code='c78cdb035e6dd60a930c6dc08ae3f6ec1858601f')
-# print(rps_data.text)
-# import sys
-# sys.exit(0)
-# refresh_token = '1e1aa4717445bd5466b9b879a8d4f6a97e45147b'
-rsp_refresh_token = client.refresh_access_token(refresh_token)
-refresh_token = rsp_refresh_token['data']['refresh_token']
-# print('refresh_token: %s' % refresh_token)
+def read_conf(conf_file=''):
+    with open('D:/whk/log/%s.dat' % conf_file, 'r') as fr:
+        refresh_token = fr.read()
+    return refresh_token
 
-logging.info('refresh_token: %s' % refresh_token)
-with open('D:/whk/log/refresh_token_fi_4.dat', 'w') as fw:
-    fw.write(refresh_token)
 
-client.access_token = rsp_refresh_token['data']['access_token']
-logging.info('access_token: %s' % client.access_token)
-# print('access_token: %s' % client.access_token)
+def write2conf(refresh_token, conf_file=''):
+    logging.info('refresh_token: %s' % refresh_token)
+    with open('D:/whk/log/%s.dat' % conf_file, 'w') as fw:
+        fw.write(refresh_token)
+
+
+def set_acces_token(rsp_refresh_token):
+    logging.info('access_token: %s' % client.access_token)
+    client.access_token = rsp_refresh_token['data']['access_token']
+
+
+def set_conf(conf_file):
+    with open('D:/whk/log/%s.dat' % conf_file, 'r') as fr:
+        refresh_token = fr.read()
+    rsp_refresh_token = client.refresh_access_token(refresh_token)
+    refresh_token = rsp_refresh_token['data']['refresh_token']
+    logging.info('refresh_token: %s' % refresh_token)
+    with open('D:/whk/log/%s.dat' % conf_file, 'w') as fw:
+        fw.write(refresh_token)
+    client.access_token = rsp_refresh_token['data']['access_token']
+    logging.info('access_token: %s' % client.access_token)
 
 
 def get_db_conn():
@@ -114,8 +124,6 @@ def write2db(tb_name, rsp_dic, conn, cur):
     sql = 'INSERT INTO {tb_name}({keys}) VALUES ({values})'.format(tb_name=tb_name, keys=keys, values=values)
     # print(sql)
     print(list(rsp_dic.values()))
-    # conn = get_db_conn()
-    # cur = conn.cursor()
     cur.execute(sql, list(rsp_dic.values()))
     conn.commit()
     close_db(cur, conn)
@@ -128,8 +136,8 @@ def fetch_advertiser_data(tb_name, advertiser_ids, start_date, end_date):
                 response = client.get_advertiser_daily_stat(advertiser_id, start_date, end_date, page)
                 rsp_dic = response['data']['list'][0]
                 print(rsp_dic)
-                conn = get_db_conn()
-                cur = conn.cursor()
+                # conn = get_db_conn()
+                # cur = conn.cursor()
                 # del_data(cur, tb_name, advertiser_id, start_date)
                 # write2db(tb_name, rsp_dic)
         except Exception as e:
@@ -138,27 +146,34 @@ def fetch_advertiser_data(tb_name, advertiser_ids, start_date, end_date):
         continue
 
 
-# advertiser_ids = [1692445980939271, 1690834797520903, 1690635545155608, 1678971206080525, 1678971205601288,
-#                   1678971205260301, 1678971204908045, 1678971179505677, 1692446581753869, 1692446503475214,
-#                   1692446580487182, 1692446580941837, 1692446581382152, 1668529402661896, 1690550581541902,
-#                   1690550581083149, 1690550580623373, 1668459097343000, 1688580006747278, 1689568285194248,
-#                   1689568285708301, 1689568289877005, 1689568290292750, 1689568290787335, 1689475569015880,
-#                   1688759945497678]
-advertiser_ids = [1692445980939271, 1690834797520903, 1690635545155608, 1678971206080525, 1678971205601288,
+def start2fetch(conf_file, advertiser_ids, if_trace=False, interval_no=5):
+    tb_name = 'SC61.T_TOUTIAO_FI'
+    set_conf(conf_file)
+    if if_trace:
+        for i in range(1, interval_no):
+            start_date = str(date.today() + timedelta(days=-i))
+            # print(start_date)
+            fetch_advertiser_data(tb_name, advertiser_ids, start_date, start_date)
+    else:
+        start_date = str(date.today() + timedelta(days=-1))
+        fetch_advertiser_data(tb_name, advertiser_ids, start_date, start_date)
+
+
+advertiser_ids1 = [1692445980939271, 1690834797520903, 1690635545155608, 1678971206080525, 1678971205601288,
                   1678971205260301, 1678971204908045, 1678971179505677]
 advertiser_ids2 = [1692446581753869, 1692446503475214, 1692446580487182, 1692446580941837, 1692446581382152,
                    1668529402661896, 1690550581541902, 1690550581083149, 1690550580623373, 1668459097343000]
 advertiser_ids3 = [1688580006747278, 1689568285194248, 1689568285708301, 1689568289877005, 1689568290292750,
                    1689568290787335]
 advertiser_ids4 = [1689475569015880, 1688759945497678]
-# start_date = '2021-02-23'
-start_date = str(date.today() + timedelta(days=0))
-end_date = str(date.today())
 
-tb_name = 'SC61.T_TOUTIAO_FI'
-
-for i in range(1, 5):
-    start_date = str(date.today() + timedelta(days=-i))
-    # print(start_date)
-    tb_name = 'SC61.T_TOUTIAO_FI'
-    fetch_advertiser_data(tb_name, advertiser_ids4, start_date, start_date)
+# rps_data = client.fetch_access_token(auth_code='c78cdb035e6dd60a930c6dc08ae3f6ec1858601f')
+# print(rps_data.text)
+# import sys
+# sys.exit(0)
+# refresh_token = '1e1aa4717445bd5466b9b879a8d4f6a97e45147b'
+conf_file_lst = ['refresh_token_fi_2', 'refresh_token_fi_3', 'refresh_token_fi_4']
+advertiser_ids_lst = [advertiser_ids2, advertiser_ids3, advertiser_ids4]
+for inx, conf_file in enumerate(conf_file_lst):
+    # print('conf_file:%s-%s' % (conf_file, advertiser_ids_lst[inx]))
+    start2fetch(conf_file, advertiser_ids_lst[inx])
