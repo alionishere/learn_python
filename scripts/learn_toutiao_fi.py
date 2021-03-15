@@ -112,12 +112,13 @@ def close_db(cursor, conn):
     conn.close()
 
 
-def del_data(cursor, tb_name, advertise_id, t_date):
-    sql = 'delete sc61.%s where advertise_id = %s and date_f = %s' % (tb_name, advertise_id, t_date)
+def del_data(cursor, tb_name, advertiser_id, t_date):
+    sql = "delete from %s where advertiser_id_f = %s and date_f = '%s'" % (tb_name, advertiser_id, t_date)
+    print(sql)
     cursor.execute(sql)
 
 
-def write2db(tb_name, rsp_dic, conn, cur):
+def write2db(conn, cur, tb_name, rsp_dic):
     keys = ', '.join(key + '_F' for key in rsp_dic.keys())
     # values = ', '.join(['%s'] * len(rsp_dic))
     values = ':1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12'
@@ -136,10 +137,10 @@ def fetch_advertiser_data(tb_name, advertiser_ids, start_date, end_date):
                 response = client.get_advertiser_daily_stat(advertiser_id, start_date, end_date, page)
                 rsp_dic = response['data']['list'][0]
                 print(rsp_dic)
-                # conn = get_db_conn()
-                # cur = conn.cursor()
-                # del_data(cur, tb_name, advertiser_id, start_date)
-                # write2db(tb_name, rsp_dic)
+                conn = get_db_conn()
+                cur = conn.cursor()
+                del_data(cur, tb_name, advertiser_id, start_date)
+                write2db(conn, cur, tb_name, rsp_dic)
         except Exception as e:
             print('Error 1: %s' % e)
             pass
@@ -165,15 +166,18 @@ advertiser_ids2 = [1692446581753869, 1692446503475214, 1692446580487182, 1692446
                    1668529402661896, 1690550581541902, 1690550581083149, 1690550580623373, 1668459097343000]
 advertiser_ids3 = [1688580006747278, 1689568285194248, 1689568285708301, 1689568289877005, 1689568290292750,
                    1689568290787335]
-advertiser_ids4 = [1689475569015880, 1688759945497678]
+# advertiser_ids4 = [1689475569015880, 1688759945497678]
+advertiser_ids4 = [1689475569015880, 1688759945497678, 1693360189910024, 1692990732976136, 1693283127353357,
+                   1693263680934989, 1693263680466952, 1693031530490894, 1693283689736199, 1693283689305102,
+                   1693643052951559, 1693642915081357, 1693642788458583]
 
-# rps_data = client.fetch_access_token(auth_code='c78cdb035e6dd60a930c6dc08ae3f6ec1858601f')
+# rps_data = client.fetch_access_token(auth_code='c4fc4cbef4a69ddd7a515beb4f4ee0b9701d088d')
 # print(rps_data.text)
 # import sys
 # sys.exit(0)
 # refresh_token = '1e1aa4717445bd5466b9b879a8d4f6a97e45147b'
-conf_file_lst = ['refresh_token_fi_2', 'refresh_token_fi_3', 'refresh_token_fi_4']
-advertiser_ids_lst = [advertiser_ids2, advertiser_ids3, advertiser_ids4]
+conf_file_lst = ['refresh_token_fi_4']
+advertiser_ids_lst = [advertiser_ids4]
 for inx, conf_file in enumerate(conf_file_lst):
     # print('conf_file:%s-%s' % (conf_file, advertiser_ids_lst[inx]))
-    start2fetch(conf_file, advertiser_ids_lst[inx])
+    start2fetch(conf_file, advertiser_ids_lst[inx], True, 50)
