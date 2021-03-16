@@ -175,7 +175,6 @@ advertiser_ids4 = [1689475569015880, 1688759945497678, 1693360189910024, 1692990
 # import sys
 # sys.exit(0)
 # refresh_token = '1e1aa4717445bd5466b9b879a8d4f6a97e45147b'
-
 conf_file_lst = ['refresh_token_fi_4']
 advertiser_ids_lst = [advertiser_ids4]
 for inx, conf_file in enumerate(conf_file_lst):
