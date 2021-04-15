@@ -1,5 +1,6 @@
 import sys
 import pdfplumber
+import numpy
 # import tabula
 import cx_Oracle
 
