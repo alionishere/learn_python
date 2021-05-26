@@ -22,11 +22,11 @@ def close_db(cursor, conn):
     conn.close()
 
 
-def del_data(cursor, tb_name, advertiser_id, if_trun, t_date):
+def del_data(cursor, tb_name, if_trun, t_date=None):
     if if_trun:
         sql = "truncate table sc61.%s" % tb_name
     else:
-        sql = "delete from sc61.%s where advertiser_id_f = %s and date_f = '%s'" % (tb_name, advertiser_id, t_date)
+        sql = "delete from sc61.%s where date_f = '%s'" % (tb_name, t_date)
     print(sql)
     cursor.execute(sql)
 
@@ -45,16 +45,15 @@ def fetch_access_token():
     return requests.get(url, headers=headers, json=data)
 
 
-def write2db(conn, cur, tb_name, rsp_dic):
-    keys = ', '.join(key for key in rsp_dic.keys())
+def write2db(conn, cur, tb_name, rsp_dic, values):
+    keys = ', '.join(key + '_c' for key in rsp_dic.keys())
     # values = ', '.join(['%s'] * len(rsp_dic))
-    values = ':1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11'
-    sql = 'INSERT INTO {tb_name}({keys}) VALUES ({values})'.format(tb_name=tb_name, keys=keys, values=values)
-    # print(sql)
-    # print(list(rsp_dic.values()))
+    sql = 'INSERT INTO sc61.{tb_name}({keys}) VALUES ({values})'.format(tb_name=tb_name, keys=keys, values=values)
+    print(sql)
+    print(list(rsp_dic.values()))
     cur.execute(sql, list(rsp_dic.values()))
-    conn.commit()
-    close_db(cur, conn)
+    # conn.commit()
+    # close_db(cur, conn)
 
 
 def get_user_info_batch(access_token, page=1):
@@ -102,30 +101,43 @@ def get_learn_record_by_resource_id(access_token, page=1, resource_type=1):
     return requests.post(url, headers=headers, json=data)
 
 
-def get_user_info_all(access_token, total_page):
+def get_user_info_all(access_token, tb_name):
+    total_page = math.ceil(get_user_info_batch(access_token).json()['data']['total'] / 50)
+    values = ':1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11'
+    conn = get_db_conn()
+    cur = conn.cursor()
+    del_data(cur, tb_name, True)
     for p in range(1, total_page + 1):
-        # user_info_dic = get_user_info_batch(access_token, p).json()['data']['list'][0]
+        user_info_lst = get_user_info_batch(access_token, p).json()['data']['list']
+        for user_info_dic in user_info_lst:
+            write2db(conn, cur, tb_name, user_info_dic, values)
         print(get_user_info_batch(access_token, p).json()['data']['list'])
-        # print(user_info_dic.values())
+    conn.commit()
+    close_db(cur, conn)
 
 
-def get_goods_list_all(access_token):
+def get_goods_list_all(access_token, tb_name):
     resource_type_lst = [1, 2, 3, 4, 6, 20]  # 商品类型 1.图文 2.音频 3.视频 4.直播 6.专栏 20.电子书
-    # resource_type_lst = [1]  # 商品类型 1.图文 2.音频 3.视频 4.直播 6.专栏 20.电子书
+    conn = get_db_conn()
+    cur = conn.cursor()
+    values = ':1, :2, :3, :4, :5, :6, :7, :8, :9, :10'
+    del_data(cur, tb_name, True)
     for resource_type in resource_type_lst:
         # total_page = math.ceil(get_goods_list(access_token, 1, resource_type).json()['data']['total'] / 50)
         total_page = 2
         print('resource_type: %s' % resource_type)
         for p in range(1, total_page + 1):
-            # user_info_dic = get_user_info_batch(access_token, p).json()['data']['list'][0]
-            print('page: %s' % p)
-            print(get_goods_list(access_token, p, resource_type).json()['data']['list'])
-            # print(user_info_dic.values())
+            # print('page: %s' % p)
+            goods_lst = get_goods_list(access_token, p, resource_type).json()['data']['list']
+            for goods_dic in goods_lst:
+                write2db(conn, cur, tb_name, goods_dic, values)
+            print(goods_lst)
 
 
-# access_token = 'xe_60ac88358f1b6_o7m41XRzd6zUnNLXMvJS5AmhVvk3Why0PQXQgXfuDVxamfbBPNgNSnpIkSWlEqFoqp7HbMU7YQsR0Q0yu2ezRrUqcySuIlLiKj4ZDxGIW88AZFC2dGScgVJxTaWS3uT1NeyTkPR'
-# user_info_cnt = get_user_info_batch(access_token).json()['data']['total']
-# total_page = math.ceil(user_info_cnt / 50)
 # get_user_info_all(access_token, total_page)
+# print(fetch_access_token().text)
+# import sys
+# sys.exit(0)
 access_token = fetch_access_token().json()['data']['access_token']
-print(get_goods_list_all(access_token))
+# get_user_info_all(access_token, 't_xiaoe_user_info')
+get_goods_list_all(access_token, 't_xiaoe_goods_list')
