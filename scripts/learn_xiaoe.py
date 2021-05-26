@@ -10,7 +10,7 @@ from sqlalchemy.ext.declarative import declarative_base
 # 配置日志
 t_today = datetime.now().strftime("%Y%m%d")
 LOG_FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
-logging.basicConfig(filename='D:/whk/log/toutiao_fi_%s.log' % t_today, level=logging.INFO, format=LOG_FORMAT)
+logging.basicConfig(filename='D:/whk/log/xiaoe_%s.log' % t_today, level=logging.INFO, format=LOG_FORMAT)
 
 
 def get_db_conn():
@@ -132,6 +132,8 @@ def get_goods_list_all(access_token, tb_name):
             for goods_dic in goods_lst:
                 write2db(conn, cur, tb_name, goods_dic, values)
             print(goods_lst)
+    conn.commit()
+    close_db(cur, conn)
 
 
 # get_user_info_all(access_token, total_page)
@@ -139,5 +141,9 @@ def get_goods_list_all(access_token, tb_name):
 # import sys
 # sys.exit(0)
 access_token = fetch_access_token().json()['data']['access_token']
-# get_user_info_all(access_token, 't_xiaoe_user_info')
+logging.info('-' * 10)
+logging.info('Start to fetch user info.')
+get_user_info_all(access_token, 't_xiaoe_user_info')
+logging.info('Complete the data of user info crawl.\n And Start to fetch goods list.')
 get_goods_list_all(access_token, 't_xiaoe_goods_list')
+logging.info('Complete the data of goods list crawl.')
