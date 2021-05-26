@@ -144,6 +144,6 @@ access_token = fetch_access_token().json()['data']['access_token']
 logging.info('-' * 10)
 logging.info('Start to fetch user info.')
 get_user_info_all(access_token, 't_xiaoe_user_info')
-logging.info('Complete the data of user info crawl.\n And Start to fetch goods list.')
+logging.info('Complete the data of user info crawl. And Start to fetch goods list.')
 get_goods_list_all(access_token, 't_xiaoe_goods_list')
 logging.info('Complete the data of goods list crawl.')
