@@ -213,4 +213,4 @@ get_goods_list_all(access_token, 't_xiaoe_goods_list')
 logging.info('Complete the data of goods list crawl. And Start to fetch learn record')
 user_id_dic_lst = []
 get_learn_record_main()
-logging.info('complete the data of learn record crawl.')
+logging.info('complete the data of learn record crawl..')
