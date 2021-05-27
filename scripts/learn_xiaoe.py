@@ -10,7 +10,7 @@ from sqlalchemy.ext.declarative import declarative_base
 # 配置日志
 t_today = datetime.now().strftime("%Y%m%d")
 LOG_FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
-logging.basicConfig(filename='D:/whk/log/xiaoe_%s.log' % t_today, level=logging.INFO, format=LOG_FORMAT)
+logging.basicConfig(filename='D:/whk/log/xiaoe.log', level=logging.INFO, format=LOG_FORMAT)
 
 
 def get_db_conn():
@@ -29,6 +29,18 @@ def del_data(cursor, tb_name, if_trun, t_date=None):
         sql = "delete from sc61.%s where date_f = '%s'" % (tb_name, t_date)
     print(sql)
     cursor.execute(sql)
+
+
+def get_data_from_db(cursor, sql):
+    try:
+        # 解析sql语句
+        cursor.parse(sql)
+        cursor.execute(sql)
+        # 捕获SQL异常
+    except cx_Oracle.DatabaseError as e:
+        print(e)
+        logging.info(e)
+    return cursor.fetchall()
 
 
 def fetch_access_token():
@@ -76,26 +88,24 @@ def get_goods_list(access_token, page=1, resource_type=1):
     }
     data = {
         "access_token": access_token,
-        "resource_type": 1,
+        "resource_type": resource_type,
         "page_index": page,
         "page_size": 50
     }
     return requests.post(url, headers=headers, json=data)
 
 
-def get_learn_record_by_resource_id(access_token, page=1, resource_type=1):
-    url = 'http://api.xiaoe-tech.com/api/xe.goods.list.get/3.0.0'
+def get_learn_record_by_rsc_id(access_token, user_id_dic=None, resource_id=None):
+    url = 'https://api.xiaoe-tech.com/xe.user.leaning_record_by_resource.get/1.0.0'
     headers = {
         'Content-Type': 'application/json',
     }
     data = {
         "access_token": access_token,
         "shop_id": "appuwfgd0ga8531",
-        "resource_id": page,
+        "resource_id": resource_id,
         "data": {
-            "list": {
-                "0": "u_api_60aca190a6e36_i6BoF8mmR0",
-            }
+            "list": user_id_dic
         }
     }
     return requests.post(url, headers=headers, json=data)
@@ -136,14 +146,71 @@ def get_goods_list_all(access_token, tb_name):
     close_db(cur, conn)
 
 
-# get_user_info_all(access_token, total_page)
-# print(fetch_access_token().text)
-# import sys
-# sys.exit(0)
+def get_learn_record_by_rsc_id_all(access_token, user_id_dic_lst, rsc_id_lst, tb_name):
+    values = ':1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17'
+    conn = get_db_conn()
+    cur = conn.cursor()
+    del_data(cur, tb_name, True)
+    for rsc_id in rsc_id_lst:
+        for user_id_dic in user_id_dic_lst:
+            res_data = get_learn_record_by_rsc_id(access_token, user_id_dic=user_id_dic,
+                                                              resource_id=rsc_id).json()['data']
+            if len(res_data) == 0:
+                continue
+            else:
+                learn_record_lst = res_data['list']
+
+            for lear_rcd_dic in learn_record_lst:
+                write2db(conn, cur, tb_name, lear_rcd_dic, values)
+            print(learn_record_lst)
+    conn.commit()
+    close_db(cur, conn)
+
+
+def get_user_id_dic(user_id_lst, user_id_cnt):
+    user_id_dic = {}
+    if len(user_id_lst) <= user_id_cnt:
+        for inx, user_id in enumerate(user_id_lst):
+            user_id_dic[inx] = user_id
+        # print(get_learn_record_by_rsc_id(access_token, user_id_dic=user_id_dic,
+        #                                  resource_id='i_6094eddee4b071a81eb81c88').text)
+        user_id_dic_lst.append(user_id_dic)
+        return user_id_dic
+    else:
+        for inx, user_id in enumerate(user_id_lst):
+            if inx >= user_id_cnt:
+                break
+            user_id_dic[inx % user_id_cnt] = user_id
+        del user_id_lst[:user_id_cnt]
+        # print(get_learn_record_by_rsc_id(access_token, user_id_dic=user_id_dic,
+        #                                  resource_id='i_6094eddee4b071a81eb81c88').text)
+        user_id_dic_lst.append(user_id_dic)
+        return get_user_id_dic(user_id_lst, user_id_cnt)
+
+
+def get_learn_record_main(user_id_cnt=100):
+    sql_user = 'SELECT USER_ID_C FROM SC61.T_XIAOE_USER_INFO'
+    sql_rsc = 'SELECT ID_C FROM SC61.T_XIAOE_GOODS_LIST'
+    conn = get_db_conn()
+    cur = conn.cursor()
+    # 获取user_id列表
+    user_ids = get_data_from_db(cur, sql_user)
+    user_id_lst = [user_id[0] for user_id in user_ids]
+    get_user_id_dic(user_id_lst, user_id_cnt)
+    # 获取resource_id列表
+    rsc_ids = get_data_from_db(cur, sql_rsc)
+    rsc_id_lst = [rsc_id[0] for rsc_id in rsc_ids]
+    close_db(cur, conn)
+    get_learn_record_by_rsc_id_all(access_token, user_id_dic_lst, rsc_id_lst, 't_xiaoe_learn_record_by_rsc_id')
+
+
 access_token = fetch_access_token().json()['data']['access_token']
-logging.info('-' * 10)
+logging.info('-' * 50)
 logging.info('Start to fetch user info.')
 get_user_info_all(access_token, 't_xiaoe_user_info')
 logging.info('Complete the data of user info crawl. And Start to fetch goods list.')
 get_goods_list_all(access_token, 't_xiaoe_goods_list')
-logging.info('Complete the data of goods list crawl.')
+logging.info('Complete the data of goods list crawl. And Start to fetch learn record')
+user_id_dic_lst = []
+get_learn_record_main()
+logging.info('complete the data of learn record crawl.')
