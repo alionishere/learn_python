@@ -204,6 +204,7 @@ def get_learn_record_main(user_id_cnt=100):
     get_learn_record_by_rsc_id_all(access_token, user_id_dic_lst, rsc_id_lst, 't_xiaoe_learn_record_by_rsc_id')
 
 
+# main
 access_token = fetch_access_token().json()['data']['access_token']
 logging.info('-' * 50)
 logging.info('Start to fetch user info.')
