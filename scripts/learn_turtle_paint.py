@@ -2,7 +2,7 @@ import turtle
 import time
 
 
-# 实现清屏效果；
+# 实现清屏效果
 def clear_screen():
     turtle.penup()  # 画笔抬起
     turtle.goto(0, 0)  # 定位到（0，0）
