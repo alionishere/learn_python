@@ -104,6 +104,6 @@ def main():
     mainloop()
 
 
-# run
+# run ;
 if __name__ == "__main__":
     main()
