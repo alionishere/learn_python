@@ -87,7 +87,7 @@ def Tick():
     printer.write(Date(t), align="center",
                   font=("Courier", 14, "bold"))
     printer.back(50)
-    printer.write("i_chaoren", align="center",
+    printer.write("ROLEX", align="center",
                   font=("Courier", 14, "bold"))
     printer.home()
     tracer(True)
